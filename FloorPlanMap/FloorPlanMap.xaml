@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="FloorPlanMap.FloorPlanMap"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FloorPlanMap"
+             xmlns:backgrounds="clr-namespace:FloorPlanMap.Components.Backgrounds"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             >
+
+    <Viewbox HorizontalAlignment="Center">
+        <Canvas x:Name="Main"
+                HorizontalAlignment="Center" VerticalAlignment="Center" Background="Red" Width="1000" Height="1000">
+
+            <backgrounds:ImageBackground MapSource="{Binding MapSource}"
+                                        Width="1000" Height="1000"
+                                        />
+
+        </Canvas>
+    </Viewbox>
+    
+</UserControl>
+
+
+<!--Width="{Binding MapWidth}" Height="{Binding MapHeight}"
+<Image Width="{Binding MapWidth}" Height="{Binding MapHeight}" Source="{Binding MapSource}" Panel.ZIndex="-10">
+    <Image.CacheMode>
+        <BitmapCache RenderAtScale="1" />
+    </Image.CacheMode>
+</Image>-->

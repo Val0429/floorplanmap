@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLoad", "TestLoad\TestLoad.csproj", "{CA89898A-2C56-4DFF-995A-AD051942A3CB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestApplication", "TestApplication", "{CD83C847-FC0D-4686-9621-3578618C19A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{D2488BFE-CFA5-4B57-A749-113B8CC13B10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloorPlanMap", "FloorPlanMap\FloorPlanMap.csproj", "{9207325A-AAF6-48AB-8F5F-80721A6C6D19}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA89898A-2C56-4DFF-995A-AD051942A3CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA89898A-2C56-4DFF-995A-AD051942A3CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA89898A-2C56-4DFF-995A-AD051942A3CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA89898A-2C56-4DFF-995A-AD051942A3CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9207325A-AAF6-48AB-8F5F-80721A6C6D19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9207325A-AAF6-48AB-8F5F-80721A6C6D19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9207325A-AAF6-48AB-8F5F-80721A6C6D19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9207325A-AAF6-48AB-8F5F-80721A6C6D19}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CA89898A-2C56-4DFF-995A-AD051942A3CB} = {CD83C847-FC0D-4686-9621-3578618C19A7}
+		{9207325A-AAF6-48AB-8F5F-80721A6C6D19} = {D2488BFE-CFA5-4B57-A749-113B8CC13B10}
+	EndGlobalSection
+EndGlobal
