@@ -22,19 +22,15 @@ namespace FloorPlanMap.Components.Backgrounds {
             base.OnApplyTemplate();
 
             Image image = base.GetTemplateChild("ImageBackground") as Image;
-            if (image != null) image.SizeChanged += Image_SizeChanged;
+            //if (image != null) image.SizeChanged += Image_SizeChanged;
         }
 
-        private void Image_SizeChanged(object sender, SizeChangedEventArgs e) {
-            Image image = sender as Image;
-            MapWidth = image.ActualWidth;
-            MapHeight = image.ActualHeight;
-        }
-
-        #region "Dependency Properties"
-
+        #region "Static Ctor"
         static ImageBackground() {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ImageBackground), new FrameworkPropertyMetadata(typeof(ImageBackground)));
+
+            //BackgroundResizedEvent = EventManager.RegisterRoutedEvent(
+            //    "BackgroundResized", RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<Size>), typeof(ImageBackground));
 
             MapSourceProperty = DependencyProperty.Register(
                 "MapSource", typeof(string), typeof(ImageBackground), null);
@@ -43,12 +39,38 @@ namespace FloorPlanMap.Components.Backgrounds {
             MapHeightProperty = DependencyProperty.Register(
                 "MapHeight", typeof(double), typeof(ImageBackground), null);
         }
+        #endregion "Static Ctor"
+
+        #region "Routed Events"
+        //public static readonly RoutedEvent BackgroundResizedEvent;
+        
+        //public event RoutedPropertyChangedEventHandler<Size> BackgroundResized {
+        //    add { AddHandler(BackgroundResizedEvent, value); }
+        //    remove { RemoveHandler(BackgroundResizedEvent, value); }
+        //}
+        #endregion "Routed Events"
+
+        #region "Dependency Properties"
 
         public static readonly DependencyProperty MapSourceProperty;
         [Description("Background map."), Category("Source")]
         public string MapSource {
             get { return (string)GetValue(MapSourceProperty); }
-            set { SetValue(MapSourceProperty, value); }
+            set {
+                System.Drawing.Image tmp = System.Drawing.Image.FromFile(value);
+
+                //Size oldSize = new Size(MapWidth, MapHeight);
+                //Size newSize = new Size(tmp.Width, tmp.Height);
+                //RoutedPropertyChangedEventArgs<Size> args =
+                //    new RoutedPropertyChangedEventArgs<Size>(oldSize, newSize);
+                //args.RoutedEvent = ImageBackground.BackgroundResizedEvent;
+                //this.RaiseEvent(args);
+
+                //MapWidth = newSize.Width;
+                //MapHeight = newSize.Height;
+
+                SetValue(MapSourceProperty, System.IO.Path.GetFullPath(value));
+            }
         }
 
         public static readonly DependencyProperty MapWidthProperty;

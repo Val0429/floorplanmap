@@ -9,7 +9,7 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid>
 
-        <FloorPlanMap:FloorPlanMap MapSource="D:\Demo\FloorPlan.png" />
+        <FloorPlanMap:FloorPlanMapUnit MapSource="D:\Demo\FloorPlan.png" />
 
     </Grid>
 </Window>

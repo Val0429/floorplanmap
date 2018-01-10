@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -48,13 +49,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="FloorPlanMap.xaml">
+    <Page Include="FloorPlanMapUnit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Components\Backgrounds\ImageBackground.cs" />
-    <Compile Include="FloorPlanMap.xaml.cs">
-      <DependentUpon>FloorPlanMap.xaml</DependentUpon>
+    <Compile Include="FloorPlanMapUnit.xaml.cs">
+      <DependentUpon>FloorPlanMapUnit.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Themes\Backgrounds\ImageBackground.xaml">

@@ -19,16 +19,16 @@ namespace FloorPlanMap
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class FloorPlanMap : UserControl
+    public partial class FloorPlanMapUnit : UserControl
     {
-        public FloorPlanMap() {
+        public FloorPlanMapUnit() {
             InitializeComponent();
         }
 
         #region "Dependency Properties"
-        static FloorPlanMap() {
+        static FloorPlanMapUnit() {
             MapSourceProperty = DependencyProperty.Register(
-                "MapSource", typeof(string), typeof(FloorPlanMap), null);
+                "MapSource", typeof(string), typeof(FloorPlanMapUnit), null);
         }
 
         public static readonly DependencyProperty MapSourceProperty;
@@ -39,5 +39,6 @@ namespace FloorPlanMap
         }
 
         #endregion "Dependency Properties"
+
     }
 }
