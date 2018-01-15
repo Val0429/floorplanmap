@@ -5,11 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestLoad"
         xmlns:FloorPlanMap="clr-namespace:FloorPlanMap;assembly=FloorPlanMap" x:Class="TestLoad.MainWindow"
+        xmlns:Objects="clr-namespace:FloorPlanMap.Components.Objects;assembly=FloorPlanMap"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
+        Title="MainWindow">
+    <Grid x:Name="Container">
 
-        <FloorPlanMap:FloorPlanMapUnit MapSource="D:\Demo\FloorPlan.png" />
+        <!--<FloorPlanMap:FloorPlanMapUnit>
+            <FloorPlanMap:FloorPlanMapUnit.MapSource>D:\Demo\FloorPlan.png</FloorPlanMap:FloorPlanMapUnit.MapSource>
+            <FloorPlanMap:FloorPlanMapUnit.Objects>
+                <Objects:CameraObject X="100" Y="100" />
+                <Objects:CameraObject X="300" Y="300" />
+            </FloorPlanMap:FloorPlanMapUnit.Objects>
+        </FloorPlanMap:FloorPlanMapUnit>-->
+
+        <!--<FloorPlanMap:FloorPlanMapUnit>
+            <FloorPlanMap:FloorPlanMapUnit.MapSource>D:\Demo\FloorPlan.png</FloorPlanMap:FloorPlanMapUnit.MapSource>
+            <FloorPlanMap:FloorPlanMapUnit.Objects>
+                <Objects:CameraObject />
+                <Objects:CameraObject />
+            </FloorPlanMap:FloorPlanMapUnit.Objects>
+        </FloorPlanMap:FloorPlanMapUnit>-->
+
+        <!--<FloorPlanMap:FloorPlanMapUnit>
+            <FloorPlanMap:FloorPlanMapUnit.MapSource>D:\Demo\FloorPlan.png</FloorPlanMap:FloorPlanMapUnit.MapSource>
+            <Grid>
+                <Objects:CameraObject />
+                <Objects:CameraObject />
+            </Grid>
+        </FloorPlanMap:FloorPlanMapUnit>-->
+
+        <!--<Objects:CameraObject />-->
 
     </Grid>
 </Window>

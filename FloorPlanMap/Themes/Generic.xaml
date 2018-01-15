@@ -5,6 +5,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/FloorPlanMap;component/Themes/Backgrounds/ImageBackground.xaml" />
+        <ResourceDictionary Source="/FloorPlanMap;component/Themes/Objects/CameraObject.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,19 +32,13 @@ namespace FloorPlanMap.Components.Backgrounds {
 
             //BackgroundResizedEvent = EventManager.RegisterRoutedEvent(
             //    "BackgroundResized", RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<Size>), typeof(ImageBackground));
-
-            MapSourceProperty = DependencyProperty.Register(
-                "MapSource", typeof(string), typeof(ImageBackground), null);
-            MapWidthProperty = DependencyProperty.Register(
-                "MapWidth", typeof(double), typeof(ImageBackground), null);
-            MapHeightProperty = DependencyProperty.Register(
-                "MapHeight", typeof(double), typeof(ImageBackground), null);
         }
+
         #endregion "Static Ctor"
 
         #region "Routed Events"
         //public static readonly RoutedEvent BackgroundResizedEvent;
-        
+
         //public event RoutedPropertyChangedEventHandler<Size> BackgroundResized {
         //    add { AddHandler(BackgroundResizedEvent, value); }
         //    remove { RemoveHandler(BackgroundResizedEvent, value); }
@@ -52,29 +47,34 @@ namespace FloorPlanMap.Components.Backgrounds {
 
         #region "Dependency Properties"
 
-        public static readonly DependencyProperty MapSourceProperty;
+        public static readonly DependencyProperty MapSourceProperty = DependencyProperty.Register(
+                "MapSource", typeof(string), typeof(ImageBackground),
+                new FrameworkPropertyMetadata(null,
+                new PropertyChangedCallback(OnMapSourceChanged),
+                new CoerceValueCallback(OnCoerceMapSource)));
         [Description("Background map."), Category("Source")]
         public string MapSource {
             get { return (string)GetValue(MapSourceProperty); }
-            set {
-                System.Drawing.Image tmp = System.Drawing.Image.FromFile(value);
-
-                //Size oldSize = new Size(MapWidth, MapHeight);
-                //Size newSize = new Size(tmp.Width, tmp.Height);
-                //RoutedPropertyChangedEventArgs<Size> args =
-                //    new RoutedPropertyChangedEventArgs<Size>(oldSize, newSize);
-                //args.RoutedEvent = ImageBackground.BackgroundResizedEvent;
-                //this.RaiseEvent(args);
-
-                //MapWidth = newSize.Width;
-                //MapHeight = newSize.Height;
-
-                SetValue(MapSourceProperty, System.IO.Path.GetFullPath(value));
-            }
+            set { SetValue(MapSourceProperty, value); }
+        }
+        private static object OnCoerceMapSource(DependencyObject sender, object baseValue) {
+            if (baseValue == null) return baseValue;
+            string absolutePath = System.IO.Path.GetFullPath(baseValue as string);
+            return absolutePath;
+        }
+        private static void OnMapSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) {
+            ImageBackground vm = sender as ImageBackground;
+            string value = (string)e.NewValue;
+            if (value == null) return;
+            System.Drawing.Image tmp = System.Drawing.Image.FromFile(value);
+            vm.MapWidth = tmp.Width;
+            vm.MapHeight = tmp.Height;
         }
 
-        public static readonly DependencyProperty MapWidthProperty;
-        public static readonly DependencyProperty MapHeightProperty;
+        public static readonly DependencyProperty MapWidthProperty = DependencyProperty.Register(
+                "MapWidth", typeof(double), typeof(ImageBackground), null);
+        public static readonly DependencyProperty MapHeightProperty = DependencyProperty.Register(
+                "MapHeight", typeof(double), typeof(ImageBackground), null);
         public double MapWidth {
             get { return (double)GetValue(MapWidthProperty); }
             private set { SetValue(MapWidthProperty, value); }
@@ -86,5 +86,16 @@ namespace FloorPlanMap.Components.Backgrounds {
 
         #endregion "Dependency Properties"
 
+    }
+
+    [ValueConversion(typeof(string), typeof(string))]
+    public class FullPathConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            return System.IO.Path.GetFullPath(value as string);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+            return value;
+        }
     }
 }

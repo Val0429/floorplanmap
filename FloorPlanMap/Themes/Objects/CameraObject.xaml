@@ -1,0 +1,266 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:FloorPlanMap.Components.Objects">
+    
+
+    <Style TargetType="{x:Type local:CameraObject}">
+        <Setter Property="Canvas.Left" Value="{Binding X, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Canvas.Top" Value="{Binding Y, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Canvas.ZIndex" Value="{Binding Size, RelativeSource={RelativeSource Self}}" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CameraObject}">
+
+                    
+                    <Canvas Width="100" Height="100">
+                        <Canvas.RenderTransform>
+                            <ScaleTransform ScaleX="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Canvas.RenderTransform>
+
+                        <Rectangle Width="100" Height="100" RenderTransformOrigin="0.5,0.5">
+                            <Rectangle.RenderTransform>
+                                <RotateTransform Angle="{Binding Angle, RelativeSource={RelativeSource TemplatedParent}}" />
+                            </Rectangle.RenderTransform>
+
+                            <Rectangle.Triggers>
+                                <EventTrigger RoutedEvent="Control.Loaded">
+                                    <EventTrigger.Actions>
+                                        <BeginStoryboard>
+                                            <Storyboard RepeatBehavior="Forever">
+                                                <ColorAnimation Storyboard.TargetProperty="Fill.(DrawingBrush.Drawing).(DrawingGroup.Children)[1].(DrawingGroup.Children)[4].(GeometryDrawing.Pen).(Pen.Brush).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                                            To="Purple" Duration="0:0:2" AutoReverse="True"
+                                                            />
+                                                <!--<ColorAnimation Storyboard.TargetProperty="Fill.(DrawingBrush.Drawing).(DrawingGroup.Children)[1].(DrawingGroup.Children)[0].(GeometryDrawing.Brush).(RadialGradientBrush.GradientStops)[2].(GradientStop.Color)"
+                                                            To="#FFFFFF00" Duration="0:0:2" AutoReverse="True"
+                                                            />-->
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+                            </Rectangle.Triggers>
+
+                            <Rectangle.Fill>
+                                <DrawingBrush>
+                                    <DrawingBrush.Drawing>
+                                        <DrawingGroup>
+                                            
+                                            <!-- Foundation -->
+                                            <GeometryDrawing Brush="Transparent">
+                                                <GeometryDrawing.Geometry>
+                                                    <RectangleGeometry Rect="0,0,100,100" />
+                                                </GeometryDrawing.Geometry>
+                                            </GeometryDrawing>
+                                            
+                                            <!-- Main -->
+                                            <DrawingGroup>
+                                                <DrawingGroup.Transform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform ScaleX="1.3" ScaleY="1.3" CenterX="50" CenterY="50" />
+                                                        <RotateTransform CenterX="50" CenterY="50" Angle="0" />
+                                                    </TransformGroup>
+                                                </DrawingGroup.Transform>
+
+                                                <!-- Camera Basement -->
+                                                <GeometryDrawing>
+                                                    <GeometryDrawing.Geometry>
+                                                        <EllipseGeometry Center="50,54" RadiusX="32" RadiusY="29" />
+                                                    </GeometryDrawing.Geometry>
+                                                    <GeometryDrawing.Brush>
+                                                        <RadialGradientBrush RadiusX="0.5" RadiusY="0.5" GradientOrigin="0.7,0.5">
+                                                            <GradientStop Color="#FF807F7E" Offset="0.6" />
+                                                            <GradientStop Color="#FFBBBBBB" Offset="0.95" />
+                                                            <GradientStop Color="White" Offset="1" />
+                                                        </RadialGradientBrush>
+                                                    </GeometryDrawing.Brush>
+                                                    <GeometryDrawing.Pen>
+                                                        <Pen Thickness="1" Brush="#AA141414" />
+                                                    </GeometryDrawing.Pen>
+                                                </GeometryDrawing>
+                                                <!-- Camera Basement -->
+                                                
+                                                <!-- Camera Back Body -->
+                                                <GeometryDrawing>
+                                                    <GeometryDrawing.Geometry>
+                                                        <PathGeometry Figures="M 23,47 A 27,31.5 0 0,1 77,47 Z" />
+                                                    </GeometryDrawing.Geometry>
+                                                    <GeometryDrawing.Brush>
+                                                        <RadialGradientBrush GradientOrigin="0.7,0.3" RadiusX="0.5" RadiusY="0.5">
+                                                            <GradientStop Color="#FFACACAC" Offset="0" />
+                                                            <GradientStop Color="#FF555566" Offset="1" />
+                                                        </RadialGradientBrush>
+                                                    </GeometryDrawing.Brush>
+                                                    <GeometryDrawing.Pen>
+                                                        <Pen Thickness="1" Brush="#AA181717" />
+                                                    </GeometryDrawing.Pen>
+                                                </GeometryDrawing>
+                                                <!-- Camera Back Body -->
+                                                
+                                                <!-- Camera Face Body -->
+                                                <GeometryDrawing>
+                                                    <GeometryDrawing.Geometry>
+                                                        <EllipseGeometry Center="50,47" RadiusX="27" RadiusY="26" />
+                                                    </GeometryDrawing.Geometry>
+                                                    <GeometryDrawing.Brush>
+                                                        <RadialGradientBrush RadiusX="0.5" RadiusY="0.5" GradientOrigin="0.5,0.7">
+                                                            <GradientStop Color="#FFACACAC" Offset="0.78" />
+                                                            <GradientStop Color="#FFC8C8C8" Offset="0.81" />
+                                                            <GradientStop Color="#FFC8C8C8" Offset="0.92" />
+                                                            <GradientStop Color="White" Offset="0.95" />
+                                                            <GradientStop Color="White" Offset="1" />
+                                                        </RadialGradientBrush>
+                                                    </GeometryDrawing.Brush>
+                                                    <GeometryDrawing.Pen>
+                                                        <Pen Thickness="1" Brush="#AA181717" />
+                                                    </GeometryDrawing.Pen>
+                                                </GeometryDrawing>
+                                                <!-- Camera Face Body -->
+                                                
+                                                <!-- Camera Face Decoration -->
+                                                <GeometryDrawing>
+                                                    <GeometryDrawing.Geometry>
+                                                        <PathGeometry Figures="M 22.5,47 A 25,23.5 0 1,0 77,47 A 60,45 0 0,1 22.5,47 Z" />
+                                                    </GeometryDrawing.Geometry>
+                                                    <GeometryDrawing.Brush>
+                                                        <RadialGradientBrush RadiusX="1" RadiusY="0.5" GradientOrigin="0.5,-0.5">
+                                                            <GradientStop Color="#00000000" Offset="0" />
+                                                            <GradientStop Color="#22000000" Offset="0.1" />
+                                                            <GradientStop Color="#88110011" Offset="1" />
+                                                        </RadialGradientBrush>
+                                                    </GeometryDrawing.Brush>
+                                                </GeometryDrawing>
+                                                <!-- Camera Face Decoration -->
+
+                                                <!-- Camera Lens Border -->
+                                                <GeometryDrawing>
+                                                    <GeometryDrawing.Geometry>
+                                                        <EllipseGeometry Center="50,50" RadiusX="12" RadiusY="11" />
+                                                    </GeometryDrawing.Geometry>
+                                                    <GeometryDrawing.Pen>
+                                                        <Pen Thickness="1">
+                                                            <Pen.Brush>
+                                                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                                    <LinearGradientBrush.GradientStops>
+                                                                        <GradientStop Offset="0" Color="Black" />
+                                                                        <GradientStop Offset="0.5" Color="Black" />
+                                                                        <GradientStop Offset="1" Color="White" />
+                                                                    </LinearGradientBrush.GradientStops>
+                                                                </LinearGradientBrush>
+                                                            </Pen.Brush>
+                                                        </Pen>
+                                                    </GeometryDrawing.Pen>
+                                                    <GeometryDrawing.Brush>
+                                                        <RadialGradientBrush RadiusX="1.3" RadiusY="1.15" GradientOrigin="0.5,0">
+                                                            <GradientStop Offset="0" Color="White" />
+                                                            <GradientStop Offset="0.25" Color="#FF576258" />
+                                                            <GradientStop Offset="1" Color="Black" />
+                                                        </RadialGradientBrush>
+                                                    </GeometryDrawing.Brush>
+                                                </GeometryDrawing>
+                                                <!-- Camera Lens Border -->
+                                                
+                                                <!-- Camera Orbit -->
+                                                <GeometryDrawing>
+                                                    <GeometryDrawing.Geometry>
+                                                        <EllipseGeometry Center="50,52" RadiusX="9" RadiusY="7" />
+                                                    </GeometryDrawing.Geometry>
+                                                    <GeometryDrawing.Brush>
+                                                        <RadialGradientBrush RadiusX="0.5" RadiusY="0.5" GradientOrigin="0.5,0.7">
+                                                            <GradientStop Offset="0" Color="Black" />
+                                                            <GradientStop Offset="0.9" Color="#FF555555" />
+                                                            <GradientStop Offset="0.98" Color="#FF111111" />
+                                                            <GradientStop Offset="1" Color="#FF111111" />
+                                                        </RadialGradientBrush>
+                                                    </GeometryDrawing.Brush>
+                                                </GeometryDrawing>
+                                                <!-- Camera Orbit -->
+                                                
+                                                <!-- Camera Eye -->
+                                                <GeometryDrawing>
+                                                    <GeometryDrawing.Geometry>
+                                                        <EllipseGeometry Center="50,52" RadiusX="3" RadiusY="3" />
+                                                    </GeometryDrawing.Geometry>
+                                                    <GeometryDrawing.Brush>
+                                                        <RadialGradientBrush RadiusX="0.5" RadiusY="0.5" GradientOrigin="0.5,0.5">
+                                                            <GradientStop Offset="0" Color="#FF777777" />
+                                                            <GradientStop Offset="0.5" Color="#FF555555" />
+                                                            <GradientStop Offset="0.9" Color="Black" />
+                                                            <GradientStop Offset="1" Color="Black" />
+                                                        </RadialGradientBrush>
+                                                    </GeometryDrawing.Brush>
+                                                </GeometryDrawing>
+                                                <!-- Camera Eye -->
+                                                
+                                                <!-- Camera EyeBall -->
+                                                <DrawingGroup>
+                                                    <DrawingGroup.Transform>
+                                                        <RotateTransform CenterX="50" CenterY="52" Angle="40" />
+                                                    </DrawingGroup.Transform>
+                                                    <GeometryDrawing>
+                                                        <GeometryDrawing.Geometry>
+                                                            <EllipseGeometry Center="50,52" RadiusX="1.8" RadiusY="1.8" />
+                                                        </GeometryDrawing.Geometry>
+                                                        <GeometryDrawing.Brush>
+                                                            <RadialGradientBrush RadiusX="0.5" RadiusY="0.5" GradientOrigin="0.7,0.8">
+                                                                <GradientStop Offset="0" Color="#FFFFFFFF" />
+                                                                <GradientStop Offset="1" Color="#00FFFFFF" />
+                                                            </RadialGradientBrush>
+                                                        </GeometryDrawing.Brush>
+                                                    </GeometryDrawing>
+                                                </DrawingGroup>
+                                                <!-- Camera EyeBall -->
+
+                                            </DrawingGroup>
+                                            <!-- Main -->
+
+                                        </DrawingGroup>
+                                    </DrawingBrush.Drawing>
+                                </DrawingBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+
+                        <!-- Light -->
+                        <Rectangle Width="100" Height="100" Canvas.Top="50" Canvas.Left="0" RenderTransformOrigin="0.5,0">
+                            <Rectangle.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="{Binding Degree, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding Distance, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    <RotateTransform Angle="{Binding Angle, RelativeSource={RelativeSource TemplatedParent}}" />
+                                </TransformGroup>
+                            </Rectangle.RenderTransform>
+                            <Rectangle.Effect>
+                                <BlurEffect Radius="0" />
+                            </Rectangle.Effect>
+                            <Rectangle.Fill>
+                                <DrawingBrush>
+                                    <DrawingBrush.Drawing>
+                                        <GeometryDrawing>
+                                            <GeometryDrawing.Geometry>
+                                                <GeometryGroup>
+                                                    <PathGeometry Figures="M 50,0 L 100,100 L 0,100 Z" />
+                                                </GeometryGroup>
+                                            </GeometryDrawing.Geometry>
+                                            <GeometryDrawing.Brush>
+                                                <RadialGradientBrush GradientOrigin="0.5,0" RadiusX="0.5" RadiusY="0.5">
+                                                    <GradientStop Offset="0" Color="#00EEFFAA" />
+                                                    <GradientStop Offset="0.15" Color="#88EEFFEE" />
+                                                    <GradientStop Offset="0.3" Color="#88EEFFEE" />
+                                                    <GradientStop Offset="1" Color="#00EEFFAA" />
+                                                </RadialGradientBrush>
+                                            </GeometryDrawing.Brush>
+                                        </GeometryDrawing>
+                                    </DrawingBrush.Drawing>
+                                </DrawingBrush>
+                            </Rectangle.Fill>
+
+                        </Rectangle>
+                        <!-- Light -->
+
+                    </Canvas>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

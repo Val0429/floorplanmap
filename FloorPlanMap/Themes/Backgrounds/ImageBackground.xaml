@@ -3,12 +3,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:FloorPlanMap.Components.Backgrounds">
 
+    <local:FullPathConverter x:Key="FullPathConverter" />
+
     <Style TargetType="{x:Type local:ImageBackground}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ImageBackground}">
 
-                    <Image x:Name="ImageBackground" Source="{Binding MapSource}" Panel.ZIndex="-10">
+                    <Image x:Name="ImageBackground" Source="{Binding Path=MapSource, Converter={StaticResource FullPathConverter}}" Panel.ZIndex="-10">
                         <Image.CacheMode>
                             <BitmapCache RenderAtScale="1" />
                         </Image.CacheMode>

@@ -10,17 +10,16 @@
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              >
 
-    <Viewbox HorizontalAlignment="Center"
-        >
+    <Viewbox HorizontalAlignment="Center">
         <Canvas x:Name="Main"
-                HorizontalAlignment="Center" VerticalAlignment="Center" Background="Red"
-                                        Width="1000" Height="1000"
+                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        Width="{Binding Path=MapWidth, ElementName=Background}" Height="{Binding Path=MapHeight, ElementName=Background}"
                 >
 
-            <backgrounds:ImageBackground x:Name="Backgroundx" MapSource="{Binding MapSource}"
-                                        Width="1000" Height="1000"
+            <backgrounds:ImageBackground x:Name="Background" MapSource="{Binding MapSource}"
+                                        Width="{Binding Path=MapWidth, ElementName=Background}" Height="{Binding Path=MapHeight, ElementName=Background}"
                                         />
-
+            
         </Canvas>
     </Viewbox>
     
