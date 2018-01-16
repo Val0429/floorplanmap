@@ -13,18 +13,40 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CameraObject}">
 
-                    
                     <Canvas Width="100" Height="100">
                         <Canvas.RenderTransform>
                             <ScaleTransform ScaleX="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Canvas.RenderTransform>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="ViewStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0:0:0.7" />
+                                </VisualStateGroup.Transitions>
+                                
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="Children[0].(Rectangle.Fill).(DrawingBrush.Drawing).(DrawingGroup.Children)[1].(DrawingGroup.Children)[4].(GeometryDrawing.Pen).(Pen.Brush).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                                            To="Purple" Duration="0" AutoReverse="True"
+                                                            />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="Children[0].(Rectangle.Fill).(DrawingBrush.Drawing).(DrawingGroup.Children)[1].(DrawingGroup.Children)[4].(GeometryDrawing.Pen).(Pen.Brush).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                                            To="Purple" Duration="0:0:2" AutoReverse="True"
+                                                            />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
 
                         <Rectangle Width="100" Height="100" RenderTransformOrigin="0.5,0.5">
                             <Rectangle.RenderTransform>
                                 <RotateTransform Angle="{Binding Angle, RelativeSource={RelativeSource TemplatedParent}}" />
                             </Rectangle.RenderTransform>
 
-                            <Rectangle.Triggers>
+                            <!--<Rectangle.Triggers>
                                 <EventTrigger RoutedEvent="Control.Loaded">
                                     <EventTrigger.Actions>
                                         <BeginStoryboard>
@@ -32,14 +54,14 @@
                                                 <ColorAnimation Storyboard.TargetProperty="Fill.(DrawingBrush.Drawing).(DrawingGroup.Children)[1].(DrawingGroup.Children)[4].(GeometryDrawing.Pen).(Pen.Brush).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
                                                             To="Purple" Duration="0:0:2" AutoReverse="True"
                                                             />
-                                                <!--<ColorAnimation Storyboard.TargetProperty="Fill.(DrawingBrush.Drawing).(DrawingGroup.Children)[1].(DrawingGroup.Children)[0].(GeometryDrawing.Brush).(RadialGradientBrush.GradientStops)[2].(GradientStop.Color)"
+                                                --><!--<ColorAnimation Storyboard.TargetProperty="Fill.(DrawingBrush.Drawing).(DrawingGroup.Children)[1].(DrawingGroup.Children)[0].(GeometryDrawing.Brush).(RadialGradientBrush.GradientStops)[2].(GradientStop.Color)"
                                                             To="#FFFFFF00" Duration="0:0:2" AutoReverse="True"
-                                                            />-->
+                                                            />--><!--
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </EventTrigger.Actions>
                                 </EventTrigger>
-                            </Rectangle.Triggers>
+                            </Rectangle.Triggers>-->
 
                             <Rectangle.Fill>
                                 <DrawingBrush>

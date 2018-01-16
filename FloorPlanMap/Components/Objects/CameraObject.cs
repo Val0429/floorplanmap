@@ -17,12 +17,16 @@ using System.Windows.Shapes;
 
 namespace FloorPlanMap.Components.Objects {
 
+    [TemplateVisualState(Name = "Normal", GroupName = "ViewStates")]
+    [TemplateVisualState(Name = "Selected", GroupName = "ViewStates")]
     public class CameraObject : Control {
         public CameraObject() {
             /// Disable Animation on start
             Animation = false;
             base.Loaded += (object sender, RoutedEventArgs e) => {
                 Animation = true;
+
+                //VisualStateManager.GoToState(this, "Selected", true);
             };
             //base.Initialized += (object sender, EventArgs e) => {
             //    Animation = true;
