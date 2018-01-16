@@ -25,17 +25,19 @@
                                 </VisualStateGroup.Transitions>
                                 
                                 <VisualState x:Name="Normal">
-                                    <Storyboard>
+                                    <!--<Storyboard>
                                         <ColorAnimation Storyboard.TargetProperty="Children[0].(Rectangle.Fill).(DrawingBrush.Drawing).(DrawingGroup.Children)[1].(DrawingGroup.Children)[4].(GeometryDrawing.Pen).(Pen.Brush).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
-                                                            To="Purple" Duration="0" AutoReverse="True"
+                                                            To="Black" Duration="0:0:2" AutoReverse="True"
                                                             />
-                                    </Storyboard>
+                                    </Storyboard>-->
                                 </VisualState>
                                 <VisualState x:Name="Selected">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetProperty="Children[0].(Rectangle.Fill).(DrawingBrush.Drawing).(DrawingGroup.Children)[1].(DrawingGroup.Children)[4].(GeometryDrawing.Pen).(Pen.Brush).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
-                                                            To="Purple" Duration="0:0:2" AutoReverse="True"
-                                                            />
+                                        <ColorAnimation
+                                            Storyboard.TargetName="Test"
+                                            Storyboard.TargetProperty="(GeometryDrawing.Brush).(RadialGradientBrush.GradientStops)[0].Color"
+                                            To="Red" Duration="0:0:2"
+                                        />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -140,13 +142,13 @@
                                                 <!-- Camera Face Body -->
                                                 
                                                 <!-- Camera Face Decoration -->
-                                                <GeometryDrawing>
+                                                <GeometryDrawing x:Name="Test">
                                                     <GeometryDrawing.Geometry>
                                                         <PathGeometry Figures="M 22.5,47 A 25,23.5 0 1,0 77,47 A 60,45 0 0,1 22.5,47 Z" />
                                                     </GeometryDrawing.Geometry>
                                                     <GeometryDrawing.Brush>
                                                         <RadialGradientBrush RadiusX="1" RadiusY="0.5" GradientOrigin="0.5,-0.5">
-                                                            <GradientStop Color="#00000000" Offset="0" />
+                                                            <GradientStop x:Name="Test2" Color="#00000000" Offset="0" />
                                                             <GradientStop Color="#22000000" Offset="0.1" />
                                                             <GradientStop Color="#88110011" Offset="1" />
                                                         </RadialGradientBrush>

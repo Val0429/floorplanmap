@@ -25,12 +25,12 @@ namespace FloorPlanMap.Components.Objects {
             Animation = false;
             base.Loaded += (object sender, RoutedEventArgs e) => {
                 Animation = true;
-
-                //VisualStateManager.GoToState(this, "Selected", true);
             };
-            //base.Initialized += (object sender, EventArgs e) => {
-            //    Animation = true;
-            //};
+        }
+
+        public override void OnApplyTemplate() {
+            base.OnApplyTemplate();
+            VisualStateManager.GoToState(this, "Selected", true);
         }
 
         static CameraObject() {
