@@ -25,15 +25,41 @@ namespace TestLoad {
         private static Random r = new Random();
         public AnimationTick(CameraObject target, double interval) {
             t1.Elapsed += (o, e) => {
-                var seed = r.Next(0, 7);
+                var seed = r.Next(0, 9);
                 if (seed == 0) {
                     target.Angle = r.Next(0, 360);
                 }  else if (seed == 1) {
                     target.Degree = r.NextDouble() * 4 + 0.5;
                 } else if (seed == 2) {
                     target.Distance = r.NextDouble() * 8 + 1;
+                //} else if (seed == 3) {
+                //    target.Size = r.NextDouble() * 2 + 0.8;
+                } else if (seed == 4) {
+                    target.Selected = !target.Selected;
+                } else {
+                    //target.X = r.Next(50, 1100);
+                    //target.Y = r.Next(50, 500);
+                }
+            };
+            t1.Interval = interval;
+            t1.Start();
+        }
+    }
+
+    internal class AnimationDroneTick {
+        private Timer t1 = new Timer();
+        private static Random r = new Random();
+        public AnimationDroneTick(DroneObject target, double interval) {
+            t1.Elapsed += (o, e) => {
+                var seed = r.Next(0, 5);
+                if (seed == 0) {
+                    target.Angle = r.Next(0, 360);
+                } else if (seed == 1) {
+                    target.Degree = r.NextDouble() * 4 + 0.5;
+                } else if (seed == 2) {
+                    target.Distance = r.NextDouble() * 4 + 1;
                 } else if (seed == 3) {
-                    target.Size = r.NextDouble() * 2 + 0.8;
+                    target.Size = r.NextDouble() * 1 + 0.6;
                 } else {
                     target.X = r.Next(50, 1100);
                     target.Y = r.Next(50, 500);
@@ -44,6 +70,7 @@ namespace TestLoad {
         }
     }
 
+
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
@@ -52,42 +79,79 @@ namespace TestLoad {
             unit.MapSource = ".\\Resources\\FloorPlan.png";
 
             var obj1 = new FloorPlanMap.Components.Objects.CameraObject() {
-                X = 100, Y = 100, Angle = 0, Size = 3, Distance = 1.6
+                X = 266,
+                Y = 321,
+                Angle = 0,
+                Size = 1,
+                Distance = 1.6
             };
             unit.Objects.Add(obj1);
-            //new AnimationTick(obj1, 500);
+            new AnimationTick(obj1, 500);
 
-            //var obj2 = new FloorPlanMap.Components.Objects.CameraObject() {
-            //    X = 300,
-            //    Y = 300,
-            //    Angle = 90,
-            //};
-            //unit.Objects.Add(obj2);
-            //new AnimationTick(obj2, 800);
+            var obj2 = new FloorPlanMap.Components.Objects.CameraObject() {
+                X = 642,
+                Y = 146,
+                Size = 1.6,
+                Angle = 90,
+            };
+            unit.Objects.Add(obj2);
+            new AnimationTick(obj2, 800);
 
-            //var obj3 = new FloorPlanMap.Components.Objects.CameraObject() {
-            //    X = 500,
-            //    Y = 500,
-            //    Angle = 0,
-            //};
-            //unit.Objects.Add(obj3);
-            //new AnimationTick(obj3, 400);
+            var obj3 = new FloorPlanMap.Components.Objects.CameraObject() {
+                X = 998,
+                Y = 152,
+                Size = 1,
+                Angle = 0,
+            };
+            unit.Objects.Add(obj3);
+            new AnimationTick(obj3, 400);
 
-            //var obj4 = new FloorPlanMap.Components.Objects.CameraObject() {
-            //    X = 400,
-            //    Y = 400,
-            //    Angle = 0,
-            //};
-            //unit.Objects.Add(obj4);
-            //new AnimationTick(obj4, 300);
+            var obj4 = new FloorPlanMap.Components.Objects.CameraObject() {
+                X = 425,
+                Y = 535,
+                Size = 1,
+                Angle = 0,
+            };
+            unit.Objects.Add(obj4);
+            new AnimationTick(obj4, 300);
 
-            //var obj5 = new FloorPlanMap.Components.Objects.CameraObject() {
-            //    X = 600,
-            //    Y = 400,
-            //    Angle = 0,
-            //};
-            //unit.Objects.Add(obj5);
-            //new AnimationTick(obj5, 400);
+            var obj5 = new FloorPlanMap.Components.Objects.CameraObject() {
+                X = 898,
+                Y = 513,
+                Size = 1,
+                Angle = 0,
+            };
+            unit.Objects.Add(obj5);
+            new AnimationTick(obj5, 400);
+
+
+            var drone1 = new FloorPlanMap.Components.Objects.DroneObject() {
+                X = 650,
+                Y = 150,
+                Size = 2,
+                Angle = 45,
+            };
+            unit.Objects.Add(drone1);
+            new AnimationDroneTick(drone1, 400);
+
+            var drone2 = new FloorPlanMap.Components.Objects.DroneObject() {
+                X = 400,
+                Y = 200,
+                Size = 1,
+                Angle = 0,
+            };
+            unit.Objects.Add(drone2);
+            new AnimationDroneTick(drone2, 1000);
+
+            var drone3 = new FloorPlanMap.Components.Objects.DroneObject() {
+                X = 600,
+                Y = 200,
+                Size = 1,
+                Angle = 0,
+            };
+            unit.Objects.Add(drone3);
+            new AnimationDroneTick(drone3, 1500);
+
 
             this.Container.Children.Add(unit);
 

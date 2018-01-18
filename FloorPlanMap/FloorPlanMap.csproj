@@ -54,7 +54,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Components\Backgrounds\ImageBackground.cs" />
+    <Compile Include="Components\Objects\BaseObject.cs" />
     <Compile Include="Components\Objects\CameraObject.cs" />
+    <Compile Include="Components\Objects\DroneObject.cs" />
+    <Compile Include="Components\Objects\BaseVideoObject.cs" />
     <Compile Include="FloorPlanMapUnit.xaml.cs">
       <DependentUpon>FloorPlanMapUnit.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -68,6 +71,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Objects\CameraObject.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Objects\DroneObject.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
