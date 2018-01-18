@@ -88,13 +88,28 @@ namespace FloorPlanMap.Components.Objects {
         #region "Size"
         public static readonly DependencyProperty SizeProperty = DependencyProperty.Register(
                 "Size", typeof(double), typeof(BaseObject),
-                new FrameworkPropertyMetadata(1.5));
+                new FrameworkPropertyMetadata(1.5,
+                    new PropertyChangedCallback(OnSizeChanged)
+                    ));
         [Description("Object size."), Category("Source")]
         public double Size {
             get { return (double)this.GetDispatcherValue(SizeProperty); }
             set { this.SetDispatcherAnimationValue<DoubleAnimation>(SizeProperty, value, 600); }
         }
+        private static void OnSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            (d as BaseObject).ZIndex = (double)e.NewValue;
+        }
         #endregion "Size"
+
+        #region "ZIndex"
+        public static readonly DependencyProperty ZIndexProperty = DependencyProperty.Register(
+                "ZIndex", typeof(double), typeof(BaseObject),
+                new FrameworkPropertyMetadata(0));
+        public double ZIndex {
+            get { return (double)this.GetDispatcherValue(ZIndexProperty); }
+            internal set { this.SetDispatcherValue(ZIndexProperty, value); }
+        }
+        #endregion "ZIndex"
 
         #endregion "Dependency Properties"
 

@@ -51,7 +51,13 @@ namespace TestLoad {
         private static Random r = new Random();
         public AnimationDroneTick(DroneObject target, double interval) {
             t1.Elapsed += (o, e) => {
-                var seed = r.Next(0, 5);
+                if (target.TakeOff == false) {
+                    var sd = r.Next(0, 3);
+                    if (sd == 0) target.TakeOff = true;
+                    return;
+                }
+
+                var seed = r.Next(0, 10);
                 if (seed == 0) {
                     target.Angle = r.Next(0, 360);
                 } else if (seed == 1) {
@@ -59,7 +65,9 @@ namespace TestLoad {
                 } else if (seed == 2) {
                     target.Distance = r.NextDouble() * 4 + 1;
                 } else if (seed == 3) {
-                    target.Size = r.NextDouble() * 1 + 0.6;
+                    target.Size = r.NextDouble() * 0.1 + 0.6;
+                } else if (seed == 4) {
+                    target.TakeOff = !target.TakeOff;
                 } else {
                     target.X = r.Next(50, 1100);
                     target.Y = r.Next(50, 500);
@@ -91,7 +99,7 @@ namespace TestLoad {
             var obj2 = new FloorPlanMap.Components.Objects.CameraObject() {
                 X = 642,
                 Y = 146,
-                Size = 1.6,
+                Size = 1,
                 Angle = 90,
             };
             unit.Objects.Add(obj2);
@@ -126,13 +134,13 @@ namespace TestLoad {
 
 
             var drone1 = new FloorPlanMap.Components.Objects.DroneObject() {
-                X = 650,
+                X = 750,
                 Y = 150,
-                Size = 2,
+                Size = 0.8,
                 Angle = 45,
             };
             unit.Objects.Add(drone1);
-            new AnimationDroneTick(drone1, 400);
+            new AnimationDroneTick(drone1, 5000);
 
             var drone2 = new FloorPlanMap.Components.Objects.DroneObject() {
                 X = 400,

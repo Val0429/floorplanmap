@@ -32,6 +32,7 @@
     </RadialGradientBrush>
     <!-- Brush - Shining Point -->
     <SolidColorBrush x:Key="ShiningPoint" Color="Orange" />
+    <SolidColorBrush x:Key="ShiningPointOff" Color="Black" />
     <!-- Brushes -->
 
     <Style TargetType="{x:Type local:DroneObject}">
@@ -60,32 +61,101 @@
                                 <VisualState x:Name="Station">
                                     <Storyboard>
                                         <DoubleAnimation
-                                            Storyboard.TargetName="SelectionCircle"
+                                            Storyboard.TargetName="Light"
                                             Storyboard.TargetProperty="Opacity"
+                                            To="0" Duration="0" />
+
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="DroneWing4Circles"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.3" Duration="0:0:0.7" />
+
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="ShiningPoint"
+                                            Storyboard.TargetProperty="Brush">
+                                            <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{StaticResource ShiningPointOff}" />
+                                            </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Wings"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="1" Duration="0" />
+
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Main"
+                                            Storyboard.TargetProperty="Effect.(DropShadowEffect.BlurRadius)"
                                             To="0" Duration="0" />
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Fly">
+                                <VisualState x:Name="TakeOff">
                                     <Storyboard>
                                         <DoubleAnimation
-                                            Storyboard.TargetName="SelectionCircle"
+                                            Storyboard.TargetName="Light"
                                             Storyboard.TargetProperty="Opacity"
                                             To="1" Duration="0" />
+                                        
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="ShiningPoint"
+                                            Storyboard.TargetProperty="Brush">
+                                            <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{StaticResource ShiningPoint}" />
+                                            </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        
+                                        <DoubleAnimation
+                                                    Storyboard.TargetName="Wing1"
+                                                    Storyboard.TargetProperty="Transform.(RotateTransform.Angle)"
+                                                    To="360" Duration="0:0:0.2" RepeatBehavior="Forever"
+                                                    />
+                                        <DoubleAnimation
+                                                    Storyboard.TargetName="Wing2"
+                                                    Storyboard.TargetProperty="Transform.(RotateTransform.Angle)"
+                                                    To="360" Duration="0:0:0.2" RepeatBehavior="Forever"
+                                                    />
+                                        <DoubleAnimation
+                                                    Storyboard.TargetName="Wing3"
+                                                    Storyboard.TargetProperty="Transform.(RotateTransform.Angle)"
+                                                    To="360" Duration="0:0:0.2" RepeatBehavior="Forever"
+                                                    />
+                                        <DoubleAnimation
+                                                    Storyboard.TargetName="Wing4"
+                                                    Storyboard.TargetProperty="Transform.(RotateTransform.Angle)"
+                                                    To="360" Duration="0:0:0.2" RepeatBehavior="Forever"
+                                                    />
+
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="DroneWing4Circles"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="1" Duration="0" />
+
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Wings"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.5" Duration="0" />
+
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Main"
+                                            Storyboard.TargetProperty="Effect.(DropShadowEffect.BlurRadius)"
+                                            To="15" Duration="0" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <Rectangle Width="100" Height="100" RenderTransformOrigin="0.5,0.5">
+                        <Rectangle x:Name="Main" Width="100" Height="100" RenderTransformOrigin="0.5,0.5">
                             <Rectangle.RenderTransform>
                                 <RotateTransform Angle="{Binding Angle, RelativeSource={RelativeSource TemplatedParent}}" />
                             </Rectangle.RenderTransform>
 
                             <Rectangle.Effect>
-                                <DropShadowEffect Color="#FF5E1986" BlurRadius="5" ShadowDepth="0" />
+                                <DropShadowEffect Color="#FF5E1986" BlurRadius="15" ShadowDepth="0" />
                             </Rectangle.Effect>
 
-                            <Rectangle.Triggers>
+                            <!--<Rectangle.Triggers>
                                 <EventTrigger RoutedEvent="Control.Loaded">
                                     <EventTrigger.Actions>
                                         <BeginStoryboard>
@@ -114,7 +184,7 @@
                                         </BeginStoryboard>
                                     </EventTrigger.Actions>
                                 </EventTrigger>
-                            </Rectangle.Triggers>
+                            </Rectangle.Triggers>-->
 
                             <Rectangle.Fill>
                                 <DrawingBrush>
@@ -130,26 +200,28 @@
                                             <!-- Main -->
                                             <DrawingGroup>
                                                 <!-- Drone Wing 4 Circle Inner -->
-                                                <GeometryDrawing Brush="{StaticResource DroneWingInnerCircle}">
-                                                    <GeometryDrawing.Geometry>
-                                                        <EllipseGeometry Center="18,18" RadiusX="16" RadiusY="16" />
-                                                    </GeometryDrawing.Geometry>
-                                                </GeometryDrawing>
-                                                <GeometryDrawing Brush="{StaticResource DroneWingInnerCircle}">
-                                                    <GeometryDrawing.Geometry>
-                                                        <EllipseGeometry Center="82,18" RadiusX="16" RadiusY="16" />
-                                                    </GeometryDrawing.Geometry>
-                                                </GeometryDrawing>
-                                                <GeometryDrawing Brush="{StaticResource DroneWingInnerCircle}">
-                                                    <GeometryDrawing.Geometry>
-                                                        <EllipseGeometry Center="82,82" RadiusX="16" RadiusY="16" />
-                                                    </GeometryDrawing.Geometry>
-                                                </GeometryDrawing>
-                                                <GeometryDrawing Brush="{StaticResource DroneWingInnerCircle}">
-                                                    <GeometryDrawing.Geometry>
-                                                        <EllipseGeometry Center="18,82" RadiusX="16" RadiusY="16" />
-                                                    </GeometryDrawing.Geometry>
-                                                </GeometryDrawing>
+                                                <DrawingGroup x:Name="DroneWing4Circles" Opacity="1">
+                                                    <GeometryDrawing Brush="{StaticResource DroneWingInnerCircle}">
+                                                        <GeometryDrawing.Geometry>
+                                                            <EllipseGeometry Center="18,18" RadiusX="16" RadiusY="16" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="{StaticResource DroneWingInnerCircle}">
+                                                        <GeometryDrawing.Geometry>
+                                                            <EllipseGeometry Center="82,18" RadiusX="16" RadiusY="16" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="{StaticResource DroneWingInnerCircle}">
+                                                        <GeometryDrawing.Geometry>
+                                                            <EllipseGeometry Center="82,82" RadiusX="16" RadiusY="16" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="{StaticResource DroneWingInnerCircle}">
+                                                        <GeometryDrawing.Geometry>
+                                                            <EllipseGeometry Center="18,82" RadiusX="16" RadiusY="16" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                </DrawingGroup>
                                                 <!-- Drone Wing 4 Circle Inner -->
 
                                                 <!-- Drone Wing 4 Circle -->
@@ -217,65 +289,67 @@
                                                 <!-- Drone Wing 4 Bracket -->
                                                 
                                                 <!-- Drone Wing 4 -->
-                                                <DrawingGroup x:Name="Wing1">
-                                                    <DrawingGroup.Transform>
-                                                        <RotateTransform Angle="0" CenterX="18" CenterY="18" />
-                                                    </DrawingGroup.Transform>
-                                                    <GeometryDrawing Brush="{StaticResource DroneWing}">
-                                                        <GeometryDrawing.Geometry>
-                                                            <GeometryGroup>
-                                                                <EllipseGeometry Center="18,12" RadiusX="1.8" RadiusY="5" />
-                                                                <EllipseGeometry Center="18,24" RadiusX="1.8" RadiusY="5" />
-                                                            </GeometryGroup>
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                </DrawingGroup>
+                                                <DrawingGroup x:Name="Wings">
+                                                    <DrawingGroup x:Name="Wing1">
+                                                        <DrawingGroup.Transform>
+                                                            <RotateTransform Angle="0" CenterX="18" CenterY="18" />
+                                                        </DrawingGroup.Transform>
+                                                        <GeometryDrawing Brush="{StaticResource DroneWing}">
+                                                            <GeometryDrawing.Geometry>
+                                                                <GeometryGroup>
+                                                                    <EllipseGeometry Center="18,12" RadiusX="1.8" RadiusY="5" />
+                                                                    <EllipseGeometry Center="18,24" RadiusX="1.8" RadiusY="5" />
+                                                                </GeometryGroup>
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                    </DrawingGroup>
 
-                                                <DrawingGroup x:Name="Wing2">
-                                                    <DrawingGroup.Transform>
-                                                        <RotateTransform Angle="0" CenterX="82" CenterY="18" />
-                                                    </DrawingGroup.Transform>
-                                                    <GeometryDrawing Brush="{StaticResource DroneWing}">
-                                                        <GeometryDrawing.Geometry>
-                                                            <GeometryGroup>
-                                                                <EllipseGeometry Center="82,12" RadiusX="1.8" RadiusY="5" />
-                                                                <EllipseGeometry Center="82,24" RadiusX="1.8" RadiusY="5" />
-                                                            </GeometryGroup>
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                </DrawingGroup>
+                                                    <DrawingGroup x:Name="Wing2">
+                                                        <DrawingGroup.Transform>
+                                                            <RotateTransform Angle="0" CenterX="82" CenterY="18" />
+                                                        </DrawingGroup.Transform>
+                                                        <GeometryDrawing Brush="{StaticResource DroneWing}">
+                                                            <GeometryDrawing.Geometry>
+                                                                <GeometryGroup>
+                                                                    <EllipseGeometry Center="82,12" RadiusX="1.8" RadiusY="5" />
+                                                                    <EllipseGeometry Center="82,24" RadiusX="1.8" RadiusY="5" />
+                                                                </GeometryGroup>
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                    </DrawingGroup>
 
-                                                <DrawingGroup x:Name="Wing3">
-                                                    <DrawingGroup.Transform>
-                                                        <RotateTransform Angle="0" CenterX="82" CenterY="82" />
-                                                    </DrawingGroup.Transform>
-                                                    <GeometryDrawing Brush="{StaticResource DroneWing}">
-                                                        <GeometryDrawing.Geometry>
-                                                            <GeometryGroup>
-                                                                <EllipseGeometry Center="82,76" RadiusX="1.8" RadiusY="5" />
-                                                                <EllipseGeometry Center="82,88" RadiusX="1.8" RadiusY="5" />
-                                                            </GeometryGroup>
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                </DrawingGroup>
+                                                    <DrawingGroup x:Name="Wing3">
+                                                        <DrawingGroup.Transform>
+                                                            <RotateTransform Angle="0" CenterX="82" CenterY="82" />
+                                                        </DrawingGroup.Transform>
+                                                        <GeometryDrawing Brush="{StaticResource DroneWing}">
+                                                            <GeometryDrawing.Geometry>
+                                                                <GeometryGroup>
+                                                                    <EllipseGeometry Center="82,76" RadiusX="1.8" RadiusY="5" />
+                                                                    <EllipseGeometry Center="82,88" RadiusX="1.8" RadiusY="5" />
+                                                                </GeometryGroup>
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                    </DrawingGroup>
 
-                                                <DrawingGroup x:Name="Wing4">
-                                                    <DrawingGroup.Transform>
-                                                        <RotateTransform Angle="0" CenterX="18" CenterY="82" />
-                                                    </DrawingGroup.Transform>
-                                                    <GeometryDrawing Brush="{StaticResource DroneWing}">
-                                                        <GeometryDrawing.Geometry>
-                                                            <GeometryGroup>
-                                                                <EllipseGeometry Center="18,76" RadiusX="1.8" RadiusY="5" />
-                                                                <EllipseGeometry Center="18,88" RadiusX="1.8" RadiusY="5" />
-                                                            </GeometryGroup>
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
+                                                    <DrawingGroup x:Name="Wing4">
+                                                        <DrawingGroup.Transform>
+                                                            <RotateTransform Angle="0" CenterX="18" CenterY="82" />
+                                                        </DrawingGroup.Transform>
+                                                        <GeometryDrawing Brush="{StaticResource DroneWing}">
+                                                            <GeometryDrawing.Geometry>
+                                                                <GeometryGroup>
+                                                                    <EllipseGeometry Center="18,76" RadiusX="1.8" RadiusY="5" />
+                                                                    <EllipseGeometry Center="18,88" RadiusX="1.8" RadiusY="5" />
+                                                                </GeometryGroup>
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                    </DrawingGroup>
                                                 </DrawingGroup>
                                                 <!-- Drone Wing 4 -->
 
                                                 <!-- Shining Point -->
-                                                <GeometryDrawing Brush="{StaticResource ShiningPoint}">
+                                                <GeometryDrawing x:Name="ShiningPoint" Brush="{StaticResource ShiningPoint}">
                                                     <GeometryDrawing.Geometry>
                                                         <EllipseGeometry Center="54,45" RadiusX="3" RadiusY="3" />
                                                     </GeometryDrawing.Geometry>
@@ -327,7 +401,7 @@
                         </Rectangle>
 
                         <!-- Light -->
-                        <Rectangle Width="100" Height="100" Canvas.Top="66" Canvas.Left="0" RenderTransformOrigin="0.5,0">
+                        <Rectangle x:Name="Light" Width="100" Height="100" Canvas.Top="66" Canvas.Left="0" RenderTransformOrigin="0.5,0" Opacity="1">
                             <Rectangle.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform ScaleX="{Binding Degree, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding Distance, RelativeSource={RelativeSource TemplatedParent}}" />
