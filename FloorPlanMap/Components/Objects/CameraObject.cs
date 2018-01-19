@@ -20,6 +20,9 @@ namespace FloorPlanMap.Components.Objects {
     [TemplateVisualState(Name = "Normal", GroupName = "ViewStates")]
     [TemplateVisualState(Name = "Selected", GroupName = "ViewStates")]
     public class CameraObject : BaseVideoObject {
+        public CameraObject() {
+            BaseZIndex = 100;
+        }
         static CameraObject() {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CameraObject), new FrameworkPropertyMetadata(typeof(CameraObject)));
         }

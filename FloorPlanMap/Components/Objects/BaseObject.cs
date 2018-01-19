@@ -10,6 +10,7 @@ using System.Windows.Media.Animation;
 
 namespace FloorPlanMap.Components.Objects {
     public class BaseObject : Control {
+        protected double BaseZIndex = 0;
 
         protected BaseObject() {
             /// Disable Animation on start
@@ -97,7 +98,8 @@ namespace FloorPlanMap.Components.Objects {
             set { this.SetDispatcherAnimationValue<DoubleAnimation>(SizeProperty, value, 600); }
         }
         private static void OnSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            (d as BaseObject).ZIndex = (double)e.NewValue;
+            BaseObject vm = d as BaseObject;
+            vm.ZIndex = (double)e.NewValue*5 + vm.BaseZIndex;
         }
         #endregion "Size"
 

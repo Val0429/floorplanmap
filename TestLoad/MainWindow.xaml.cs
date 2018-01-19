@@ -86,102 +86,102 @@ namespace TestLoad {
             FloorPlanMap.FloorPlanMapUnit unit = new FloorPlanMap.FloorPlanMapUnit();
             unit.MapSource = ".\\Resources\\FloorPlan.png";
 
-            var obj1 = new FloorPlanMap.Components.Objects.CameraObject() {
-                X = 220,
-                Y = 220,
-                Size = 1
-            };
-            unit.Objects.Add(obj1);
-
-            var obj2 = new FloorPlanMap.Components.Objects.CameraObject() {
-                X = 200,
-                Y = 200,
-                Size = 1
-            };
-            unit.Objects.Add(obj2);
-
-            var t1 = new Timer();
-            t1.Elapsed += (object sender, ElapsedEventArgs e) => {
-                obj1.Size = 2;
-                t1.Stop();
-            };
-            t1.Interval = 1000;
-            t1.Start();
-
-
             //var obj1 = new FloorPlanMap.Components.Objects.CameraObject() {
-            //    X = 266,
-            //    Y = 321,
-            //    Angle = 0,
-            //    Size = 1,
-            //    Distance = 1.6
+            //    X = 220,
+            //    Y = 220,
+            //    Size = 1
             //};
             //unit.Objects.Add(obj1);
-            //new AnimationTick(obj1, 500);
 
             //var obj2 = new FloorPlanMap.Components.Objects.CameraObject() {
-            //    X = 642,
-            //    Y = 146,
-            //    Size = 1,
-            //    Angle = 90,
+            //    X = 200,
+            //    Y = 200,
+            //    Size = 1
             //};
             //unit.Objects.Add(obj2);
-            //new AnimationTick(obj2, 800);
 
-            //var obj3 = new FloorPlanMap.Components.Objects.CameraObject() {
-            //    X = 998,
-            //    Y = 152,
-            //    Size = 1,
-            //    Angle = 0,
+            //var t1 = new Timer();
+            //t1.Elapsed += (object sender, ElapsedEventArgs e) => {
+            //    obj1.Size = 2;
+            //    t1.Stop();
             //};
-            //unit.Objects.Add(obj3);
-            //new AnimationTick(obj3, 400);
-
-            //var obj4 = new FloorPlanMap.Components.Objects.CameraObject() {
-            //    X = 425,
-            //    Y = 535,
-            //    Size = 1,
-            //    Angle = 0,
-            //};
-            //unit.Objects.Add(obj4);
-            //new AnimationTick(obj4, 300);
-
-            //var obj5 = new FloorPlanMap.Components.Objects.CameraObject() {
-            //    X = 898,
-            //    Y = 513,
-            //    Size = 1,
-            //    Angle = 0,
-            //};
-            //unit.Objects.Add(obj5);
-            //new AnimationTick(obj5, 400);
+            //t1.Interval = 1000;
+            //t1.Start();
 
 
-            //var drone1 = new FloorPlanMap.Components.Objects.DroneObject() {
-            //    X = 750,
-            //    Y = 150,
-            //    Size = 0.8,
-            //    Angle = 45,
-            //};
-            //unit.Objects.Add(drone1);
-            //new AnimationDroneTick(drone1, 5000);
+            var obj1 = new FloorPlanMap.Components.Objects.CameraObject() {
+                X = 266,
+                Y = 321,
+                Angle = 0,
+                Size = 1,
+                Distance = 1.6
+            };
+            unit.Objects.Add(obj1);
+            new AnimationTick(obj1, 500);
 
-            //var drone2 = new FloorPlanMap.Components.Objects.DroneObject() {
-            //    X = 400,
-            //    Y = 200,
-            //    Size = 1,
-            //    Angle = 0,
-            //};
-            //unit.Objects.Add(drone2);
-            //new AnimationDroneTick(drone2, 1000);
+            var obj2 = new FloorPlanMap.Components.Objects.CameraObject() {
+                X = 642,
+                Y = 146,
+                Size = 1,
+                Angle = 90,
+            };
+            unit.Objects.Add(obj2);
+            new AnimationTick(obj2, 800);
 
-            //var drone3 = new FloorPlanMap.Components.Objects.DroneObject() {
-            //    X = 600,
-            //    Y = 200,
-            //    Size = 1,
-            //    Angle = 0,
-            //};
-            //unit.Objects.Add(drone3);
-            //new AnimationDroneTick(drone3, 1500);
+            var obj3 = new FloorPlanMap.Components.Objects.CameraObject() {
+                X = 998,
+                Y = 152,
+                Size = 1,
+                Angle = 0,
+            };
+            unit.Objects.Add(obj3);
+            new AnimationTick(obj3, 400);
+
+            var obj4 = new FloorPlanMap.Components.Objects.CameraObject() {
+                X = 425,
+                Y = 535,
+                Size = 1,
+                Angle = 0,
+            };
+            unit.Objects.Add(obj4);
+            new AnimationTick(obj4, 300);
+
+            var obj5 = new FloorPlanMap.Components.Objects.CameraObject() {
+                X = 898,
+                Y = 513,
+                Size = 1,
+                Angle = 0,
+            };
+            unit.Objects.Add(obj5);
+            new AnimationTick(obj5, 400);
+
+
+            var drone1 = new FloorPlanMap.Components.Objects.DroneObject() {
+                X = 750,
+                Y = 150,
+                Size = 0.8,
+                Angle = 45,
+            };
+            unit.Objects.Add(drone1);
+            new AnimationDroneTick(drone1, 5000);
+
+            var drone2 = new FloorPlanMap.Components.Objects.DroneObject() {
+                X = 400,
+                Y = 200,
+                Size = 1,
+                Angle = 0,
+            };
+            unit.Objects.Add(drone2);
+            new AnimationDroneTick(drone2, 1000);
+
+            var drone3 = new FloorPlanMap.Components.Objects.DroneObject() {
+                X = 600,
+                Y = 200,
+                Size = 1,
+                Angle = 0,
+            };
+            unit.Objects.Add(drone3);
+            new AnimationDroneTick(drone3, 1500);
 
 
             this.Container.Children.Add(unit);

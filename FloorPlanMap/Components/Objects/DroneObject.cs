@@ -20,6 +20,7 @@ namespace FloorPlanMap.Components.Objects {
     [TemplateVisualState(Name = "TakeOff", GroupName = "TakeOffStates")]
     public class DroneObject : BaseVideoObject {
         public DroneObject() {
+            BaseZIndex = 10000;
             base.Loaded += (object sender, RoutedEventArgs e) => {
                 VisualStateManager.GoToState(this, "Station", false);
             };
