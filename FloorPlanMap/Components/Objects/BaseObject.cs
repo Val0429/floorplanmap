@@ -104,7 +104,7 @@ namespace FloorPlanMap.Components.Objects {
         #region "ZIndex"
         public static readonly DependencyProperty ZIndexProperty = DependencyProperty.Register(
                 "ZIndex", typeof(double), typeof(BaseObject),
-                new FrameworkPropertyMetadata(0));
+                new FrameworkPropertyMetadata(0.0));
         public double ZIndex {
             get { return (double)this.GetDispatcherValue(ZIndexProperty); }
             internal set { this.SetDispatcherValue(ZIndexProperty, value); }
