@@ -54,15 +54,20 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Components\Backgrounds\ImageBackground.cs" />
+    <Compile Include="Components\Objects\Footprints\NormalFootprint.cs" />
     <Compile Include="Components\Objects\BaseObject.cs" />
-    <Compile Include="Components\Objects\CameraObject.cs" />
-    <Compile Include="Components\Objects\DroneObject.cs" />
-    <Compile Include="Components\Objects\BaseVideoObject.cs" />
+    <Compile Include="Components\Objects\Devices\CameraObject.cs" />
+    <Compile Include="Components\Objects\Devices\DroneObject.cs" />
+    <Compile Include="Components\Objects\Devices\BaseVideoObject.cs" />
     <Compile Include="FloorPlanMapUnit.xaml.cs">
       <DependentUpon>FloorPlanMapUnit.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Themes\Backgrounds\ImageBackground.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Footprints\NormalFootprint.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -103,10 +108,7 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Components\Footprints\" />
-    <Folder Include="Themes\Footprints\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
