@@ -205,27 +205,33 @@ namespace TestLoad {
 
             NormalFootprint fp = new NormalFootprint() {
                 X = 100, Y = 100,
-                TargetX = 200, TargetY = 500,
-                Size = 5
+                TargetX = 400, TargetY = 500,
+                Size = 5,
+                StartOpacity = 0.1,
+                TargetOpacity = 0.5,
             };
             unit.Objects.Add(fp);
             //new AnimationFootprintTick(fp, 1000);
 
             NormalFootprint fp2 = new NormalFootprint() {
-                X = 200,
+                X = 400,
                 Y = 500,
-                TargetX = 400,
+                TargetX = 800,
                 TargetY = 200,
-                Size = 5
+                Size = 5,
+                StartOpacity = 0.5,
+                TargetOpacity = 0.8,
             };
             unit.Objects.Add(fp2);
 
             NormalFootprint fp3 = new NormalFootprint() {
-                X = 400,
+                X = 800,
                 Y = 200,
-                TargetX = 600,
+                TargetX = 1000,
                 TargetY = 300,
-                Size = 5
+                Size = 5,
+                StartOpacity = 0.8,
+                TargetOpacity = 1,
             };
             unit.Objects.Add(fp3);
 
