@@ -208,7 +208,8 @@ namespace TestLoad {
                 TargetX = 400, TargetY = 500,
                 Size = 5,
                 StartOpacity = 0.1,
-                TargetOpacity = 0.5,
+                StartOpacityPoint = 0.5,
+                TargetOpacity = 0.8,
             };
             unit.Objects.Add(fp);
             //new AnimationFootprintTick(fp, 1000);

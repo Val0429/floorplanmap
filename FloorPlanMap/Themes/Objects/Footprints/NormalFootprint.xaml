@@ -85,7 +85,7 @@
                             <LinearGradientBrush StartPoint="0.5,1" EndPoint="0.5,0">
                                 <LinearGradientBrush.GradientStops>
                                     <GradientStop Offset="0" Color="{Binding TargetOpacityColor, RelativeSource={RelativeSource TemplatedParent}}" />
-                                    <GradientStop Offset="1" Color="{Binding StartOpacityColor, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    <GradientStop Offset="{Binding StartOpacityPoint, RelativeSource={RelativeSource TemplatedParent}}" Color="{Binding StartOpacityColor, RelativeSource={RelativeSource TemplatedParent}}" />
                                 </LinearGradientBrush.GradientStops>
                             </LinearGradientBrush>
                         </Rectangle.OpacityMask>
