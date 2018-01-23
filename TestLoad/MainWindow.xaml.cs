@@ -79,6 +79,19 @@ namespace TestLoad {
         }
     }
 
+    internal class AnimationFootprintTick {
+        private Timer t1 = new Timer();
+        private static Random r = new Random();
+        public AnimationFootprintTick(NormalFootprint target, double interval) {
+            t1.Elapsed += (o, e) => {
+                var seed = r.Next(1, 15);
+                target.Size = seed;
+            };
+            t1.Interval = interval;
+            t1.Start();
+        }
+    }
+
 
     public partial class MainWindow : Window {
         public MainWindow() {
@@ -187,9 +200,11 @@ namespace TestLoad {
 
             NormalFootprint fp = new NormalFootprint() {
                 X = 100, Y = 100,
-                TargetX = 100, TargetY = 200,
+                TargetX = 100, TargetY = 500,
+                Size = 10
             };
             unit.Objects.Add(fp);
+            new AnimationFootprintTick(fp, 1000);
 
 
             this.Container.Children.Add(unit);

@@ -93,19 +93,15 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:NormalFootprint}">
                     <Rectangle
-                        Width="{Binding Wide, RelativeSource={RelativeSource TemplatedParent}}"
+                        Width="10"
+                        Fill="{StaticResource FootstepVisualBrush}"
                         Height="{Binding Length, RelativeSource={RelativeSource TemplatedParent}}">
-                        <Rectangle.Fill>
-                            <VisualBrush Visual="{StaticResource FootstepVisual}"
-                                         TileMode="Tile" Viewport="0,0,10,14.5" ViewportUnits="Absolute" Viewbox="0,0,500,727" ViewboxUnits="Absolute">
-                                <VisualBrush.Transform>
-                                    <ScaleTransform
-                                        ScaleX="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}"
-                                        ScaleY="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}"
-                                        />
-                                </VisualBrush.Transform>
-                            </VisualBrush>
-                        </Rectangle.Fill>
+                        <Rectangle.RenderTransform>
+                            <ScaleTransform ScaleX="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}"
+                                            ScaleY="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}"
+                                            CenterX="5" CenterY="0"
+                                            />
+                        </Rectangle.RenderTransform>
                     </Rectangle>
                 </ControlTemplate>
             </Setter.Value>

@@ -41,8 +41,7 @@ namespace FloorPlanMap.Components.Footprints {
         private static void OnTargetXChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             NormalFootprint vm = d as NormalFootprint;
             // Calculate Length
-            double length = Math.Sqrt( Math.Pow(vm.TargetX - vm.X, 2) + Math.Pow(vm.TargetY - vm.Y, 2) );
-            vm.Length = length;
+            vm.CalculateLength();
         }
         #endregion "TargetX"
 
@@ -60,8 +59,7 @@ namespace FloorPlanMap.Components.Footprints {
         private static void OnTargetYChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             NormalFootprint vm = d as NormalFootprint;
             // Calculate Length
-            double length = Math.Sqrt(Math.Pow(vm.TargetX - vm.X, 2) + Math.Pow(vm.TargetY - vm.Y, 2));
-            vm.Length = length;
+            vm.CalculateLength();
         }
         #endregion "TargetY"
 
@@ -88,22 +86,31 @@ namespace FloorPlanMap.Components.Footprints {
         #endregion "Angle"
 
         #region "Size"
-        //public static readonly DependencyProperty SizeProperty = DependencyProperty.Register(
-        //        "Size", typeof(double), typeof(NormalFootprint),
-        //        new FrameworkPropertyMetadata(1.5,
-        //            new PropertyChangedCallback(OnSizeChanged)
-        //            ));
-        //[Description("Object size."), Category("Source")]
-        //public double Size {
-        //    get { return (double)this.GetDispatcherValue(SizeProperty); }
-        //    set { this.SetDispatcherAnimationValue<DoubleAnimation>(SizeProperty, value, 600); }
-        //}
-        //private static void OnSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-        //    NormalFootprint vm = d as NormalFootprint;
-        //    vm.ZIndex = (double)e.NewValue * 5 + vm.BaseZIndex;
-        //}
+        public static readonly new DependencyProperty SizeProperty = DependencyProperty.Register(
+                "Size", typeof(double), typeof(NormalFootprint),
+                new FrameworkPropertyMetadata(1.0,
+                    new PropertyChangedCallback(OnSizeChanged)
+                    ));
+        [Description("Object size."), Category("Source")]
+        public override double Size {
+            get { return (double)this.GetDispatcherValue(SizeProperty); }
+            set { this.SetDispatcherAnimationValue<DoubleAnimation>(SizeProperty, value, 600); }
+        }
+        private static void OnSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            NormalFootprint vm = d as NormalFootprint;
+            vm.ZIndex = (double)e.NewValue * 5 + vm.BaseZIndex;
+            // Calculate Length
+            vm.CalculateLength();
+        }
         #endregion "Size"
 
         #endregion "Dependency Properties"
+
+        #region "Private Helper"
+        private void CalculateLength() {
+            double length = Math.Sqrt(Math.Pow(TargetX - X, 2) + Math.Pow(TargetY - Y, 2)) / Size;
+            Length = length;
+        }
+        #endregion "Private Helper"
     }
 }
