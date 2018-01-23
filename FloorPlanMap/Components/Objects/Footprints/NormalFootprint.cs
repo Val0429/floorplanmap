@@ -20,6 +20,10 @@ namespace FloorPlanMap.Components.Footprints {
     public class NormalFootprint : BaseObject {
         public NormalFootprint() {
             BaseZIndex = -1000;
+
+            base.Loaded += (object sender, RoutedEventArgs e) => {
+                VisualHeight = (double)FindResource("VisualHeight");
+            };
         }
         static NormalFootprint() {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(NormalFootprint), new FrameworkPropertyMetadata(typeof(NormalFootprint)));
@@ -63,28 +67,6 @@ namespace FloorPlanMap.Components.Footprints {
         }
         #endregion "TargetY"
 
-        #region "Length"
-        public static readonly DependencyProperty LengthProperty = DependencyProperty.Register(
-                "Length", typeof(double), typeof(NormalFootprint),
-                new FrameworkPropertyMetadata(0.0));
-        [Description("Length."), Category("Source")]
-        public double Length {
-            get { return (double)this.GetDispatcherValue(LengthProperty); }
-            private set { SetValue(LengthProperty, value); }
-        }
-        #endregion "Length"
-
-        #region "Angle"
-        public static readonly new DependencyProperty AngleProperty = DependencyProperty.Register(
-                "Angle", typeof(double), typeof(NormalFootprint),
-                new FrameworkPropertyMetadata(0.0));
-        [Description("Footstep angle."), Category("Source")]
-        public new double Angle {
-            get { return (double)this.GetDispatcherValue(AngleProperty); }
-            private set { this.SetDispatcherAnimationValue<DoubleAnimation>(AngleProperty, value, 600); }
-        }
-        #endregion "Angle"
-
         #region "Size"
         public static readonly new DependencyProperty SizeProperty = DependencyProperty.Register(
                 "Size", typeof(double), typeof(NormalFootprint),
@@ -104,6 +86,38 @@ namespace FloorPlanMap.Components.Footprints {
         }
         #endregion "Size"
 
+        #region "Private Properties"
+        #region "Length"
+        private static readonly DependencyProperty LengthProperty = DependencyProperty.Register(
+                "Length", typeof(double), typeof(NormalFootprint),
+                new FrameworkPropertyMetadata(0.0));
+        [Description("Length."), Category("Source")]
+        public double Length {
+            get { return (double)this.GetDispatcherValue(LengthProperty); }
+            private set { SetValue(LengthProperty, value); }
+        }
+        #endregion "Length"
+
+        #region "Angle"
+        private static readonly new DependencyProperty AngleProperty = DependencyProperty.Register(
+                "Angle", typeof(double), typeof(NormalFootprint),
+                new FrameworkPropertyMetadata(0.0));
+        [Description("Footstep angle."), Category("Source")]
+        public new double Angle {
+            get { return (double)this.GetDispatcherValue(AngleProperty); }
+            private set { this.SetDispatcherAnimationValue<DoubleAnimation>(AngleProperty, value, 600); }
+        }
+        #endregion "Angle"
+
+        #region "VisualHeight"
+        private double _visualHeight = 0;
+        public double VisualHeight {
+            get { return _visualHeight; }
+            private set { _visualHeight = value; }
+        }
+        #endregion "VisualHeight"
+        #endregion "Private Properties"
+
         #endregion "Dependency Properties"
 
         #region "Private Helper"
@@ -118,7 +132,6 @@ namespace FloorPlanMap.Components.Footprints {
             theta *= 180 / Math.PI;
             theta -= 90;
             if (theta < 0) theta += 360;
-            Console.WriteLine("{0} {1}", Math.Atan(dy / dx), theta);
             Angle = theta;
         }
         #endregion "Private Helper"

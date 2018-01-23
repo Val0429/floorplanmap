@@ -220,6 +220,14 @@ namespace TestLoad {
             };
             unit.Objects.Add(fp2);
 
+            NormalFootprint fp3 = new NormalFootprint() {
+                X = 400,
+                Y = 200,
+                TargetX = 600,
+                TargetY = 300,
+                Size = 5
+            };
+            unit.Objects.Add(fp3);
 
             this.Container.Children.Add(unit);
 
