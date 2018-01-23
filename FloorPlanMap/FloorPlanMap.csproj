@@ -56,9 +56,9 @@
     <Compile Include="Components\Backgrounds\ImageBackground.cs" />
     <Compile Include="Components\Objects\Footprints\NormalFootprint.cs" />
     <Compile Include="Components\Objects\BaseObject.cs" />
-    <Compile Include="Components\Objects\Devices\CameraObject.cs" />
-    <Compile Include="Components\Objects\Devices\DroneObject.cs" />
-    <Compile Include="Components\Objects\Devices\BaseVideoObject.cs" />
+    <Compile Include="Components\Objects\Devices\CameraDevice.cs" />
+    <Compile Include="Components\Objects\Devices\DroneDevice.cs" />
+    <Compile Include="Components\Objects\Devices\BaseVideoDevice.cs" />
     <Compile Include="FloorPlanMapUnit.xaml.cs">
       <DependentUpon>FloorPlanMapUnit.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -67,7 +67,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Footprints\NormalFootprint.xaml">
+    <Page Include="Themes\Objects\Footprints\NormalFootprint.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -75,11 +75,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Objects\CameraObject.xaml">
+    <Page Include="Themes\Objects\Devices\CameraDevice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Objects\DroneObject.xaml">
+    <Page Include="Themes\Objects\Devices\DroneDevice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

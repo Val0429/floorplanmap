@@ -93,7 +93,7 @@ namespace FloorPlanMap.Components.Objects {
                     new PropertyChangedCallback(OnSizeChanged)
                     ));
         [Description("Object size."), Category("Source")]
-        public double Size {
+        public virtual double Size {
             get { return (double)this.GetDispatcherValue(SizeProperty); }
             set { this.SetDispatcherAnimationValue<DoubleAnimation>(SizeProperty, value, 600); }
         }

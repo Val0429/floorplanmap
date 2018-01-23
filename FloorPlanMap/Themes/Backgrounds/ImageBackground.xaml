@@ -10,7 +10,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ImageBackground}">
 
-                    <Image x:Name="ImageBackground" Source="{Binding Path=MapSource, Converter={StaticResource FullPathConverter}}" Panel.ZIndex="-10">
+                    <Image x:Name="ImageBackground" Source="{Binding Path=MapSource, Converter={StaticResource FullPathConverter}}" Panel.ZIndex="-10000">
                         <Image.CacheMode>
                             <BitmapCache RenderAtScale="1" />
                         </Image.CacheMode>

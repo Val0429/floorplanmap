@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:FloorPlanMap.Components.Objects">
+                    xmlns:local="clr-namespace:FloorPlanMap.Components.Objects.Devices">
 
     <!-- Brushes -->
     <!-- Brush - Drone Wing Inner Circle -->
@@ -35,14 +35,14 @@
     <SolidColorBrush x:Key="ShiningPointOff" Color="Black" />
     <!-- Brushes -->
 
-    <Style TargetType="{x:Type local:DroneObject}">
+    <Style TargetType="{x:Type local:DroneDevice}">
         <Setter Property="Canvas.Left" Value="{Binding X, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Canvas.Top" Value="{Binding Y, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex, RelativeSource={RelativeSource Self}}" />
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:DroneObject}">
+                <ControlTemplate TargetType="{x:Type local:DroneDevice}">
 
                     <Canvas Width="100" Height="100">
                         <Canvas.RenderTransform>

@@ -13,7 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using FloorPlanMap.Components.Objects;
+using FloorPlanMap.Components.Objects.Devices;
+using FloorPlanMap.Components.Footprints;
 
 namespace TestLoad {
     /// <summary>
@@ -23,7 +24,7 @@ namespace TestLoad {
     internal class AnimationTick {
         private Timer t1 = new Timer();
         private static Random r = new Random();
-        public AnimationTick(CameraObject target, double interval) {
+        public AnimationTick(CameraDevice target, double interval) {
             t1.Elapsed += (o, e) => {
                 var seed = r.Next(0, 9);
                 if (seed == 0) {
@@ -49,7 +50,7 @@ namespace TestLoad {
     internal class AnimationDroneTick {
         private Timer t1 = new Timer();
         private static Random r = new Random();
-        public AnimationDroneTick(DroneObject target, double interval) {
+        public AnimationDroneTick(DroneDevice target, double interval) {
             t1.Elapsed += (o, e) => {
                 if (target.TakeOff == false) {
                     var sd = r.Next(0, 3);
@@ -109,7 +110,7 @@ namespace TestLoad {
             //t1.Start();
 
 
-            var obj1 = new FloorPlanMap.Components.Objects.CameraObject() {
+            var obj1 = new CameraDevice() {
                 X = 266,
                 Y = 321,
                 Angle = 0,
@@ -119,7 +120,7 @@ namespace TestLoad {
             unit.Objects.Add(obj1);
             new AnimationTick(obj1, 500);
 
-            var obj2 = new FloorPlanMap.Components.Objects.CameraObject() {
+            var obj2 = new CameraDevice() {
                 X = 642,
                 Y = 146,
                 Size = 1,
@@ -128,7 +129,7 @@ namespace TestLoad {
             unit.Objects.Add(obj2);
             new AnimationTick(obj2, 800);
 
-            var obj3 = new FloorPlanMap.Components.Objects.CameraObject() {
+            var obj3 = new CameraDevice() {
                 X = 998,
                 Y = 152,
                 Size = 1,
@@ -137,7 +138,7 @@ namespace TestLoad {
             unit.Objects.Add(obj3);
             new AnimationTick(obj3, 400);
 
-            var obj4 = new FloorPlanMap.Components.Objects.CameraObject() {
+            var obj4 = new CameraDevice() {
                 X = 425,
                 Y = 535,
                 Size = 1,
@@ -146,7 +147,7 @@ namespace TestLoad {
             unit.Objects.Add(obj4);
             new AnimationTick(obj4, 300);
 
-            var obj5 = new FloorPlanMap.Components.Objects.CameraObject() {
+            var obj5 = new CameraDevice() {
                 X = 898,
                 Y = 513,
                 Size = 1,
@@ -156,7 +157,7 @@ namespace TestLoad {
             new AnimationTick(obj5, 400);
 
 
-            var drone1 = new FloorPlanMap.Components.Objects.DroneObject() {
+            var drone1 = new DroneDevice() {
                 X = 750,
                 Y = 150,
                 Size = 0.8,
@@ -165,7 +166,7 @@ namespace TestLoad {
             unit.Objects.Add(drone1);
             new AnimationDroneTick(drone1, 5000);
 
-            var drone2 = new FloorPlanMap.Components.Objects.DroneObject() {
+            var drone2 = new DroneDevice() {
                 X = 400,
                 Y = 200,
                 Size = 1,
@@ -174,7 +175,7 @@ namespace TestLoad {
             unit.Objects.Add(drone2);
             new AnimationDroneTick(drone2, 1000);
 
-            var drone3 = new FloorPlanMap.Components.Objects.DroneObject() {
+            var drone3 = new DroneDevice() {
                 X = 600,
                 Y = 200,
                 Size = 1,
@@ -182,6 +183,13 @@ namespace TestLoad {
             };
             unit.Objects.Add(drone3);
             new AnimationDroneTick(drone3, 1500);
+
+
+            NormalFootprint fp = new NormalFootprint() {
+                X = 100, Y = 100,
+                TargetX = 100, TargetY = 200,
+            };
+            unit.Objects.Add(fp);
 
 
             this.Container.Children.Add(unit);

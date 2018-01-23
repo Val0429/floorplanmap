@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
 
-namespace FloorPlanMap.Components.Objects {
-    public class BaseVideoObject : BaseObject {
+namespace FloorPlanMap.Components.Objects.Devices {
+    public class BaseVideoDevice : BaseObject {
         #region "Dependency Properties"
 
         #region "Degree"
         public static readonly DependencyProperty DegreeProperty = DependencyProperty.Register(
-                "Degree", typeof(double), typeof(BaseVideoObject),
+                "Degree", typeof(double), typeof(BaseVideoDevice),
                 new FrameworkPropertyMetadata(1.5));
         [Description("Camera view degree (wideness)."), Category("Source")]
         public double Degree {
@@ -24,7 +24,7 @@ namespace FloorPlanMap.Components.Objects {
 
         #region "Distance"
         public static readonly DependencyProperty DistanceProperty = DependencyProperty.Register(
-                "Distance", typeof(double), typeof(BaseVideoObject),
+                "Distance", typeof(double), typeof(BaseVideoDevice),
                 new FrameworkPropertyMetadata(3.0));
         [Description("Camera view light distance."), Category("Source")]
         public double Distance {

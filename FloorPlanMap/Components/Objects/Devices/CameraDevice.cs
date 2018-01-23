@@ -15,23 +15,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FloorPlanMap.Components.Objects {
+namespace FloorPlanMap.Components.Objects.Devices {
 
     [TemplateVisualState(Name = "Normal", GroupName = "ViewStates")]
     [TemplateVisualState(Name = "Selected", GroupName = "ViewStates")]
-    public class CameraObject : BaseVideoObject {
-        public CameraObject() {
+    public class CameraDevice : BaseVideoDevice {
+        public CameraDevice() {
             BaseZIndex = 100;
         }
-        static CameraObject() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(CameraObject), new FrameworkPropertyMetadata(typeof(CameraObject)));
+        static CameraDevice() {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(CameraDevice), new FrameworkPropertyMetadata(typeof(CameraDevice)));
         }
 
         #region "Dependency Properties"
 
         #region "Selected"
         public static readonly DependencyProperty SelectedProperty = DependencyProperty.Register(
-            "Selected", typeof(bool), typeof(CameraObject),
+            "Selected", typeof(bool), typeof(CameraDevice),
             new FrameworkPropertyMetadata(false,
                 new PropertyChangedCallback(OnSelectedChanged))
             );
@@ -41,7 +41,7 @@ namespace FloorPlanMap.Components.Objects {
             set { this.SetDispatcherValue(SelectedProperty, value); }
         }
         private static void OnSelectedChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) {
-            CameraObject vm = sender as CameraObject;
+            CameraDevice vm = sender as CameraDevice;
             bool value = (bool)e.NewValue;
             VisualStateManager.GoToState(vm, value ? "Selected" : "Normal", true);
         }

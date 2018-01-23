@@ -5,8 +5,9 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/FloorPlanMap;component/Themes/Backgrounds/ImageBackground.xaml" />
-        <ResourceDictionary Source="/FloorPlanMap;component/Themes/Objects/CameraObject.xaml" />
-        <ResourceDictionary Source="/FloorPlanMap;component/Themes/Objects/DroneObject.xaml" />
+        <ResourceDictionary Source="/FloorPlanMap;component/Themes/Objects/Devices/CameraDevice.xaml" />
+        <ResourceDictionary Source="/FloorPlanMap;component/Themes/Objects/Devices/DroneDevice.xaml" />
+        <ResourceDictionary Source="/FloorPlanMap;component/Themes/Objects/Footprints/NormalFootprint.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
