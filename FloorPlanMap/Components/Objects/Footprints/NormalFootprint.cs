@@ -75,14 +75,14 @@ namespace FloorPlanMap.Components.Footprints {
         #endregion "Length"
 
         #region "Angle"
-        //public static readonly DependencyProperty AngleProperty = DependencyProperty.Register(
-        //        "Angle", typeof(double), typeof(NormalFootprint),
-        //        new FrameworkPropertyMetadata(0.0));
-        //[Description("Camera view angle."), Category("Source")]
-        //public double Angle {
-        //    get { return (double)this.GetDispatcherValue(AngleProperty); }
-        //    set { this.SetDispatcherAnimationValue<DoubleAnimation>(AngleProperty, value, 1500); }
-        //}
+        public static readonly new DependencyProperty AngleProperty = DependencyProperty.Register(
+                "Angle", typeof(double), typeof(NormalFootprint),
+                new FrameworkPropertyMetadata(0.0));
+        [Description("Footstep angle."), Category("Source")]
+        public new double Angle {
+            get { return (double)this.GetDispatcherValue(AngleProperty); }
+            private set { this.SetDispatcherAnimationValue<DoubleAnimation>(AngleProperty, value, 600); }
+        }
         #endregion "Angle"
 
         #region "Size"
@@ -108,8 +108,18 @@ namespace FloorPlanMap.Components.Footprints {
 
         #region "Private Helper"
         private void CalculateLength() {
-            double length = Math.Sqrt(Math.Pow(TargetX - X, 2) + Math.Pow(TargetY - Y, 2)) / Size;
+            var dx = TargetX - X;
+            var dy = TargetY - Y;
+            // Length
+            double length = Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2)) / Size;
             Length = length;
+            // Angle
+            var theta = Math.Atan2(dy, dx);
+            theta *= 180 / Math.PI;
+            theta -= 90;
+            if (theta < 0) theta += 360;
+            Console.WriteLine("{0} {1}", Math.Atan(dy / dx), theta);
+            Angle = theta;
         }
         #endregion "Private Helper"
     }

@@ -84,8 +84,13 @@ namespace TestLoad {
         private static Random r = new Random();
         public AnimationFootprintTick(NormalFootprint target, double interval) {
             t1.Elapsed += (o, e) => {
-                var seed = r.Next(1, 15);
-                target.Size = seed;
+                var seed = r.Next(0, 5);
+                if (seed == 0) {
+                    target.Size = r.Next(1, 16);
+                } else {
+                    target.TargetX = r.Next(200, 900);
+                    target.TargetY = r.Next(100, 600);
+                }
             };
             t1.Interval = interval;
             t1.Start();
@@ -200,11 +205,20 @@ namespace TestLoad {
 
             NormalFootprint fp = new NormalFootprint() {
                 X = 100, Y = 100,
-                TargetX = 100, TargetY = 500,
-                Size = 10
+                TargetX = 200, TargetY = 500,
+                Size = 5
             };
             unit.Objects.Add(fp);
-            new AnimationFootprintTick(fp, 1000);
+            //new AnimationFootprintTick(fp, 1000);
+
+            NormalFootprint fp2 = new NormalFootprint() {
+                X = 200,
+                Y = 500,
+                TargetX = 400,
+                TargetY = 200,
+                Size = 5
+            };
+            unit.Objects.Add(fp2);
 
 
             this.Container.Children.Add(unit);

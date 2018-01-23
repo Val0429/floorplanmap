@@ -80,7 +80,7 @@ namespace FloorPlanMap.Components.Objects {
                 "Angle", typeof(double), typeof(BaseObject),
                 new FrameworkPropertyMetadata(0.0));
         [Description("Camera view angle."), Category("Source")]
-        public double Angle {
+        public virtual double Angle {
             get { return (double)this.GetDispatcherValue(AngleProperty); }
             set { this.SetDispatcherAnimationValue<DoubleAnimation>(AngleProperty, value, 1500); }
         }

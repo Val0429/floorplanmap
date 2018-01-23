@@ -48,17 +48,12 @@
         </Rectangle.Fill>
     </Rectangle>
 
-    <Style x:Key="FootstepVisualBrushStyle" TargetType="{x:Type VisualBrush}">
-        <Setter Property="Visual" Value="{StaticResource FootstepVisual}" />
-        <Setter Property="TileMode" Value="Tile" />
-        <Setter Property="Viewport" Value="0,0,10,14.5" />
-        <Setter Property="ViewportUnits" Value="Absolute" />
-        <Setter Property="Viewbox" Value="0,0,500,727" />
-        <Setter Property="ViewboxUnits" Value="Absolute" />
-    </Style>
-    
     <VisualBrush x:Key="FootstepVisualBrush" Visual="{StaticResource FootstepVisual}"
-                 TileMode="Tile" Viewport="0,0,10,14.5" ViewportUnits="Absolute" Viewbox="0,0,500,727" ViewboxUnits="Absolute" />
+                 TileMode="Tile" Viewport="0,0,10,14.5" ViewportUnits="Absolute" Viewbox="0,0,500,727" ViewboxUnits="Absolute">
+        <VisualBrush.Transform>
+            <RotateTransform Angle="180" />
+        </VisualBrush.Transform>
+    </VisualBrush>
 
     <Style TargetType="{x:Type local:NormalFootprint}">
         <Setter Property="Canvas.Left" Value="{Binding X, RelativeSource={RelativeSource Self}}" />
@@ -97,10 +92,13 @@
                         Fill="{StaticResource FootstepVisualBrush}"
                         Height="{Binding Length, RelativeSource={RelativeSource TemplatedParent}}">
                         <Rectangle.RenderTransform>
-                            <ScaleTransform ScaleX="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}"
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}"
                                             ScaleY="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}"
                                             CenterX="5" CenterY="0"
                                             />
+                                <RotateTransform Angle="{Binding Angle, RelativeSource={RelativeSource TemplatedParent}}" CenterX="5" CenterY="0" />
+                            </TransformGroup>
                         </Rectangle.RenderTransform>
                     </Rectangle>
                 </ControlTemplate>
