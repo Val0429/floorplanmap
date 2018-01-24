@@ -52,11 +52,11 @@ namespace TestLoad {
         private static Random r = new Random();
         public AnimationDroneTick(DroneDevice target, double interval) {
             t1.Elapsed += (o, e) => {
-                if (target.TakeOff == false) {
-                    var sd = r.Next(0, 3);
-                    if (sd == 0) target.TakeOff = true;
-                    return;
-                }
+                //if (target.TakeOff == false) {
+                //    var sd = r.Next(0, 3);
+                //    if (sd == 0) target.TakeOff = true;
+                //    return;
+                //}
 
                 var seed = r.Next(0, 10);
                 if (seed == 0) {
@@ -67,8 +67,8 @@ namespace TestLoad {
                     target.Distance = r.NextDouble() * 4 + 1;
                 } else if (seed == 3) {
                     target.Size = r.NextDouble() * 0.1 + 0.6;
-                } else if (seed == 4) {
-                    target.TakeOff = !target.TakeOff;
+                //} else if (seed == 4) {
+                //    target.TakeOff = !target.TakeOff;
                 } else {
                     target.X = r.Next(50, 1100);
                     target.Y = r.Next(50, 500);
@@ -201,6 +201,7 @@ namespace TestLoad {
                 Y = 200,
                 Size = 1,
                 Angle = 0,
+                TakeOff = true,
                 FootprintType = typeof(NormalFootprint)
             };
             unit.Objects.Add(drone3);

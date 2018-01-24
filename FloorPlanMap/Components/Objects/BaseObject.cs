@@ -75,16 +75,22 @@ namespace FloorPlanMap.Components.Objects {
             if (_footprintType == null) return;
             (this.Parent as Panel).Dispatcher.BeginInvoke(new Action(
                 () => {
-                    BaseFootprint instance = Activator.CreateInstance(_footprintType) as BaseFootprint;
-                    instance.X = (double)lastx;
-                    instance.Y = (double)lasty;
-                    instance.Size = 3;
-                    instance.StartOpacity = 1;
-                    instance.TargetOpacity = 1;
+                    BaseFootprint instance;
+                    BaseFootprint lfp = _footprints.Count == 0 ? null : _footprints.Last();
+                    if (lfp == null || !lfp.AngleMatches((double)lastx, (double)lasty, x, y)) {
+                        instance = Activator.CreateInstance(_footprintType) as BaseFootprint;
+                        instance.X = (double)lastx;
+                        instance.Y = (double)lasty;
+                        instance.Size = 3;
+                        instance.StartOpacity = 1;
+                        instance.TargetOpacity = 1;
+                        _footprints.Add(instance);
+                        (this.Parent as Panel).Children.Add(instance);
+                    } else {
+                        instance = lfp;
+                    }
                     instance.TargetX = x;
                     instance.TargetY = y;
-                    _footprints.Add(instance);
-                    (this.Parent as Panel).Children.Add(instance);
                 }
             ));
         }

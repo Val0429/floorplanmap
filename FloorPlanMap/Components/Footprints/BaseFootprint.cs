@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,6 +13,7 @@ using System.Windows.Media.Animation;
 
 namespace FloorPlanMap.Components.Footprints {
     public class BaseFootprint : BaseComponent {
+        private IDisposable _subscription;
         public BaseFootprint() {
             BaseZIndex = -1000;
             AnimationDurationX = 0;
@@ -19,6 +22,18 @@ namespace FloorPlanMap.Components.Footprints {
 
             base.Loaded += (object sender, RoutedEventArgs e) => {
                 VisualHeight = (double)FindResource("VisualHeight");
+
+                _subscription = Observable.CombineLatest(_sjTXChanged, _sjTYChanged)
+                    .Select((o) => {
+                        return Observable.Timer(TimeSpan.FromMilliseconds(1))
+                            .Select((t) => o);
+                    })
+                    .Switch()
+                    .Subscribe(X => HandleXYChanged(X[0], X[1]));
+            };
+
+            base.Unloaded += (object sender, RoutedEventArgs e) => {
+                _subscription.Dispose();
             };
         }
 
@@ -31,6 +46,19 @@ namespace FloorPlanMap.Components.Footprints {
         }
         #endregion "VisualHeight"
         #endregion "Normal Properties"
+
+        #region "Handle X / Y / TargetX / TargetY Changed"
+        private Subject<double> _sjXChanged = new Subject<double>();
+        private Subject<double> _sjYChanged = new Subject<double>();
+        private Subject<double> _sjTXChanged = new Subject<double>();
+        private Subject<double> _sjTYChanged = new Subject<double>();
+        private void HandleXYChanged(double x, double y) {
+            // Calculate Length
+            (Parent as Panel).Dispatcher.BeginInvoke(new Action(
+                () => CalculateLength()
+                ));            
+        }
+        #endregion "Handle TargetX / TargetY Changed"
 
         #region "Dependency Properties"
 
@@ -47,8 +75,8 @@ namespace FloorPlanMap.Components.Footprints {
         }
         private static void OnTargetXChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             BaseFootprint vm = d as BaseFootprint;
-            // Calculate Length
-            vm.CalculateLength();
+            if ((double)e.OldValue == 0) vm.CalculateLength();
+            vm._sjTXChanged.OnNext((double)e.NewValue);
         }
         #endregion "TargetX"
 
@@ -65,8 +93,8 @@ namespace FloorPlanMap.Components.Footprints {
         }
         private static void OnTargetYChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             BaseFootprint vm = d as BaseFootprint;
-            // Calculate Length
-            vm.CalculateLength();
+            if ((double)e.OldValue == 0) vm.CalculateLength();
+            vm._sjTYChanged.OnNext((double)e.NewValue);
         }
         #endregion "TargetY"
 
@@ -144,7 +172,7 @@ namespace FloorPlanMap.Components.Footprints {
         [Description("Length."), Category("Source")]
         public double Length {
             get { return (double)this.GetDispatcherValue(LengthProperty); }
-            private set { SetValue(LengthProperty, value); }
+            private set { this.SetDispatcherValue(LengthProperty, value); }
         }
         #endregion "Length"
 
@@ -200,5 +228,21 @@ namespace FloorPlanMap.Components.Footprints {
             Angle = theta;
         }
         #endregion "Private Helper"
+
+        #region "Public Helper"
+        public bool AngleMatches(double x, double y, double targetx, double targety) {
+            var dx = TargetX - X;
+            var dy = TargetY - Y;
+            var dtx = targetx - x;
+            var dty = targety - y;
+            Console.WriteLine("Match? {0} , {1}", Math.Atan2(dy, dx), Math.Atan2(dty, dtx));
+
+            var val1 = Math.Atan2(dy, dx);
+            var val2 = Math.Atan2(dty, dtx);
+            if (val1 == 0 && val2 == 0) return true;
+            if (Math.Abs((val1 - val2) / (val1 == 0 ? val2 : val1)) < 0.01) return true;
+            else return false;
+        }
+        #endregion "Public Helper"
     }
 }
