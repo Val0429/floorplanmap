@@ -57,19 +57,21 @@ namespace FloorPlanMap.Components.Objects {
             // Ready. Got all tracks of BaseObject
             if (lastx == null || lasty == null) return;
             //Console.WriteLine("LastX: {0}, LastY: {1}, X: {2}, Y: {3}", lastx, lasty, x, y);
-            (this.Parent as Panel).Dispatcher.BeginInvoke( new Action(
-                () => (this.Parent as Panel).Children.Add(
-                    new NormalFootprint() {
-                        X = (double)lastx,
-                        Y = (double)lasty,
-                        TargetX = x,
-                        TargetY = y,
-                        Size = 3,
-                        StartOpacity = 1,
-                        TargetOpacity = 1,
-                    })
-                )
-            );
+            if (_footprintType == null) return;
+            (this.Parent as Panel).Dispatcher.BeginInvoke(new Action(
+                () => {
+                    var instance = Activator.CreateInstance(_footprintType) as BaseFootprint;
+                    instance.X = (double)lastx;
+                    instance.Y = (double)lasty;
+                    instance.TargetX = x;
+                    instance.TargetY = y;
+                    instance.Size = 3;
+                    instance.StartOpacity = 1;
+                    instance.TargetOpacity = 1;
+
+                    (this.Parent as Panel).Children.Add(instance);
+                }
+            ));
         }
         #endregion "Handle XYChanged"
 
@@ -80,7 +82,7 @@ namespace FloorPlanMap.Components.Objects {
         public Type FootprintType {
             get { return _footprintType; }
             set {
-                if (value != null && !value.IsAssignableFrom(typeof(BaseFootprint))) {
+                if (value != null && !typeof(BaseFootprint).IsAssignableFrom(value)) {
                     throw new ArgumentException("FootprintType type error. Must inherit BaseFootprint.");
                 }
                 _footprintType = value;

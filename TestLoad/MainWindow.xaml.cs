@@ -198,6 +198,7 @@ namespace TestLoad {
                 Y = 200,
                 Size = 1,
                 Angle = 0,
+                FootprintType = typeof(NormalFootprint)
             };
             unit.Objects.Add(drone3);
             new AnimationDroneTick(drone3, 1500);
