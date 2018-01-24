@@ -77,6 +77,9 @@ namespace TestLoad {
             t1.Interval = interval;
             t1.Start();
         }
+        public void Stop() {
+            t1.Stop();
+        }
     }
 
     internal class AnimationFootprintTick {
@@ -201,7 +204,19 @@ namespace TestLoad {
                 FootprintType = typeof(NormalFootprint)
             };
             unit.Objects.Add(drone3);
-            new AnimationDroneTick(drone3, 1500);
+            var adt = new AnimationDroneTick(drone3, 1500);
+
+            var t = new Timer();
+            t.Elapsed += (object sender, ElapsedEventArgs e) => {
+                t.Stop();
+                adt.Stop();
+                unit.Dispatcher.BeginInvoke(new Action(
+                    () => unit.Objects.Remove(drone3)
+                    ));
+                
+            };
+            t.Interval = 20000;
+            t.Start();
 
 
             NormalFootprint fp = new NormalFootprint() {

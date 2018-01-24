@@ -14,25 +14,31 @@ using System.Reactive.Linq;
 
 namespace FloorPlanMap.Components.Objects {
     public class BaseObject : BaseComponent {
+        private IDisposable _subscription;
         public BaseObject() {
-            base.OnXChangedEvent += BaseObject_OnXChangedEvent;
-            base.OnYChangedEvent += BaseObject_OnYChangedEvent;
 
-            //Observable.CombineLatest(_sjXChanged, _sjYChanged)
-            //    .Select<IList<double>, IObservable<IList<double>>>((o) => {
-            //        return Observable.Timer(TimeSpan.FromMilliseconds(1))
-            //            .Select<long, IList<double>>((t) => o);
-            //    })
-            //    .Switch()
-            //    .Subscribe(X => HandleXYChanged(X[0], X[1]));
+            base.Loaded += (object sender, RoutedEventArgs e) => {
+                base.OnXChangedEvent += BaseObject_OnXChangedEvent;
+                base.OnYChangedEvent += BaseObject_OnYChangedEvent;
 
-            Observable.CombineLatest(_sjXChanged, _sjYChanged)
-                .Select((o) => {
-                    return Observable.Timer(TimeSpan.FromMilliseconds(1))
-                        .Select((t) => o);
-                })
-                .Switch()
-                .Subscribe(X => HandleXYChanged(X[0], X[1]));
+                _subscription = Observable.CombineLatest(_sjXChanged, _sjYChanged)
+                    .Select((o) => {
+                        return Observable.Timer(TimeSpan.FromMilliseconds(1))
+                            .Select((t) => o);
+                    })
+                    .Switch()
+                    .Subscribe(X => HandleXYChanged(X[0], X[1]));
+            };
+
+            base.Unloaded += (object sender, RoutedEventArgs e) => {
+                base.OnXChangedEvent -= BaseObject_OnXChangedEvent;
+                base.OnYChangedEvent -= BaseObject_OnYChangedEvent;
+
+                _subscription.Dispose();
+
+                CleanupFootprints();
+            };
+
         }
 
         #region "Handle XYChanged"
@@ -49,7 +55,15 @@ namespace FloorPlanMap.Components.Objects {
 
         private double? _lastx = null;
         private double? _lasty = null;
-        private BaseFootprint instance = null;
+        private List<BaseFootprint> _footprints = new List<BaseFootprint>();
+        private void CleanupFootprints() {
+            foreach (BaseFootprint footprint in _footprints) {
+                (footprint.Parent as Panel).Dispatcher.BeginInvoke(new Action(
+                        () => (footprint.Parent as Panel).Children.Remove(footprint)
+                    ));
+            }
+            _footprints.Clear();
+        }
         private void HandleXYChanged(double x, double y) {
             double? lastx = _lastx;
             double? lasty = _lasty;
@@ -61,18 +75,16 @@ namespace FloorPlanMap.Components.Objects {
             if (_footprintType == null) return;
             (this.Parent as Panel).Dispatcher.BeginInvoke(new Action(
                 () => {
-                    if (instance == null) {
-                        instance = Activator.CreateInstance(_footprintType) as BaseFootprint;
-                        (this.Parent as Panel).Children.Add(instance);
-                        instance.X = (double)lastx;
-                        instance.Y = (double)lasty;
-                        instance.Size = 3;
-                        instance.StartOpacity = 1;
-                        instance.TargetOpacity = 1;
-                    }
-                    //var instance = Activator.CreateInstance(_footprintType) as BaseFootprint;
+                    BaseFootprint instance = Activator.CreateInstance(_footprintType) as BaseFootprint;
+                    instance.X = (double)lastx;
+                    instance.Y = (double)lasty;
+                    instance.Size = 3;
+                    instance.StartOpacity = 1;
+                    instance.TargetOpacity = 1;
                     instance.TargetX = x;
                     instance.TargetY = y;
+                    _footprints.Add(instance);
+                    (this.Parent as Panel).Children.Add(instance);
                 }
             ));
         }
