@@ -208,8 +208,8 @@ namespace TestLoad {
                 TargetX = 400, TargetY = 500,
                 Size = 5,
                 StartOpacity = 0.1,
-                StartOpacityPoint = 0.5,
-                TargetOpacity = 0.8,
+                StartOpacityPoint = 0.3,
+                TargetOpacity = 0.3,
             };
             unit.Objects.Add(fp);
             //new AnimationFootprintTick(fp, 1000);
@@ -220,7 +220,7 @@ namespace TestLoad {
                 TargetX = 800,
                 TargetY = 200,
                 Size = 5,
-                StartOpacity = 0.5,
+                StartOpacity = 0.3,
                 TargetOpacity = 0.8,
             };
             unit.Objects.Add(fp2);
@@ -235,7 +235,7 @@ namespace TestLoad {
                 TargetOpacity = 1,
             };
             unit.Objects.Add(fp3);
-
+            
             this.Container.Children.Add(unit);
 
 

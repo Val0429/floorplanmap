@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FloorPlanMap.Components.Footprints;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,113 +8,86 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
+using System.Reactive;
+using System.Reactive.Subjects;
+using System.Reactive.Linq;
 
 namespace FloorPlanMap.Components.Objects {
-    public class BaseObject : Control {
-        protected double BaseZIndex = 0;
+    public class BaseObject : BaseComponent {
+        public BaseObject() {
+            base.OnXChangedEvent += BaseObject_OnXChangedEvent;
+            base.OnYChangedEvent += BaseObject_OnYChangedEvent;
 
-        protected BaseObject() {
-            /// Disable Animation on start
-            Animation = false;
-            base.Loaded += (object sender, RoutedEventArgs e) => {
-                Animation = true;
-            };
+            //Observable.CombineLatest(_sjXChanged, _sjYChanged)
+            //    .Select<IList<double>, IObservable<IList<double>>>((o) => {
+            //        return Observable.Timer(TimeSpan.FromMilliseconds(1))
+            //            .Select<long, IList<double>>((t) => o);
+            //    })
+            //    .Switch()
+            //    .Subscribe(X => HandleXYChanged(X[0], X[1]));
+
+            Observable.CombineLatest(_sjXChanged, _sjYChanged)
+                .Select((o) => {
+                    return Observable.Timer(TimeSpan.FromMilliseconds(1))
+                        .Select((t) => o);
+                })
+                .Switch()
+                .Subscribe(X => HandleXYChanged(X[0], X[1]));
         }
 
-        #region "Get / Set Helper"
-        protected void SetDispatcherValue(DependencyProperty dp, object value) {
-            this.Dispatcher.BeginInvoke(new Action(() => SetValue(dp, value)), System.Windows.Threading.DispatcherPriority.Normal);
+        #region "Handle XYChanged"
+        private Subject<double> _sjXChanged = new Subject<double>();
+        private Subject<double> _sjYChanged = new Subject<double>();
+
+        private void BaseObject_OnXChangedEvent(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            _sjXChanged.OnNext((double)e.NewValue);
         }
-        protected void SetDispatcherAnimationValue<T>(DependencyProperty dp, object value, double duration) where T : AnimationTimeline {
-            this.Dispatcher.BeginInvoke(new Action(() => {
-                var rd = Animation ? duration : 0;
-                var instance = Activator.CreateInstance(typeof(T), new object[] { value, (Duration)TimeSpan.FromMilliseconds(rd) }) as T;
-                this.BeginAnimation(dp, instance);
-            }), System.Windows.Threading.DispatcherPriority.Normal);
+
+        private void BaseObject_OnYChangedEvent(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            _sjYChanged.OnNext((double)e.NewValue);
         }
-        protected object GetDispatcherValue(DependencyProperty dp) {
-            object result = null;
-            try { result = this.Dispatcher.Invoke(() => GetValue(dp), System.Windows.Threading.DispatcherPriority.Normal); } catch {
-                if (Application.Current != null) Application.Current.Shutdown();     /// Exit Gracefully
+
+        private double? _lastx = null;
+        private double? _lasty = null;
+        private void HandleXYChanged(double x, double y) {
+            double? lastx = _lastx;
+            double? lasty = _lasty;
+            _lastx = x;
+            _lasty = y;
+            // Ready. Got all tracks of BaseObject
+            if (lastx == null || lasty == null) return;
+            //Console.WriteLine("LastX: {0}, LastY: {1}, X: {2}, Y: {3}", lastx, lasty, x, y);
+            (this.Parent as Panel).Dispatcher.BeginInvoke( new Action(
+                () => (this.Parent as Panel).Children.Add(
+                    new NormalFootprint() {
+                        X = (double)lastx,
+                        Y = (double)lasty,
+                        TargetX = x,
+                        TargetY = y,
+                        Size = 3,
+                        StartOpacity = 1,
+                        TargetOpacity = 1,
+                    })
+                )
+            );
+        }
+        #endregion "Handle XYChanged"
+
+        #region "Normal Properties"
+
+        #region "FootprintType"
+        private Type _footprintType = null;
+        public Type FootprintType {
+            get { return _footprintType; }
+            set {
+                if (value != null && !value.IsAssignableFrom(typeof(BaseFootprint))) {
+                    throw new ArgumentException("FootprintType type error. Must inherit BaseFootprint.");
+                }
+                _footprintType = value;
             }
-            return result;
         }
-        #endregion "Get / Set Helper"
+        #endregion "FootprintType"
 
-        #region "Dependency Properties"
-
-        #region "Animation"
-        public static readonly DependencyProperty AnimationProperty = DependencyProperty.Register(
-                "Animation", typeof(bool), typeof(BaseObject),
-                new FrameworkPropertyMetadata(false));
-        [Description("Animation on / off."), Category("Source")]
-        public bool Animation {
-            get { return (bool)GetValue(AnimationProperty); }
-            set { SetValue(AnimationProperty, value); }
-        }
-        #endregion "Animation"
-
-        #region "X"
-        public static readonly DependencyProperty XProperty = DependencyProperty.Register(
-                "X", typeof(double), typeof(BaseObject),
-                new FrameworkPropertyMetadata(0.0));
-        [Description("Camera position X."), Category("Source")]
-        public double X {
-            get { return (double)this.GetDispatcherValue(XProperty); }
-            set { this.SetDispatcherAnimationValue<DoubleAnimation>(XProperty, value, 800); }
-        }
-        #endregion "X"
-
-        #region "Y"
-        public static readonly DependencyProperty YProperty = DependencyProperty.Register(
-                "Y", typeof(double), typeof(BaseObject),
-                new FrameworkPropertyMetadata(0.0));
-        [Description("Camera position Y."), Category("Source")]
-        public double Y {
-            get { return (double)this.GetDispatcherValue(YProperty); }
-            set { this.SetDispatcherAnimationValue<DoubleAnimation>(YProperty, value, 800); }
-        }
-        #endregion "Y"
-
-        #region "Angle"
-        public static readonly DependencyProperty AngleProperty = DependencyProperty.Register(
-                "Angle", typeof(double), typeof(BaseObject),
-                new FrameworkPropertyMetadata(0.0));
-        [Description("Camera view angle."), Category("Source")]
-        public virtual double Angle {
-            get { return (double)this.GetDispatcherValue(AngleProperty); }
-            set { this.SetDispatcherAnimationValue<DoubleAnimation>(AngleProperty, value, 1500); }
-        }
-        #endregion "Angle"
-
-        #region "Size"
-        public static readonly DependencyProperty SizeProperty = DependencyProperty.Register(
-                "Size", typeof(double), typeof(BaseObject),
-                new FrameworkPropertyMetadata(1.5,
-                    new PropertyChangedCallback(OnSizeChanged)
-                    ));
-        [Description("Object size."), Category("Source")]
-        public virtual double Size {
-            get { return (double)this.GetDispatcherValue(SizeProperty); }
-            set { this.SetDispatcherAnimationValue<DoubleAnimation>(SizeProperty, value, 600); }
-        }
-        private static void OnSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            BaseObject vm = d as BaseObject;
-            vm.ZIndex = (double)e.NewValue*5 + vm.BaseZIndex;
-        }
-        #endregion "Size"
-
-        #region "ZIndex"
-        public static readonly DependencyProperty ZIndexProperty = DependencyProperty.Register(
-                "ZIndex", typeof(double), typeof(BaseObject),
-                new FrameworkPropertyMetadata(0.0));
-        public double ZIndex {
-            get { return (double)this.GetDispatcherValue(ZIndexProperty); }
-            internal set { this.SetDispatcherValue(ZIndexProperty, value); }
-        }
-        #endregion "ZIndex"
-
-        #endregion "Dependency Properties"
-
+        #endregion "Normal Properties"
     }
 }

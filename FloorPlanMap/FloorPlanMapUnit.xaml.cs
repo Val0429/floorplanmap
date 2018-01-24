@@ -16,9 +16,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using ObjectType = FloorPlanMap.Components.Objects.BaseObject;
+using ObjectType = FloorPlanMap.Components.BaseComponent;
 //using ObjectCollection = System.Collections.ObjectModel.ObservableCollection<FloorPlanMap.Components.Objects.CameraObject>;
-using ObjectCollection = System.Windows.FreezableCollection<FloorPlanMap.Components.Objects.BaseObject>;
+using ObjectCollection = System.Windows.FreezableCollection<FloorPlanMap.Components.BaseComponent>;
 using System.Collections.Specialized;
 
 namespace FloorPlanMap
