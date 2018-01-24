@@ -13,6 +13,9 @@ namespace FloorPlanMap.Components.Footprints {
     public class BaseFootprint : BaseComponent {
         public BaseFootprint() {
             BaseZIndex = -1000;
+            AnimationDurationX = 0;
+            AnimationDurationY = 0;
+            AnimationDurationAngle = 0;
 
             base.Loaded += (object sender, RoutedEventArgs e) => {
                 VisualHeight = (double)FindResource("VisualHeight");
@@ -40,7 +43,7 @@ namespace FloorPlanMap.Components.Footprints {
         [Description("Footprint Target X."), Category("Source")]
         public double TargetX {
             get { return (double)this.GetDispatcherValue(TargetXProperty); }
-            set { this.SetDispatcherAnimationValue<DoubleAnimation>(TargetXProperty, value, 800); }
+            set { this.SetDispatcherAnimationValue<DoubleAnimation>(TargetXProperty, value, AnimationDurationX); }
         }
         private static void OnTargetXChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             BaseFootprint vm = d as BaseFootprint;
@@ -58,7 +61,7 @@ namespace FloorPlanMap.Components.Footprints {
         [Description("Footprint Target Y."), Category("Source")]
         public double TargetY {
             get { return (double)this.GetDispatcherValue(TargetYProperty); }
-            set { this.SetDispatcherAnimationValue<DoubleAnimation>(TargetYProperty, value, 800); }
+            set { this.SetDispatcherAnimationValue<DoubleAnimation>(TargetYProperty, value, AnimationDurationY); }
         }
         private static void OnTargetYChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             BaseFootprint vm = d as BaseFootprint;
@@ -152,7 +155,7 @@ namespace FloorPlanMap.Components.Footprints {
         [Description("Footstep angle."), Category("Source")]
         public new double Angle {
             get { return (double)this.GetDispatcherValue(AngleProperty); }
-            private set { this.SetDispatcherAnimationValue<DoubleAnimation>(AngleProperty, value, 600); }
+            private set { this.SetDispatcherAnimationValue<DoubleAnimation>(AngleProperty, value, AnimationDurationAngle); }
         }
         #endregion "Angle"
 

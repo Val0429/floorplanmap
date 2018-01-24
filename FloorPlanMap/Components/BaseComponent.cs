@@ -55,6 +55,7 @@ namespace FloorPlanMap.Components {
         #endregion "Animation"
 
         #region "X"
+        protected double AnimationDurationX = 800;
         public static readonly DependencyProperty XProperty = DependencyProperty.Register(
                 "X", typeof(double), typeof(BaseComponent),
                 new FrameworkPropertyMetadata(0.0,
@@ -63,7 +64,7 @@ namespace FloorPlanMap.Components {
         [Description("Component position X."), Category("Source")]
         public double X {
             get { return (double)this.GetDispatcherValue(XProperty); }
-            set { this.SetDispatcherAnimationValue<DoubleAnimation>(XProperty, value, 800); }
+            set { this.SetDispatcherAnimationValue<DoubleAnimation>(XProperty, value, AnimationDurationX); }
         }
         private static void OnXChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             BaseComponent vm = d as BaseComponent;
@@ -73,6 +74,7 @@ namespace FloorPlanMap.Components {
         #endregion "X"
 
         #region "Y"
+        protected double AnimationDurationY = 800;
         public static readonly DependencyProperty YProperty = DependencyProperty.Register(
                 "Y", typeof(double), typeof(BaseComponent),
                 new FrameworkPropertyMetadata(0.0,
@@ -81,7 +83,7 @@ namespace FloorPlanMap.Components {
         [Description("Component position Y."), Category("Source")]
         public double Y {
             get { return (double)this.GetDispatcherValue(YProperty); }
-            set { this.SetDispatcherAnimationValue<DoubleAnimation>(YProperty, value, 800); }
+            set { this.SetDispatcherAnimationValue<DoubleAnimation>(YProperty, value, AnimationDurationY); }
         }
         private static void OnYChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             BaseComponent vm = d as BaseComponent;
@@ -91,13 +93,14 @@ namespace FloorPlanMap.Components {
         #endregion "Y"
 
         #region "Angle"
+        protected double AnimationDurationAngle = 1500;
         public static readonly DependencyProperty AngleProperty = DependencyProperty.Register(
                 "Angle", typeof(double), typeof(BaseComponent),
                 new FrameworkPropertyMetadata(0.0));
         [Description("Component angle."), Category("Source")]
         public virtual double Angle {
             get { return (double)this.GetDispatcherValue(AngleProperty); }
-            set { this.SetDispatcherAnimationValue<DoubleAnimation>(AngleProperty, value, 1500); }
+            set { this.SetDispatcherAnimationValue<DoubleAnimation>(AngleProperty, value, AnimationDurationAngle); }
         }
         #endregion "Angle"
 

@@ -49,6 +49,7 @@ namespace FloorPlanMap.Components.Objects {
 
         private double? _lastx = null;
         private double? _lasty = null;
+        private BaseFootprint instance = null;
         private void HandleXYChanged(double x, double y) {
             double? lastx = _lastx;
             double? lasty = _lasty;
@@ -60,16 +61,18 @@ namespace FloorPlanMap.Components.Objects {
             if (_footprintType == null) return;
             (this.Parent as Panel).Dispatcher.BeginInvoke(new Action(
                 () => {
-                    var instance = Activator.CreateInstance(_footprintType) as BaseFootprint;
-                    instance.X = (double)lastx;
-                    instance.Y = (double)lasty;
+                    if (instance == null) {
+                        instance = Activator.CreateInstance(_footprintType) as BaseFootprint;
+                        (this.Parent as Panel).Children.Add(instance);
+                        instance.X = (double)lastx;
+                        instance.Y = (double)lasty;
+                        instance.Size = 3;
+                        instance.StartOpacity = 1;
+                        instance.TargetOpacity = 1;
+                    }
+                    //var instance = Activator.CreateInstance(_footprintType) as BaseFootprint;
                     instance.TargetX = x;
                     instance.TargetY = y;
-                    instance.Size = 3;
-                    instance.StartOpacity = 1;
-                    instance.TargetOpacity = 1;
-
-                    (this.Parent as Panel).Children.Add(instance);
                 }
             ));
         }
