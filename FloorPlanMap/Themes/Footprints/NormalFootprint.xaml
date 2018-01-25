@@ -68,13 +68,13 @@
                         <!-- hint Height for completing a visual -->
                         <sys:Double x:Key="VisualHeight">14.5</sys:Double>
                     </ControlTemplate.Resources>
+                    <!--Fill="{StaticResource FootstepVisualBrush}"-->
                     <Rectangle
                         Width="10"
-                        Fill="{StaticResource FootstepVisualBrush}"
                         Height="{Binding Length, RelativeSource={RelativeSource TemplatedParent}}">
                         <Rectangle.RenderTransform>
                             <TransformGroup>
-                                <ScaleTransform ScaleX="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}"
+                                <ScaleTransform x:Name="BindNESTP" ScaleX="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}"
                                             ScaleY="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}"
                                             CenterX="5" CenterY="0"
                                             />
@@ -84,11 +84,73 @@
                         <Rectangle.OpacityMask>
                             <LinearGradientBrush StartPoint="0.5,1" EndPoint="0.5,0">
                                 <LinearGradientBrush.GradientStops>
-                                    <GradientStop Offset="0" Color="{Binding TargetOpacityColor, RelativeSource={RelativeSource TemplatedParent}}" />
-                                    <GradientStop Offset="{Binding StartOpacityPoint, RelativeSource={RelativeSource TemplatedParent}}" Color="{Binding StartOpacityColor, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    <GradientStop x:Name="BindNETOC" Offset="0" Color="{Binding TargetOpacityColor, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    <GradientStop x:Name="BindNESOP" Offset="{Binding StartOpacityPoint, RelativeSource={RelativeSource TemplatedParent}}" Color="{Binding StartOpacityColor, RelativeSource={RelativeSource TemplatedParent}}" />
                                 </LinearGradientBrush.GradientStops>
                             </LinearGradientBrush>
                         </Rectangle.OpacityMask>
+
+                        <Rectangle.Fill>
+                            <VisualBrush
+                 TileMode="Tile" Viewport="0,0,10,14.5" ViewportUnits="Absolute" Viewbox="0,0,500,727" ViewboxUnits="Absolute">
+                                <VisualBrush.Transform>
+                                    <RotateTransform Angle="180" />
+                                </VisualBrush.Transform>
+                                <VisualBrush.Visual>
+
+                                    <Rectangle Width="500" Height="727">
+                                        <Rectangle.Fill>
+                                            <DrawingBrush>
+                                                <DrawingBrush.Drawing>
+                                                    <DrawingGroup>
+
+                                                        <GeometryDrawing Brush="Transparent">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry Rect="0,0,500,727" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+
+                                                        <DrawingGroup>
+                                                            <DrawingGroup.Transform>
+                                                                <TransformGroup>
+                                                                    <TranslateTransform X="0" Y="-7270" />
+                                                                    <ScaleTransform ScaleX="0.1" ScaleY="-0.1" />
+                                                                </TransformGroup>
+                                                            </DrawingGroup.Transform>
+                                                            <GeometryDrawing>
+                                                                <GeometryDrawing.Brush>
+                                                                    <SolidColorBrush x:Name="BindNEC" Color="{Binding Color, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                                </GeometryDrawing.Brush>
+                                                                <GeometryDrawing.Geometry>
+                                                                    <GeometryGroup>
+                                                                        <PathGeometry Figures="M3477 7208 c-8 -80 -40 -171 -116 -331 -107 -222 -131 -307 -131 -463 0 -238 100 -427 270 -508 113 -54 279 -48 403 15 52 27 178 149 247 239 145 190 307 492 398 740 31 85 112 346 112 362 0 4 -265 8 -589 8 l-588 0 -6 -62z" FillRule="Nonzero" />
+                                                                        <PathGeometry Figures="M1356 5825 c-85 -30 -139 -117 -139 -224 1 -106 42 -178 120 -213 73 -32 145 -6 202 72 85 117 47 306 -72 361 -50 22 -60 22 -111 4z" FillRule="Nonzero" />
+                                                                        <PathGeometry Figures="M844 5771 c-150 -91 -107 -381 60 -408 19 -3 46 -3 60 1 36 9 84 53 106 97 25 48 27 153 4 207 -43 103 -151 151 -230 103z" FillRule="Nonzero" />
+                                                                        <PathGeometry Figures="M1928 5686 c-93 -25 -174 -101 -225 -212 -25 -53 -28 -70 -28 -169 0 -123 15 -170 75 -239 72 -81 190 -105 292 -59 136 62 229 237 215 405 -16 192 -168 319 -329 274z" FillRule="Nonzero" />
+                                                                        <PathGeometry Figures="M390 5594 c-94 -79 -94 -238 -2 -331 145 -145 330 46 238 244 -49 105 -164 147 -236 87z" FillRule="Nonzero" />
+                                                                        <PathGeometry Figures="M100 5314 c-40 -14 -62 -31 -81 -61 -32 -51 -24 -165 14 -220 113 -163 319 -61 263 131 -18 60 -54 109 -95 130 -32 17 -81 26 -101 20z" FillRule="Nonzero" />
+                                                                        <PathGeometry Figures="M950 5260 c-388 -82 -606 -284 -694 -640 -54 -223 -47 -506 20 -810 34 -152 125 -468 170 -589 131 -350 345 -712 526 -888 136 -132 311 -183 469 -134 215 67 342 293 326 578 -7 124 -37 219 -132 418 -92 192 -116 268 -117 365 0 99 20 168 87 294 253 478 203 1072 -110 1304 -149 111 -338 147 -545 102z" FillRule="Nonzero" />
+                                                                        <PathGeometry Figures="M3515 2236 c-73 -45 -115 -155 -95 -251 42 -203 252 -252 336 -79 53 109 25 254 -62 321 -51 39 -125 42 -179 9z" FillRule="Nonzero" />
+                                                                        <PathGeometry Figures="M4030 2205 c-50 -23 -70 -43 -96 -100 -33 -69 -33 -165 -1 -226 60 -113 192 -121 269 -17 120 160 -9 416 -172 343z" FillRule="Nonzero" />
+                                                                        <PathGeometry Figures="M2905 2096 c-194 -90 -220 -403 -50 -585 115 -123 278 -136 383 -31 87 86 116 237 73 378 -60 199 -251 311 -406 238z" FillRule="Nonzero" />
+                                                                        <PathGeometry Figures="M4475 2036 c-106 -49 -156 -200 -102 -306 87 -174 308 -78 307 134 -1 128 -107 218 -205 172z" FillRule="Nonzero" />
+                                                                        <PathGeometry Figures="M4797 1717 c-131 -79 -136 -279 -9 -334 63 -27 152 18 192 98 29 56 27 155 -3 200 -42 62 -113 77 -180 36z" FillRule="Nonzero" />
+                                                                        <PathGeometry Figures="M3688 1676 c-102 -30 -178 -77 -253 -158 -178 -192 -243 -513 -175 -858 28 -139 52 -207 136 -380 55 -114 76 -171 82 -215 l7 -60 591 -3 590 -2 32 127 c102 418 110 716 26 985 -54 172 -129 287 -251 386 -207 168 -554 246 -785 178z" FillRule="Nonzero" />
+                                                                    </GeometryGroup>
+                                                                </GeometryDrawing.Geometry>
+                                                            </GeometryDrawing>
+                                                        </DrawingGroup>
+
+                                                    </DrawingGroup>
+                                                </DrawingBrush.Drawing>
+                                            </DrawingBrush>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Rectangle.Fill>
+                        
                     </Rectangle>
                 </ControlTemplate>
             </Setter.Value>

@@ -12,6 +12,7 @@ using System.Reactive;
 using System.Reactive.Subjects;
 using System.Reactive.Linq;
 using System.Timers;
+using System.Windows.Threading;
 
 namespace FloorPlanMap.Components.Objects {
     public class BaseObject : BaseComponent {
@@ -43,15 +44,14 @@ namespace FloorPlanMap.Components.Objects {
                 _tFootstep.Stop();
             };
 
-            _tFootstep.Elapsed += HandleFootstepFadeOut;
-
+            _tFootstep.Tick += HandleFootstepFadeOut;
         }
 
         #region "Handle Footstep Fade Out"
-        private Timer _tFootstep = new Timer() {
-            Interval = 1000
+        private DispatcherTimer _tFootstep = new DispatcherTimer() {
+            Interval = TimeSpan.FromMilliseconds(1000),
         };
-        private void HandleFootstepFadeOut(object sender, ElapsedEventArgs e) {
+        private void HandleFootstepFadeOut(object sender, EventArgs e) {
             if (_footprints.Count == 0) return;
             double total = _footprintDuration.TotalMilliseconds;
             double opacity = 1;
@@ -62,10 +62,18 @@ namespace FloorPlanMap.Components.Objects {
                 TimeSpan span = DateTime.Now - time;
                 double ms = span.TotalMilliseconds;
 
-                footprint.SetSync(() => {
-                    footprint.TargetOpacity = (double)opacity;
-                    opacity = Math.Max(((total - ms) / total), 0);
-                    footprint.StartOpacity = (double)opacity;
+                /// do target fading
+                if (ms > total && opacity == 1) {
+                    opacity = Math.Max(1 - (ms - total) / total, 0);
+                }
+
+                double targetOpacity = opacity;
+                opacity = Math.Max(((total - ms) / total), 0);
+                double startOpacity = opacity;
+
+                footprint.SetAsync(() => {
+                    footprint.TargetOpacity = targetOpacity;
+                    footprint.StartOpacity = startOpacity;
                 });
             }
             // Remove Faded Steps
@@ -127,7 +135,8 @@ namespace FloorPlanMap.Components.Objects {
                     BaseFootprint instance;
                     BaseFootprint lfp = _footprints.Count == 0 ? null : _footprints.Last().footprint;
                     if (lfp == null || !lfp.AngleMatches((double)lastx, (double)lasty, x, y)) {
-                        instance = Activator.CreateInstance(_footprintType) as BaseFootprint;
+                        //instance = Activator.CreateInstance(_footprintType) as BaseFootprint;
+                        instance = _footprintType.DeepClone();
                         instance.X = (double)lastx;
                         instance.Y = (double)lasty;
                         instance.Size = 3;
@@ -159,15 +168,20 @@ namespace FloorPlanMap.Components.Objects {
         #endregion "FootprintDuration"
 
         #region "FootprintType"
-        private Type _footprintType = null;
-        public Type FootprintType {
+        //private Type _footprintType = null;
+        //public Type FootprintType {
+        //    get { return _footprintType; }
+        //    set {
+        //        if (value != null && !typeof(BaseFootprint).IsAssignableFrom(value)) {
+        //            throw new ArgumentException("FootprintType type error. Must inherit BaseFootprint.");
+        //        }
+        //        _footprintType = value;
+        //    }
+        //}
+        private BaseFootprint _footprintType = null;
+        public BaseFootprint FootprintType {
             get { return _footprintType; }
-            set {
-                if (value != null && !typeof(BaseFootprint).IsAssignableFrom(value)) {
-                    throw new ArgumentException("FootprintType type error. Must inherit BaseFootprint.");
-                }
-                _footprintType = value;
-            }
+            set { _footprintType = value; }
         }
         #endregion "FootprintType"
 

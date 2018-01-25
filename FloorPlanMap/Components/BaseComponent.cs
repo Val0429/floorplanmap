@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using System.Windows.Media.Animation;
 
 namespace FloorPlanMap.Components {
@@ -162,14 +163,18 @@ namespace FloorPlanMap.Components {
     }
 
     public static class BaseComponentHelper {
+        //public static T DeepClone<T>(this T a) {
+        //    using (MemoryStream stream = new MemoryStream()) {
+        //        DataContractSerializer dcs = new DataContractSerializer(typeof(T));
+        //        dcs.WriteObject(stream, a);
+        //        stream.Position = 0;
+        //        return (T)dcs.ReadObject(stream);
+        //    }
+        //}
         public static T DeepClone<T>(this T a) {
-            using (MemoryStream stream = new MemoryStream()) {
-                DataContractSerializer dcs = new DataContractSerializer(typeof(T));
-                dcs.WriteObject(stream, a);
-                stream.Position = 0;
-                return (T)dcs.ReadObject(stream);
-            }
+            return (T)XamlReader.Parse(XamlWriter.Save(a));
         }
+
     }
 
 }

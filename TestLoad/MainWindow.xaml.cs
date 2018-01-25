@@ -187,7 +187,6 @@ namespace TestLoad {
             unit.Objects.Add(obj5);
             new AnimationTick(obj5, 400);
 
-
             var drone1 = new DroneDevice() {
                 X = 750,
                 Y = 150,
@@ -195,7 +194,7 @@ namespace TestLoad {
                 Angle = 45,
                 AnimationDurationX = 5000,
                 AnimationDurationY = 5000,
-                FootprintType = typeof(NormalFootprint),
+                FootprintType = new NormalFootprint() { Color = (Color)ColorConverter.ConvertFromString("Orange") },
                 FootprintDuration = TimeSpan.FromMilliseconds(3000)
             };
             unit.Objects.Add(drone1);
@@ -208,7 +207,7 @@ namespace TestLoad {
                 Angle = 0,
                 AnimationDurationX = 1000,
                 AnimationDurationY = 1000,
-                FootprintType = typeof(NormalFootprint),
+                FootprintType = new NormalFootprint() { Color = (Color)ColorConverter.ConvertFromString("LemonChiffon") },
                 FootprintDuration = TimeSpan.FromMilliseconds(3000),
             };
             unit.Objects.Add(drone2);
@@ -221,7 +220,7 @@ namespace TestLoad {
                 Angle = 0,
                 AnimationDurationX = 1500,
                 AnimationDurationY = 1500,
-                FootprintType = typeof(NormalFootprint),
+                FootprintType = new NormalFootprint() { Color = (Color)ColorConverter.ConvertFromString("Cyan") },
                 FootprintDuration = TimeSpan.FromMilliseconds(3000),
             };
             unit.Objects.Add(drone3);

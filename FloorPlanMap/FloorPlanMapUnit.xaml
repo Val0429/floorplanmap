@@ -13,11 +13,11 @@
     <Viewbox HorizontalAlignment="Center">
         <Canvas x:Name="Main"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
-                                        Width="{Binding Path=MapWidth, ElementName=Background}" Height="{Binding Path=MapHeight, ElementName=Background}"
+                                        Width="{Binding Path=MapWidth, ElementName=ImageBackground}" Height="{Binding Path=MapHeight, ElementName=ImageBackground}"
                 >
 
-            <backgrounds:ImageBackground x:Name="Background" MapSource="{Binding MapSource}"
-                                        Width="{Binding Path=MapWidth, ElementName=Background}" Height="{Binding Path=MapHeight, ElementName=Background}"
+            <backgrounds:ImageBackground x:Name="ImageBackground" MapSource="{Binding MapSource}"
+                                        Width="{Binding Path=MapWidth, ElementName=ImageBackground}" Height="{Binding Path=MapHeight, ElementName=ImageBackground}"
                                         />
             
         </Canvas>
