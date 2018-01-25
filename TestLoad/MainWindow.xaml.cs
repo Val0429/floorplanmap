@@ -26,21 +26,25 @@ namespace TestLoad {
         private static Random r = new Random();
         public AnimationTick(CameraDevice target, double interval) {
             t1.Elapsed += (o, e) => {
-                var seed = r.Next(0, 9);
-                if (seed == 0) {
-                    target.Angle = r.Next(0, 360);
-                }  else if (seed == 1) {
-                    target.Degree = r.NextDouble() * 4 + 0.5;
-                } else if (seed == 2) {
-                    target.Distance = r.NextDouble() * 8 + 1;
-                //} else if (seed == 3) {
-                //    target.Size = r.NextDouble() * 2 + 0.8;
-                } else if (seed == 4) {
-                    target.Selected = !target.Selected;
-                } else {
-                    //target.X = r.Next(50, 1100);
-                    //target.Y = r.Next(50, 500);
-                }
+
+                target.SetAsync(() => {
+                    var seed = r.Next(0, 9);
+                    if (seed == 0) {
+                        target.Angle = r.Next(0, 360);
+                    } else if (seed == 1) {
+                        target.Degree = r.NextDouble() * 4 + 0.5;
+                    } else if (seed == 2) {
+                        target.Distance = r.NextDouble() * 8 + 1;
+                        //} else if (seed == 3) {
+                        //    target.Size = r.NextDouble() * 2 + 0.8;
+                    } else if (seed == 4) {
+                        target.Selected = !target.Selected;
+                    } else {
+                        //target.X = r.Next(50, 1100);
+                        //target.Y = r.Next(50, 500);
+                    }
+                });
+
             };
             t1.Interval = interval;
             t1.Start();
@@ -52,27 +56,31 @@ namespace TestLoad {
         private static Random r = new Random();
         public AnimationDroneTick(DroneDevice target, double interval) {
             t1.Elapsed += (o, e) => {
-                if (target.TakeOff == false) {
-                    var sd = r.Next(0, 3);
-                    if (sd == 0) target.TakeOff = true;
-                    return;
-                }
 
-                var seed = r.Next(0, 10);
-                if (seed == 0) {
-                    target.Angle = r.Next(0, 360);
-                } else if (seed == 1) {
-                    target.Degree = r.NextDouble() * 4 + 0.5;
-                } else if (seed == 2) {
-                    target.Distance = r.NextDouble() * 4 + 1;
-                } else if (seed == 3) {
-                    target.Size = r.NextDouble() * 0.1 + 0.6;
-                } else if (seed == 4) {
-                    target.TakeOff = !target.TakeOff;
-                } else {
-                    target.X = r.Next(50, 1100);
-                    target.Y = r.Next(50, 500);
-                }
+                target.SetAsync(() => {
+                    if (target.TakeOff == false) {
+                        var sd = r.Next(0, 3);
+                        if (sd == 0) target.TakeOff = true;
+                        return;
+                    }
+
+                    var seed = r.Next(0, 10);
+                    if (seed == 0) {
+                        target.Angle = r.Next(0, 360);
+                    } else if (seed == 1) {
+                        target.Degree = r.NextDouble() * 4 + 0.5;
+                    } else if (seed == 2) {
+                        target.Distance = r.NextDouble() * 4 + 1;
+                    } else if (seed == 3) {
+                        target.Size = r.NextDouble() * 0.1 + 0.6;
+                    } else if (seed == 4) {
+                        target.TakeOff = !target.TakeOff;
+                    } else {
+                        target.X = r.Next(50, 1100);
+                        target.Y = r.Next(50, 500);
+                    }
+                });
+
             };
             t1.Interval = interval;
             t1.Start();
@@ -87,19 +95,21 @@ namespace TestLoad {
         private static Random r = new Random();
         public AnimationFootprintTick(NormalFootprint target, double interval) {
             t1.Elapsed += (o, e) => {
-                var seed = r.Next(0, 5);
-                if (seed == 0) {
-                    target.Size = r.Next(1, 16);
-                } else {
-                    target.TargetX = r.Next(200, 900);
-                    target.TargetY = r.Next(100, 600);
-                }
+
+                target.SetAsync(() => {
+                    var seed = r.Next(0, 5);
+                    if (seed == 0) {
+                        target.Size = r.Next(1, 16);
+                    } else {
+                        target.TargetX = r.Next(200, 900);
+                        target.TargetY = r.Next(100, 600);
+                    }
+                });
             };
             t1.Interval = interval;
             t1.Start();
         }
     }
-
 
     public partial class MainWindow : Window {
         public MainWindow() {

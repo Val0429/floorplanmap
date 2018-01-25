@@ -54,7 +54,6 @@ namespace FloorPlanMap.Components.Objects {
         private void HandleFootstepFadeOut(object sender, ElapsedEventArgs e) {
             if (_footprints.Count == 0) return;
             double total = _footprintDuration.TotalMilliseconds;
-            //double? opacity = null;
             double opacity = 1;
             for (var i=_footprints.Count-1; i>=0; i--) {
                 DateTime time = _footprints[i].timestamp;
@@ -63,24 +62,27 @@ namespace FloorPlanMap.Components.Objects {
                 TimeSpan span = DateTime.Now - time;
                 double ms = span.TotalMilliseconds;
 
-                //if (opacity == null) opacity = Math.Min((total*2 - ms) / (total*2), 1);
-
-                footprint.TargetOpacity = (double)opacity;
-                opacity = Math.Max(((total-ms) / total), 0);
-                footprint.StartOpacity = (double)opacity;
+                footprint.SetSync(() => {
+                    footprint.TargetOpacity = (double)opacity;
+                    opacity = Math.Max(((total - ms) / total), 0);
+                    footprint.StartOpacity = (double)opacity;
+                });
             }
             // Remove Faded Steps
             do {
                 FootPrintUnit unit = _footprints.First();
                 BaseFootprint footprint = unit.footprint;
-                //DateTime time = unit.timestamp;
-                //TimeSpan span = DateTime.Now - time;
-                //int ms = (int)span.TotalMilliseconds;
-                //if (ms < total) break;
-                if (footprint.TargetOpacity > 0.05 || footprint.StartOpacity > 0.05) break;
-                (footprint.Parent as Panel).Dispatcher.BeginInvoke(new Action(
-                        () => (footprint.Parent as Panel).Children.Remove(footprint)
-                    ));
+
+                bool shouldBreak = false;
+
+                footprint.SetSync(() => {
+                    if (footprint.TargetOpacity > 0.05 || footprint.StartOpacity > 0.05) {
+                        shouldBreak = true; return;
+                    }
+                    (footprint.Parent as Panel).Children.Remove(footprint);
+                });
+                if (shouldBreak) break;
+
                 _footprints.RemoveAt(0);
 
             } while (_footprints.Count > 0);
@@ -108,9 +110,7 @@ namespace FloorPlanMap.Components.Objects {
         private List<FootPrintUnit> _footprints = new List<FootPrintUnit>();
         private void CleanupFootprints() {
             foreach (FootPrintUnit footprintunit in _footprints) {
-                (footprintunit.footprint.Parent as Panel).Dispatcher.BeginInvoke(new Action(
-                        () => (footprintunit.footprint.Parent as Panel).Children.Remove(footprintunit.footprint)
-                    ));
+                (footprintunit.footprint.Parent as Panel).Children.Remove(footprintunit.footprint);
             }
             _footprints.Clear();
         }

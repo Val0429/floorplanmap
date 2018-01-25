@@ -54,9 +54,7 @@ namespace FloorPlanMap.Components.Footprints {
         private Subject<double> _sjTYChanged = new Subject<double>();
         private void HandleXYChanged(double x, double y) {
             // Calculate Length
-            (Parent as Panel).Dispatcher.BeginInvoke(new Action(
-                () => CalculateLength()
-                ));            
+            this.SetAsync(CalculateLength);
         }
         #endregion "Handle X / Y / TargetX / TargetY Changed For Fluently CalculateLength"
 

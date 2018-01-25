@@ -21,27 +21,44 @@ namespace FloorPlanMap.Components {
         }
 
         #region "Get / Set Helper"
+        public void SetAsync(Action func) {
+            this.Dispatcher.BeginInvoke(func);
+        }
+        public void SetSync(Action func) {
+            this.Dispatcher.Invoke(func);
+        }
+
         protected void SetDispatcherValue(DependencyProperty dp, object value) {
-            this.Dispatcher.BeginInvoke(new Action(() => SetValue(dp, value)), System.Windows.Threading.DispatcherPriority.Normal);
+            //this.Dispatcher.BeginInvoke(new Action(() => SetValue(dp, value)), System.Windows.Threading.DispatcherPriority.Normal);
+            SetValue(dp, value);
         }
         protected void SetDispatcherAnimationValue<T>(DependencyProperty dp, object value, double duration) where T : AnimationTimeline {
-            this.Dispatcher.BeginInvoke(new Action(() => {
-                var rd = Animation ? duration : 0;
-                if (rd != 0) {
-                    var instance = Activator.CreateInstance(typeof(T), new object[] { value, (Duration)TimeSpan.FromMilliseconds(rd) }) as T;
-                    this.BeginAnimation(dp, instance);
-                } else {
-                    SetValue(dp, value);
-                }
-            }), System.Windows.Threading.DispatcherPriority.Normal);
+            //this.Dispatcher.BeginInvoke(new Action(() => {
+            //    var rd = Animation ? duration : 0;
+            //    if (rd != 0) {
+            //        var instance = Activator.CreateInstance(typeof(T), new object[] { value, (Duration)TimeSpan.FromMilliseconds(rd) }) as T;
+            //        this.BeginAnimation(dp, instance);
+            //    } else {
+            //        SetValue(dp, value);
+            //    }
+            //}), System.Windows.Threading.DispatcherPriority.Normal);
+
+            var rd = Animation ? duration : 0;
+            if (rd != 0) {
+                var instance = Activator.CreateInstance(typeof(T), new object[] { value, (Duration)TimeSpan.FromMilliseconds(rd) }) as T;
+                this.BeginAnimation(dp, instance);
+            } else {
+                SetValue(dp, value);
+            }
         }
         protected object GetDispatcherValue(DependencyProperty dp) {
-            object result = null;
-            try { result = this.Dispatcher.Invoke(() => GetValue(dp), System.Windows.Threading.DispatcherPriority.Normal); }
-            catch {
-                if (Application.Current != null) Application.Current.Shutdown();     /// Exit Gracefully
-            }
-            return result;
+            //object result = null;
+            //try { result = this.Dispatcher.Invoke(() => GetValue(dp), System.Windows.Threading.DispatcherPriority.Normal); }
+            //catch {
+            //    if (Application.Current != null) Application.Current.Shutdown();     /// Exit Gracefully
+            //}
+            //return result;
+            return GetValue(dp);
         }
         #endregion "Get / Set Helper"
 
