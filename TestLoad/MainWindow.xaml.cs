@@ -64,7 +64,7 @@ namespace TestLoad {
                         return;
                     }
 
-                    var seed = r.Next(0, 10);
+                    var seed = r.Next(0, 30);
                     if (seed == 0) {
                         target.Angle = r.Next(0, 360);
                     } else if (seed == 1) {
@@ -193,6 +193,8 @@ namespace TestLoad {
                 Y = 150,
                 Size = 0.8,
                 Angle = 45,
+                AnimationDurationX = 5000,
+                AnimationDurationY = 5000,
                 FootprintType = typeof(NormalFootprint),
                 FootprintDuration = TimeSpan.FromMilliseconds(3000)
             };
@@ -204,6 +206,8 @@ namespace TestLoad {
                 Y = 200,
                 Size = 1,
                 Angle = 0,
+                AnimationDurationX = 1000,
+                AnimationDurationY = 1000,
                 FootprintType = typeof(NormalFootprint),
                 FootprintDuration = TimeSpan.FromMilliseconds(3000),
             };
@@ -215,6 +219,8 @@ namespace TestLoad {
                 Y = 200,
                 Size = 1,
                 Angle = 0,
+                AnimationDurationX = 1500,
+                AnimationDurationY = 1500,
                 FootprintType = typeof(NormalFootprint),
                 FootprintDuration = TimeSpan.FromMilliseconds(3000),
             };

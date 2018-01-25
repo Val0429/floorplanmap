@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,7 +27,10 @@ namespace FloorPlanMap.Components {
             this.Dispatcher.BeginInvoke(func);
         }
         public void SetSync(Action func) {
-            this.Dispatcher.Invoke(func);
+            try {
+                this.Dispatcher.Invoke(func);
+            }
+            catch { }
         }
 
         protected void SetDispatcherValue(DependencyProperty dp, object value) {
@@ -76,7 +81,7 @@ namespace FloorPlanMap.Components {
         #endregion "Animation"
 
         #region "X"
-        protected double AnimationDurationX = 800;
+        public double AnimationDurationX = 800;
         public static readonly DependencyProperty XProperty = DependencyProperty.Register(
                 "X", typeof(double), typeof(BaseComponent),
                 new FrameworkPropertyMetadata(0.0,
@@ -95,7 +100,7 @@ namespace FloorPlanMap.Components {
         #endregion "X"
 
         #region "Y"
-        protected double AnimationDurationY = 800;
+        public double AnimationDurationY = 800;
         public static readonly DependencyProperty YProperty = DependencyProperty.Register(
                 "Y", typeof(double), typeof(BaseComponent),
                 new FrameworkPropertyMetadata(0.0,
@@ -114,7 +119,7 @@ namespace FloorPlanMap.Components {
         #endregion "Y"
 
         #region "Angle"
-        protected double AnimationDurationAngle = 1500;
+        public double AnimationDurationAngle = 1500;
         public static readonly DependencyProperty AngleProperty = DependencyProperty.Register(
                 "Angle", typeof(double), typeof(BaseComponent),
                 new FrameworkPropertyMetadata(0.0));
@@ -155,4 +160,16 @@ namespace FloorPlanMap.Components {
 
         #endregion "Dependency Properties"
     }
+
+    public static class BaseComponentHelper {
+        public static T DeepClone<T>(this T a) {
+            using (MemoryStream stream = new MemoryStream()) {
+                DataContractSerializer dcs = new DataContractSerializer(typeof(T));
+                dcs.WriteObject(stream, a);
+                stream.Position = 0;
+                return (T)dcs.ReadObject(stream);
+            }
+        }
+    }
+
 }
