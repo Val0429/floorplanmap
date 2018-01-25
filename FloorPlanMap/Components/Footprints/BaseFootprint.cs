@@ -47,7 +47,7 @@ namespace FloorPlanMap.Components.Footprints {
         #endregion "VisualHeight"
         #endregion "Normal Properties"
 
-        #region "Handle X / Y / TargetX / TargetY Changed"
+        #region "Handle X / Y / TargetX / TargetY Changed For Fluently CalculateLength"
         private Subject<double> _sjXChanged = new Subject<double>();
         private Subject<double> _sjYChanged = new Subject<double>();
         private Subject<double> _sjTXChanged = new Subject<double>();
@@ -58,7 +58,7 @@ namespace FloorPlanMap.Components.Footprints {
                 () => CalculateLength()
                 ));            
         }
-        #endregion "Handle TargetX / TargetY Changed"
+        #endregion "Handle X / Y / TargetX / TargetY Changed For Fluently CalculateLength"
 
         #region "Dependency Properties"
 
@@ -235,12 +235,11 @@ namespace FloorPlanMap.Components.Footprints {
             var dy = TargetY - Y;
             var dtx = targetx - x;
             var dty = targety - y;
-            Console.WriteLine("Match? {0} , {1}", Math.Atan2(dy, dx), Math.Atan2(dty, dtx));
 
             var val1 = Math.Atan2(dy, dx);
             var val2 = Math.Atan2(dty, dtx);
             if (val1 == 0 && val2 == 0) return true;
-            if (Math.Abs((val1 - val2) / (val1 == 0 ? val2 : val1)) < 0.01) return true;
+            if (Math.Abs((val1 - val2) / (val1 == 0 ? val2 : val1)) < 0.001) return true;
             else return false;
         }
         #endregion "Public Helper"

@@ -27,8 +27,12 @@ namespace FloorPlanMap.Components {
         protected void SetDispatcherAnimationValue<T>(DependencyProperty dp, object value, double duration) where T : AnimationTimeline {
             this.Dispatcher.BeginInvoke(new Action(() => {
                 var rd = Animation ? duration : 0;
-                var instance = Activator.CreateInstance(typeof(T), new object[] { value, (Duration)TimeSpan.FromMilliseconds(rd) }) as T;
-                this.BeginAnimation(dp, instance);
+                if (rd != 0) {
+                    var instance = Activator.CreateInstance(typeof(T), new object[] { value, (Duration)TimeSpan.FromMilliseconds(rd) }) as T;
+                    this.BeginAnimation(dp, instance);
+                } else {
+                    SetValue(dp, value);
+                }
             }), System.Windows.Threading.DispatcherPriority.Normal);
         }
         protected object GetDispatcherValue(DependencyProperty dp) {

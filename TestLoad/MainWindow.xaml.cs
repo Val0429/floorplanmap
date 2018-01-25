@@ -52,11 +52,11 @@ namespace TestLoad {
         private static Random r = new Random();
         public AnimationDroneTick(DroneDevice target, double interval) {
             t1.Elapsed += (o, e) => {
-                //if (target.TakeOff == false) {
-                //    var sd = r.Next(0, 3);
-                //    if (sd == 0) target.TakeOff = true;
-                //    return;
-                //}
+                if (target.TakeOff == false) {
+                    var sd = r.Next(0, 3);
+                    if (sd == 0) target.TakeOff = true;
+                    return;
+                }
 
                 var seed = r.Next(0, 10);
                 if (seed == 0) {
@@ -67,8 +67,8 @@ namespace TestLoad {
                     target.Distance = r.NextDouble() * 4 + 1;
                 } else if (seed == 3) {
                     target.Size = r.NextDouble() * 0.1 + 0.6;
-                //} else if (seed == 4) {
-                //    target.TakeOff = !target.TakeOff;
+                } else if (seed == 4) {
+                    target.TakeOff = !target.TakeOff;
                 } else {
                     target.X = r.Next(50, 1100);
                     target.Y = r.Next(50, 500);
@@ -183,6 +183,8 @@ namespace TestLoad {
                 Y = 150,
                 Size = 0.8,
                 Angle = 45,
+                FootprintType = typeof(NormalFootprint),
+                FootprintDuration = TimeSpan.FromMilliseconds(3000)
             };
             unit.Objects.Add(drone1);
             new AnimationDroneTick(drone1, 5000);
@@ -192,6 +194,8 @@ namespace TestLoad {
                 Y = 200,
                 Size = 1,
                 Angle = 0,
+                FootprintType = typeof(NormalFootprint),
+                FootprintDuration = TimeSpan.FromMilliseconds(3000),
             };
             unit.Objects.Add(drone2);
             new AnimationDroneTick(drone2, 1000);
@@ -201,57 +205,57 @@ namespace TestLoad {
                 Y = 200,
                 Size = 1,
                 Angle = 0,
-                TakeOff = true,
-                FootprintType = typeof(NormalFootprint)
+                FootprintType = typeof(NormalFootprint),
+                FootprintDuration = TimeSpan.FromMilliseconds(3000),
             };
             unit.Objects.Add(drone3);
             var adt = new AnimationDroneTick(drone3, 1500);
 
-            var t = new Timer();
-            t.Elapsed += (object sender, ElapsedEventArgs e) => {
-                t.Stop();
-                adt.Stop();
-                unit.Dispatcher.BeginInvoke(new Action(
-                    () => unit.Objects.Remove(drone3)
-                    ));
+            //var t = new Timer();
+            //t.Elapsed += (object sender, ElapsedEventArgs e) => {
+            //    t.Stop();
+            //    adt.Stop();
+            //    unit.Dispatcher.BeginInvoke(new Action(
+            //        () => unit.Objects.Remove(drone3)
+            //        ));
                 
-            };
-            t.Interval = 20000;
-            t.Start();
+            //};
+            //t.Interval = 20000;
+            //t.Start();
 
 
-            NormalFootprint fp = new NormalFootprint() {
-                X = 100, Y = 100,
-                TargetX = 400, TargetY = 500,
-                Size = 5,
-                StartOpacity = 0.1,
-                StartOpacityPoint = 0.3,
-                TargetOpacity = 0.3,
-            };
-            unit.Objects.Add(fp);
+            //NormalFootprint fp = new NormalFootprint() {
+            //    X = 100, Y = 100,
+            //    TargetX = 400, TargetY = 500,
+            //    Size = 5,
+            //    StartOpacity = 0.1,
+            //    StartOpacityPoint = 0.3,
+            //    TargetOpacity = 0.3,
+            //};
+            //unit.Objects.Add(fp);
             //new AnimationFootprintTick(fp, 1000);
 
-            NormalFootprint fp2 = new NormalFootprint() {
-                X = 400,
-                Y = 500,
-                TargetX = 800,
-                TargetY = 200,
-                Size = 5,
-                StartOpacity = 0.3,
-                TargetOpacity = 0.8,
-            };
-            unit.Objects.Add(fp2);
+            //NormalFootprint fp2 = new NormalFootprint() {
+            //    X = 400,
+            //    Y = 500,
+            //    TargetX = 800,
+            //    TargetY = 200,
+            //    Size = 5,
+            //    StartOpacity = 0.3,
+            //    TargetOpacity = 0.8,
+            //};
+            //unit.Objects.Add(fp2);
 
-            NormalFootprint fp3 = new NormalFootprint() {
-                X = 800,
-                Y = 200,
-                TargetX = 1000,
-                TargetY = 300,
-                Size = 5,
-                StartOpacity = 0.8,
-                TargetOpacity = 1,
-            };
-            unit.Objects.Add(fp3);
+            //NormalFootprint fp3 = new NormalFootprint() {
+            //    X = 800,
+            //    Y = 200,
+            //    TargetX = 1000,
+            //    TargetY = 300,
+            //    Size = 5,
+            //    StartOpacity = 0.8,
+            //    TargetOpacity = 1,
+            //};
+            //unit.Objects.Add(fp3);
             
             this.Container.Children.Add(unit);
 
