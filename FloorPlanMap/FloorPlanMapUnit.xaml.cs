@@ -33,11 +33,51 @@ namespace FloorPlanMap
             SetValue(ObjectsProperty, collection);
         }
 
+        private Point lastMousePos = new Point(0, 0);
         protected override void OnMouseWheel(MouseWheelEventArgs e) {
-            Console.WriteLine(e.Delta);
+            Point position = e.GetPosition(this);
+
+            if (e.Delta > 0) ZoomScale *= 1.1;
+            if (e.Delta < 0 && ZoomScale > 1) ZoomScale /= 1.1;
+
+            if (lastMousePos.X != position.X || lastMousePos.Y != position.Y) {
+                ScaleCenterX += (position.X - ScaleCenterX) / ZoomScale;
+                ScaleCenterY += (position.Y - ScaleCenterY) / ZoomScale;
+                lastMousePos = position;
+            }
         }
 
         #region "Dependency Properties"
+
+        #region "ZoomScale"
+        public static readonly DependencyProperty ZoomScaleProperty = DependencyProperty.Register(
+                "ZoomScale", typeof(double), typeof(FloorPlanMapUnit), new PropertyMetadata(1.0));
+        [Description("Zoom Scale."), Category("Source")]
+        public double ZoomScale {
+            get { return (double)GetValue(ZoomScaleProperty); }
+            set { SetValue(ZoomScaleProperty, value); }
+        }
+        #endregion "ZoomScale"
+
+        #region "ScaleCenterX"
+        public static readonly DependencyProperty ScaleCenterXProperty = DependencyProperty.Register(
+                "ScaleCenterX", typeof(double), typeof(FloorPlanMapUnit), new PropertyMetadata(0.0));
+        [Description("Scale Center X."), Category("Source")]
+        public double ScaleCenterX {
+            get { return (double)GetValue(ScaleCenterXProperty); }
+            set { SetValue(ScaleCenterXProperty, value); }
+        }
+        #endregion "ScaleCenterX"
+
+        #region "ScaleCenterY"
+        public static readonly DependencyProperty ScaleCenterYProperty = DependencyProperty.Register(
+                "ScaleCenterY", typeof(double), typeof(FloorPlanMapUnit), new PropertyMetadata(0.0));
+        [Description("Scale Center Y."), Category("Source")]
+        public double ScaleCenterY {
+            get { return (double)GetValue(ScaleCenterYProperty); }
+            set { SetValue(ScaleCenterYProperty, value); }
+        }
+        #endregion "ScaleCenterY"
 
         #region "MainSource"
         public static readonly DependencyProperty MapSourceProperty = DependencyProperty.Register(

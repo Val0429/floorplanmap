@@ -10,11 +10,11 @@
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              >
 
-    <Viewbox HorizontalAlignment="Center">
+    <Viewbox x:Name="Border"
+             HorizontalAlignment="Center">
         <Viewbox.RenderTransform>
             <TransformGroup>
-                <TranslateTransform X="-100" Y="-100" />
-                <ScaleTransform ScaleX="2" ScaleY="2" />
+                <ScaleTransform ScaleX="{Binding ZoomScale}" ScaleY="{Binding ZoomScale}" CenterX="{Binding ScaleCenterX}" CenterY="{Binding ScaleCenterY}" />
             </TransformGroup>
         </Viewbox.RenderTransform>
         
