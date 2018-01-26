@@ -33,6 +33,10 @@ namespace FloorPlanMap
             SetValue(ObjectsProperty, collection);
         }
 
+        protected override void OnMouseWheel(MouseWheelEventArgs e) {
+            Console.WriteLine(e.Delta);
+        }
+
         #region "Dependency Properties"
 
         #region "MainSource"

@@ -11,6 +11,13 @@
              >
 
     <Viewbox HorizontalAlignment="Center">
+        <Viewbox.RenderTransform>
+            <TransformGroup>
+                <TranslateTransform X="-100" Y="-100" />
+                <ScaleTransform ScaleX="2" ScaleY="2" />
+            </TransformGroup>
+        </Viewbox.RenderTransform>
+        
         <Canvas x:Name="Main"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                         Width="{Binding Path=MapWidth, ElementName=ImageBackground}" Height="{Binding Path=MapHeight, ElementName=ImageBackground}"
