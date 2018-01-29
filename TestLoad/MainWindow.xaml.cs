@@ -115,8 +115,10 @@ namespace TestLoad {
         public MainWindow() {
             InitializeComponent();
 
-            FloorPlanMap.FloorPlanMapUnit unit = new FloorPlanMap.FloorPlanMapUnit();
-            unit.MapSource = ".\\Resources\\FloorPlan.png";
+            FloorPlanMap.FloorPlanMapUnit unit = new FloorPlanMap.FloorPlanMapUnit() {
+                MapSource = ".\\Resources\\FloorPlan.png",
+                MaxZoomLevel = 20,
+            };
 
             //var obj1 = new FloorPlanMap.Components.Objects.CameraObject() {
             //    X = 220,

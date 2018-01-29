@@ -39,11 +39,14 @@ namespace FloorPlanMap
         protected override void OnMouseWheel(MouseWheelEventArgs e) {
             Point position = e.GetPosition(this);
 
+            int newZoomLevel = 0;
             if (e.Delta > 0) {
-                _zoomLevel = Math.Min(_zoomLevel + 1, MaxZoomLevel);
+                newZoomLevel = Math.Min(_zoomLevel + 1, MaxZoomLevel);
             } else if (e.Delta < 0) {
-                _zoomLevel = Math.Max(_zoomLevel - 1, 1);
+                newZoomLevel = Math.Max(_zoomLevel - 1, 1);
             }
+            if (newZoomLevel == _zoomLevel) return;
+            _zoomLevel = newZoomLevel;
             ZoomScale = Math.Pow(_zoomRatio, _zoomLevel-1);
 
             if (lastMousePos.X != position.X || lastMousePos.Y != position.Y) {
@@ -77,8 +80,6 @@ namespace FloorPlanMap
             scx = Math.Min(Math.Max(scx, 0), Border.ActualWidth);
             var scy = ScaleCenterY - (pos.Y - dragLastPosition.Value.Y) / scale;
             scy = Math.Min(Math.Max(scy, 0), Border.ActualHeight);
-
-            Console.WriteLine("{0} {1} {2}", scale, scx, pos.X);
 
             dragLastPosition = pos;
 
