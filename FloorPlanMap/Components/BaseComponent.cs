@@ -52,8 +52,7 @@ namespace FloorPlanMap.Components {
             var rd = Animation ? duration : 0;
             if (rd != 0) {
                 var instance = Activator.CreateInstance(typeof(T), new object[] { value, (Duration)TimeSpan.FromMilliseconds(rd) }) as T;
-                this.BeginAnimation(dp, null, HandoffBehavior.Compose);
-                this.BeginAnimation(dp, instance, HandoffBehavior.Compose);
+                this.BeginAnimation(dp, instance);
             } else {
                 this.BeginAnimation(dp, null);
                 SetValue(dp, value);
