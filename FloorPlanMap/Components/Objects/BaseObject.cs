@@ -48,8 +48,9 @@ namespace FloorPlanMap.Components.Objects {
         }
 
         #region "Handle Footstep Fade Out"
+        private static readonly double _timerInterval = 1000;
         private DispatcherTimer _tFootstep = new DispatcherTimer() {
-            Interval = TimeSpan.FromMilliseconds(1000),
+            Interval = TimeSpan.FromMilliseconds(_timerInterval),
         };
         private void HandleFootstepFadeOut(object sender, EventArgs e) {
             if (_footprints.Count == 0) return;
@@ -65,10 +66,12 @@ namespace FloorPlanMap.Components.Objects {
                 TimeSpan spet = DateTime.Now - et;
                 double mset = spet.TotalMilliseconds;
 
-                double startopacity = Math.Max((total - msst) / total, 0);
-                double targetopacity = Math.Max((total - mset) / total, 0);
+                double dimsst = total - msst;
+                double dimset = total - mset;
+                double startopacity = Math.Max(dimsst / total, 0);
+                double targetopacity = Math.Max(dimset / total, 0);
 
-                if (targetopacity == 0 && startopacity == 0) {
+                if (dimsst < -(_timerInterval*2) && dimset < -(_timerInterval*2)) {
                     _footprints.RemoveAt(i);
                     footprint.SetAsync(() => (footprint.Parent as Panel).Children.Remove(footprint));
                 } else {
