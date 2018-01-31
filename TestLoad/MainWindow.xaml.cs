@@ -148,7 +148,10 @@ namespace TestLoad {
                 Y = 321,
                 Angle = 0,
                 Size = 1,
-                Distance = 1.6
+                Distance = 1.6,
+            };
+            obj1.MouseDown += (object sender, MouseButtonEventArgs e) => {
+                Console.WriteLine("Got1");
             };
             unit.Objects.Add(obj1);
             new AnimationTick(obj1, 500);
@@ -159,6 +162,9 @@ namespace TestLoad {
                 Size = 1,
                 Angle = 90,
             };
+            obj2.MouseDown += (object sender, MouseButtonEventArgs e) => {
+                Console.WriteLine("Got2");
+            };
             unit.Objects.Add(obj2);
             new AnimationTick(obj2, 800);
 
@@ -167,6 +173,9 @@ namespace TestLoad {
                 Y = 152,
                 Size = 1,
                 Angle = 0,
+            };
+            obj3.MouseDown += (object sender, MouseButtonEventArgs e) => {
+                Console.WriteLine("Got3");
             };
             unit.Objects.Add(obj3);
             new AnimationTick(obj3, 400);
@@ -177,6 +186,9 @@ namespace TestLoad {
                 Size = 1,
                 Angle = 0,
             };
+            obj4.MouseDown += (object sender, MouseButtonEventArgs e) => {
+                Console.WriteLine("Got4");
+            };
             unit.Objects.Add(obj4);
             new AnimationTick(obj4, 300);
 
@@ -185,6 +197,9 @@ namespace TestLoad {
                 Y = 513,
                 Size = 1,
                 Angle = 0,
+            };
+            obj5.MouseDown += (object sender, MouseButtonEventArgs e) => {
+                Console.WriteLine("Got5");
             };
             unit.Objects.Add(obj5);
             new AnimationTick(obj5, 400);

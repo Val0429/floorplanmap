@@ -56,7 +56,7 @@ namespace FloorPlanMap.Components.Objects {
             double total = _footprintDuration.TotalMilliseconds;
             double opacity = 1;
             for (var i=_footprints.Count-1; i>=0; i--) {
-                DateTime time = _footprints[i].timestamp;
+                DateTime time = _footprints[i].createtimestamp;
                 BaseFootprint footprint = _footprints[i].footprint;
 
                 TimeSpan span = DateTime.Now - time;
@@ -97,7 +97,7 @@ namespace FloorPlanMap.Components.Objects {
         }
         #endregion "Handle Footstep Fade Out"
 
-        #region "Handle XYChanged"
+        #region "Handle XYChanged - Extend or create new footprint"
         private Subject<double> _sjXChanged = new Subject<double>();
         private Subject<double> _sjYChanged = new Subject<double>();
 
@@ -111,9 +111,10 @@ namespace FloorPlanMap.Components.Objects {
 
         private double? _lastx = null;
         private double? _lasty = null;
-        private struct FootPrintUnit {
-            public DateTime timestamp;
-            public BaseFootprint footprint;
+        private class FootPrintUnit {
+            public DateTime createtimestamp { get; set; }
+            public DateTime modifytimestamp { get; set; }
+            public BaseFootprint footprint { get; set; }
         }
         private List<FootPrintUnit> _footprints = new List<FootPrintUnit>();
         private void CleanupFootprints() {
@@ -133,7 +134,8 @@ namespace FloorPlanMap.Components.Objects {
             (this.Parent as Panel).Dispatcher.BeginInvoke(new Action(
                 () => {
                     BaseFootprint instance;
-                    BaseFootprint lfp = _footprints.Count == 0 ? null : _footprints.Last().footprint;
+                    FootPrintUnit lfpu = _footprints.Count == 0 ? null : _footprints.Last();
+                    BaseFootprint lfp = lfpu == null ? null : lfpu.footprint;
                     if (lfp == null || !lfp.AngleMatches((double)lastx, (double)lasty, x, y)) {
                         //instance = Activator.CreateInstance(_footprintType) as BaseFootprint;
                         instance = _footprintType.DeepClone();
@@ -143,19 +145,21 @@ namespace FloorPlanMap.Components.Objects {
                         instance.StartOpacity = 1;
                         instance.TargetOpacity = 1;
                         _footprints.Add(new FootPrintUnit() {
-                            timestamp = DateTime.Now,
+                            createtimestamp = DateTime.Now,
+                            modifytimestamp = DateTime.Now,
                             footprint = instance
                         });
                         (this.Parent as Panel).Children.Add(instance);
                     } else {
                         instance = lfp;
+                        lfpu.modifytimestamp = DateTime.Now;
                     }
                     instance.TargetX = x;
                     instance.TargetY = y;
                 }
             ));
         }
-        #endregion "Handle XYChanged"
+        #endregion "Handle XYChanged - Extend or create new footprint"
 
         #region "Normal Properties"
 

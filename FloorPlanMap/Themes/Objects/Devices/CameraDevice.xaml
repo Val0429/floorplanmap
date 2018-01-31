@@ -335,7 +335,7 @@
                         </Rectangle>
 
                         <!-- Light -->
-                        <Rectangle Width="100" Height="100" Canvas.Top="50" Canvas.Left="0" RenderTransformOrigin="0.5,0">
+                        <Rectangle Width="100" Height="100" Canvas.Top="50" Canvas.Left="0" RenderTransformOrigin="0.5,0" IsHitTestVisible="False">
                             <Rectangle.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform ScaleX="{Binding Degree, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding Distance, RelativeSource={RelativeSource TemplatedParent}}" />

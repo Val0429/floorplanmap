@@ -401,7 +401,7 @@
                         </Rectangle>
 
                         <!-- Light -->
-                        <Rectangle x:Name="Light" Width="100" Height="100" Canvas.Top="66" Canvas.Left="0" RenderTransformOrigin="0.5,0" Opacity="1">
+                        <Rectangle x:Name="Light" Width="100" Height="100" Canvas.Top="66" Canvas.Left="0" RenderTransformOrigin="0.5,0" Opacity="1" IsHitTestVisible="False">
                             <Rectangle.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform ScaleX="{Binding Degree, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding Distance, RelativeSource={RelativeSource TemplatedParent}}" />
