@@ -54,46 +54,30 @@ namespace FloorPlanMap.Components.Objects {
         private void HandleFootstepFadeOut(object sender, EventArgs e) {
             if (_footprints.Count == 0) return;
             double total = _footprintDuration.TotalMilliseconds;
-            double opacity = 1;
+
             for (var i=_footprints.Count-1; i>=0; i--) {
-                DateTime time = _footprints[i].createtimestamp;
+                DateTime st = _footprints[i].createtimestamp;
+                DateTime et = _footprints[i].modifytimestamp;
                 BaseFootprint footprint = _footprints[i].footprint;
 
-                TimeSpan span = DateTime.Now - time;
-                double ms = span.TotalMilliseconds;
+                TimeSpan spst = DateTime.Now - st;
+                double msst = spst.TotalMilliseconds;
+                TimeSpan spet = DateTime.Now - et;
+                double mset = spet.TotalMilliseconds;
 
-                /// do target fading
-                if (ms > total && opacity == 1) {
-                    opacity = Math.Max(1 - (ms - total) / total, 0);
+                double startopacity = Math.Max((total - msst) / total, 0);
+                double targetopacity = Math.Max((total - mset) / total, 0);
+
+                if (targetopacity < 0.05 && startopacity < 0.05) {
+                    _footprints.RemoveAt(i);
+                    footprint.SetAsync(() => (footprint.Parent as Panel).Children.Remove(footprint));
+                } else {
+                    footprint.SetAsync(() => {
+                        footprint.TargetOpacity = targetopacity;
+                        footprint.StartOpacity = startopacity;
+                    });
                 }
-
-                double targetOpacity = opacity;
-                opacity = Math.Max(((total - ms) / total), 0);
-                double startOpacity = opacity;
-
-                footprint.SetAsync(() => {
-                    footprint.TargetOpacity = targetOpacity;
-                    footprint.StartOpacity = startOpacity;
-                });
             }
-            // Remove Faded Steps
-            do {
-                FootPrintUnit unit = _footprints.First();
-                BaseFootprint footprint = unit.footprint;
-
-                bool shouldBreak = false;
-
-                footprint.SetSync(() => {
-                    if (footprint.TargetOpacity > 0.05 || footprint.StartOpacity > 0.05) {
-                        shouldBreak = true; return;
-                    }
-                    (footprint.Parent as Panel).Children.Remove(footprint);
-                });
-                if (shouldBreak) break;
-
-                _footprints.RemoveAt(0);
-
-            } while (_footprints.Count > 0);
         }
         #endregion "Handle Footstep Fade Out"
 
