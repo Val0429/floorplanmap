@@ -120,18 +120,11 @@ namespace FloorPlanMap.Components.Footprints {
         #region "StartOpacity"
         public static readonly DependencyProperty StartOpacityProperty = DependencyProperty.Register(
                 "StartOpacity", typeof(double), typeof(BaseFootprint),
-                new FrameworkPropertyMetadata(1.0,
-                    new PropertyChangedCallback(OnStartOpacityChanged)
-                    ));
+                new FrameworkPropertyMetadata(1.0));
         [Description("Footprint Start Opacity."), Category("Source")]
         public double StartOpacity {
             get { return (double)this.GetDispatcherValue(StartOpacityProperty); }
             set { this.SetDispatcherAnimationValue<DoubleAnimation>(StartOpacityProperty, value, 800); }
-        }
-        private static void OnStartOpacityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            NormalFootprint vm = d as NormalFootprint;
-            byte opacity = (byte)((double)e.NewValue * 255);
-            vm.StartOpacityColor = Color.FromArgb(opacity, 0, 0, 0);
         }
         #endregion "StartOpacity"
 
@@ -149,18 +142,11 @@ namespace FloorPlanMap.Components.Footprints {
         #region "TargetOpacity"
         public static readonly DependencyProperty TargetOpacityProperty = DependencyProperty.Register(
                 "TargetOpacity", typeof(double), typeof(BaseFootprint),
-                new FrameworkPropertyMetadata(1.0,
-                    new PropertyChangedCallback(OnTargetOpacityChanged)
-                    ));
+                new FrameworkPropertyMetadata(1.0));
         [Description("Footprint Target Opacity."), Category("Source")]
         public double TargetOpacity {
             get { return (double)this.GetDispatcherValue(TargetOpacityProperty); }
             set { this.SetDispatcherAnimationValue<DoubleAnimation>(TargetOpacityProperty, value, 800); }
-        }
-        private static void OnTargetOpacityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            BaseFootprint vm = d as BaseFootprint;
-            byte opacity = (byte)((double)e.NewValue * 255);
-            vm.TargetOpacityColor = Color.FromArgb(opacity, 0, 0, 0);
         }
         #endregion "TargetOpacity"
 
@@ -186,28 +172,6 @@ namespace FloorPlanMap.Components.Footprints {
             private set { this.SetDispatcherAnimationValue<DoubleAnimation>(AngleProperty, value, AnimationDurationAngle); }
         }
         #endregion "Angle"
-
-        #region "StartOpacityColor"
-        private static readonly DependencyProperty StartOpacityColorProperty = DependencyProperty.Register(
-                "StartOpacityColor", typeof(Color), typeof(BaseFootprint),
-                new FrameworkPropertyMetadata(Color.FromRgb(0, 0, 0)));
-        [Description("Footprint Start Opacity Color."), Category("Source")]
-        public Color StartOpacityColor {
-            get { return (Color)this.GetDispatcherValue(StartOpacityColorProperty); }
-            private set { this.SetDispatcherValue(StartOpacityColorProperty, value); }
-        }
-        #endregion "StartOpacityColor"
-
-        #region "TargetOpacityColor"
-        private static readonly DependencyProperty TargetOpacityColorProperty = DependencyProperty.Register(
-                "TargetOpacityColor", typeof(Color), typeof(BaseFootprint),
-                new FrameworkPropertyMetadata(Color.FromRgb(0, 0, 0)));
-        [Description("Footprint Target Opacity Color."), Category("Source")]
-        public Color TargetOpacityColor {
-            get { return (Color)this.GetDispatcherValue(TargetOpacityColorProperty); }
-            private set { this.SetDispatcherValue(TargetOpacityColorProperty, value); }
-        }
-        #endregion "TargetOpacityColor"
 
         #endregion "Private Properties"
 

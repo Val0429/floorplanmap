@@ -68,7 +68,7 @@ namespace FloorPlanMap.Components.Objects {
                 double startopacity = Math.Max((total - msst) / total, 0);
                 double targetopacity = Math.Max((total - mset) / total, 0);
 
-                if (targetopacity < 0.05 && startopacity < 0.05) {
+                if (targetopacity == 0 && startopacity == 0) {
                     _footprints.RemoveAt(i);
                     footprint.SetAsync(() => (footprint.Parent as Panel).Children.Remove(footprint));
                 } else {

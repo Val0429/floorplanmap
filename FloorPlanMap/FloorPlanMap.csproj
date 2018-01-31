@@ -83,6 +83,7 @@
     <Compile Include="Components\Objects\Devices\CameraDevice.cs" />
     <Compile Include="Components\Objects\Devices\DroneDevice.cs" />
     <Compile Include="Components\Objects\Devices\BaseVideoDevice.cs" />
+    <Compile Include="Converters\OpacityMaskConverter.cs" />
     <Compile Include="FloorPlanMapUnit.xaml.cs">
       <DependentUpon>FloorPlanMapUnit.xaml</DependentUpon>
       <SubType>Code</SubType>
