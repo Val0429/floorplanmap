@@ -8,9 +8,9 @@
         xmlns:Objects="clr-namespace:FloorPlanMap.Components.Objects;assembly=FloorPlanMap"
         mc:Ignorable="d"
         Title="MainWindow">
-    <Grid x:Name="Container">
+    <!--<Grid x:Name="Container">
 
-        <!--<FloorPlanMap:FloorPlanMapUnit>
+        --><!--<FloorPlanMap:FloorPlanMapUnit>
             <FloorPlanMap:FloorPlanMapUnit.MapSource>D:\Demo\FloorPlan.png</FloorPlanMap:FloorPlanMapUnit.MapSource>
             <FloorPlanMap:FloorPlanMapUnit.Objects>
                 <Objects:CameraObject X="100" Y="100" />
@@ -34,7 +34,9 @@
             </Grid>
         </FloorPlanMap:FloorPlanMapUnit>-->
 
-        <!--<Objects:CameraObject />-->
+        <!--<Objects:CameraObject />--><!--
 
-    </Grid>
+    </Grid>-->
+
+    <local:MainGrid />
 </Window>

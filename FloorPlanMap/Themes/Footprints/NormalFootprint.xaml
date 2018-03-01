@@ -74,7 +74,9 @@
                     <!--Fill="{StaticResource FootstepVisualBrush}"-->
                     <Rectangle
                         Width="10"
-                        Height="{Binding Length, RelativeSource={RelativeSource TemplatedParent}}">
+                        Height="{Binding Length, RelativeSource={RelativeSource TemplatedParent}}"
+                        IsHitTestVisible="False"
+                        >
                         <Rectangle.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform x:Name="BindNESTP" ScaleX="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}"

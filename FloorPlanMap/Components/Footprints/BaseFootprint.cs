@@ -49,7 +49,7 @@ namespace FloorPlanMap.Components.Footprints {
         #endregion "VisualHeight"
         #endregion "Normal Properties"
 
-        #region "Handle X / Y / TargetX / TargetY Changed For Fluently CalculateLength"
+        #region "Handle X / Y / TargetX / TargetY"
         private Subject<double> _sjXChanged = new Subject<double>();
         private Subject<double> _sjYChanged = new Subject<double>();
         private Subject<double> _sjTXChanged = new Subject<double>();
@@ -58,7 +58,7 @@ namespace FloorPlanMap.Components.Footprints {
             // Calculate Length
             this.SetAsync(CalculateLength);
         }
-        #endregion "Handle X / Y / TargetX / TargetY Changed For Fluently CalculateLength"
+        #endregion "Handle X / Y / TargetX / TargetY"
 
         #region "Dependency Properties"
 
