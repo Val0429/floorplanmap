@@ -3,6 +3,7 @@ using FloorPlanMap.Components.Objects.Devices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,132 +25,307 @@ namespace TestLoad {
             InitializeComponent();
 
             FloorPlanMap.FloorPlanMapUnit unit = new FloorPlanMap.FloorPlanMapUnit() {
-                MapSource = ".\\Resources\\FloorPlan.png",
+                MapSource = @"Resources\FloorPlan.png",
                 MaxZoomLevel = 20,
             };
 
-            //var obj1 = new FloorPlanMap.Components.Objects.CameraObject() {
-            //    X = 220,
-            //    Y = 220,
-            //    Size = 1
-            //};
-            //unit.Objects.Add(obj1);
-
-            //var obj2 = new FloorPlanMap.Components.Objects.CameraObject() {
-            //    X = 200,
-            //    Y = 200,
-            //    Size = 1
-            //};
-            //unit.Objects.Add(obj2);
-
-            //var t1 = new Timer();
-            //t1.Elapsed += (object sender, ElapsedEventArgs e) => {
-            //    obj1.Size = 2;
-            //    t1.Stop();
-            //};
-            //t1.Interval = 1000;
-            //t1.Start();
-
-
-            var obj1 = new CameraDevice() {
-                X = 266,
-                Y = 321,
-                Angle = 0,
-                Size = 1,
-                Distance = 1.6,
-            };
-            obj1.MouseDown += (object sender, MouseButtonEventArgs e) => {
-                Console.WriteLine("Got1");
-            };
-            unit.Objects.Add(obj1);
-            new AnimationTick(obj1, 500);
-
-            var obj2 = new CameraDevice() {
-                X = 642,
-                Y = 146,
-                Size = 1,
-                Angle = 90,
-            };
-            obj2.MouseDown += (object sender, MouseButtonEventArgs e) => {
-                Console.WriteLine("Got2");
-            };
-            unit.Objects.Add(obj2);
-            new AnimationTick(obj2, 800);
-
-            var obj3 = new CameraDevice() {
-                X = 998,
-                Y = 152,
-                Size = 1,
-                Angle = 0,
-            };
-            obj3.MouseDown += (object sender, MouseButtonEventArgs e) => {
-                Console.WriteLine("Got3");
-            };
-            unit.Objects.Add(obj3);
-            new AnimationTick(obj3, 400);
-
-            var obj4 = new CameraDevice() {
-                X = 425,
-                Y = 535,
-                Size = 1,
-                Angle = 0,
-            };
-            obj4.MouseDown += (object sender, MouseButtonEventArgs e) => {
-                Console.WriteLine("Got4");
-            };
-            unit.Objects.Add(obj4);
-            new AnimationTick(obj4, 300);
-
-            var obj5 = new CameraDevice() {
-                X = 898,
-                Y = 513,
-                Size = 1,
-                Angle = 0,
-            };
-            obj5.MouseDown += (object sender, MouseButtonEventArgs e) => {
-                Console.WriteLine("Got5");
-            };
-            unit.Objects.Add(obj5);
-            new AnimationTick(obj5, 400);
-
             var drone1 = new DroneDevice() {
-                X = 750,
-                Y = 150,
+                X = 1195,
+                Y = 367,
                 Size = 0.8,
-                Angle = 45,
+                Angle = 90,
+                Template = (ControlTemplate)this.FindResource("MyRobot"),
                 AnimationDurationX = 5000,
                 AnimationDurationY = 5000,
-                FootprintType = new NormalFootprint() { Color = (Color)ColorConverter.ConvertFromString("Orange") },
-                FootprintDuration = TimeSpan.FromMilliseconds(3000)
+                Degree = 2,
+                Distance = 1,
+                FootprintType = new NormalFootprint() { Color = (Color)ColorConverter.ConvertFromString("Orange"), Size = 1 },
+                FootprintDuration = TimeSpan.FromMilliseconds(60000)
             };
             unit.Objects.Add(drone1);
-            new AnimationDroneTick(drone1, 5000);
+            //new AnimationDroneTick(drone1, 5000);
 
-            var drone2 = new DroneDevice() {
-                X = 400,
-                Y = 200,
-                Size = 1,
-                Angle = 0,
-                AnimationDurationX = 1000,
-                AnimationDurationY = 1000,
-                FootprintType = new NormalFootprint() { Color = (Color)ColorConverter.ConvertFromString("LemonChiffon") },
-                FootprintDuration = TimeSpan.FromMilliseconds(3000),
-            };
-            unit.Objects.Add(drone2);
-            new AnimationDroneTick(drone2, 1000);
+            double rate = 5;
 
-            var drone3 = new DroneDevice() {
-                X = 600,
-                Y = 200,
-                Size = 1,
-                Angle = 0,
-                AnimationDurationX = 1500,
-                AnimationDurationY = 1500,
-                FootprintType = new NormalFootprint() { Color = (Color)ColorConverter.ConvertFromString("Cyan") },
-                FootprintDuration = TimeSpan.FromMilliseconds(3000),
-            };
-            unit.Objects.Add(drone3);
-            var adt = new AnimationDroneTick(drone3, 1500);
+            Observable.Timer(TimeSpan.FromMilliseconds(1000))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 500 * rate;
+                        drone1.AnimationDurationY = 500 * rate;
+                        drone1.X = 1054;
+                        drone1.Y = 368;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(400 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 100 * rate;
+                        drone1.AnimationDurationY = 100 * rate;
+                        drone1.Size = 0.4;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(100 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.TakeOff = true;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(30 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.Distance = 3;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(200 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 200 * rate;
+                        drone1.AnimationDurationY = 200 * rate;
+                        drone1.X = 967;
+                        drone1.Y = 369;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(200 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 100 * rate;
+                        drone1.AnimationDurationY = 100 * rate;
+                        drone1.X = 947;
+                        drone1.Y = 334;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(100 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 1500 * rate;
+                        drone1.AnimationDurationY = 1500 * rate;
+                        drone1.Distance = 10;
+                        drone1.X = 568;
+                        drone1.Y = 336;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(1050 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.Distance = 3;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(400 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationAngle = 50 * rate;
+                        drone1.Angle = 10;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(50 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 200 * rate;
+                        drone1.AnimationDurationY = 200 * rate;
+                        drone1.X = 548;
+                        drone1.Y = 450;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(150 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 100 * rate;
+                        drone1.AnimationDurationY = 100 * rate;
+                        drone1.X = 505;
+                        drone1.Y = 434;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(50 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.Angle = 180;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(50 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 150 * rate;
+                        drone1.AnimationDurationY = 150 * rate;
+                        drone1.X = 506;
+                        drone1.Y = 341;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(100 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.Angle = 90;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(50 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 300 * rate;
+                        drone1.AnimationDurationY = 300 * rate;
+                        drone1.X = 402;
+                        drone1.Y = 337;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(250 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.Angle = 180;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(50 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 1000 * rate;
+                        drone1.AnimationDurationY = 1000 * rate;
+                        drone1.X = 400;
+                        drone1.Y = 60;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(950 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.Angle = 90;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(50 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.TakeOff = false;
+                    });
+                })
+                /// go back
+                .Delay(TimeSpan.FromMilliseconds(500 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.TakeOff = true;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(100 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.Angle = 0;
+                        ((NormalFootprint)drone1.FootprintType).Color = (Color)ColorConverter.ConvertFromString("LemonChiffon");
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(50 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 1000 * rate;
+                        drone1.AnimationDurationY = 1000 * rate;
+                        drone1.X = 402;
+                        drone1.Y = 337;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(950 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.Angle = -90;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(50 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 300 * rate;
+                        drone1.AnimationDurationY = 300 * rate;
+                        drone1.X = 506;
+                        drone1.Y = 341;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(250 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.Angle = 0;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(50 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 150 * rate;
+                        drone1.AnimationDurationY = 150 * rate;
+                        drone1.X = 505;
+                        drone1.Y = 434;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(100 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 100 * rate;
+                        drone1.AnimationDurationY = 100 * rate;
+                        drone1.X = 548;
+                        drone1.Y = 450;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(50 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.Angle = -190;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(50 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 200 * rate;
+                        drone1.AnimationDurationY = 200 * rate;
+                        drone1.X = 568;
+                        drone1.Y = 336;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(150 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.Angle = -90;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(50 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 1500 * rate;
+                        drone1.AnimationDurationY = 1500 * rate;
+                        drone1.X = 947;
+                        drone1.Y = 334;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(1500 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 100 * rate;
+                        drone1.AnimationDurationY = 100 * rate;
+                        drone1.X = 967;
+                        drone1.Y = 369;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(100 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 200 * rate;
+                        drone1.AnimationDurationY = 200 * rate;
+                        drone1.X = 1054;
+                        drone1.Y = 368;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(150 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.Size = 0.8;
+                    });
+                })
+                .Delay(TimeSpan.FromMilliseconds(50 * rate))
+                .Do((x) => {
+                    drone1.SetAsync(() => {
+                        drone1.AnimationDurationX = 500 * rate;
+                        drone1.AnimationDurationY = 500 * rate;
+                        drone1.X = 1195;
+                        drone1.Y = 367;
+                    });
+                })
+                .Subscribe();
+
+            //_subscription = Observable.CombineLatest(_sjXChanged, _sjYChanged)
+            //    .Select((o) => {
+            //        return Observable.Timer(TimeSpan.FromMilliseconds(20))
+            //            .Select((t) => o);
+            //    })
+            //    .Switch()
+            //    .Subscribe(X => HandleXYChanged(X[0], X[1]));
 
             //var t = new Timer();
             //t.Elapsed += (object sender, ElapsedEventArgs e) => {

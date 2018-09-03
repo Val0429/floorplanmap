@@ -24,7 +24,7 @@ namespace FloorPlanMap.Components.Objects {
 
                 _subscription = Observable.CombineLatest(_sjXChanged, _sjYChanged)
                     .Select((o) => {
-                        return Observable.Timer(TimeSpan.FromMilliseconds(20))
+                        return Observable.Timer(TimeSpan.FromMilliseconds(3))
                             .Select((t) => o);
                     })
                     .Switch()

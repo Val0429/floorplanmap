@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -59,6 +60,7 @@ namespace FloorPlanMap.Components.Backgrounds {
         }
         private static object OnCoerceMapSource(DependencyObject sender, object baseValue) {
             if (baseValue == null) return baseValue;
+            if ((baseValue as string).IndexOf("http") >= 0) return baseValue;
             string absolutePath = System.IO.Path.GetFullPath(baseValue as string);
             return absolutePath;
         }
@@ -66,9 +68,23 @@ namespace FloorPlanMap.Components.Backgrounds {
             ImageBackground vm = sender as ImageBackground;
             string value = (string)e.NewValue;
             if (value == null) return;
-            System.Drawing.Image tmp = System.Drawing.Image.FromFile(value);
-            vm.MapWidth = tmp.Width;
-            vm.MapHeight = tmp.Height;
+            try {
+                if (value.IndexOf("http") >= 0) {
+                    using (WebClient client = new WebClient()) {
+                        string tempPath = System.IO.Path.GetTempFileName() + ".png";
+                        client.DownloadFile(new Uri(value), tempPath);
+                        value = tempPath;
+                    }
+                }
+
+                System.Drawing.Image tmp = System.Drawing.Image.FromFile(value);
+                vm.MapWidth = tmp.Width;
+                vm.MapHeight = tmp.Height;
+            }
+            catch (Exception) {
+                vm.MapWidth = 1000;
+                vm.MapHeight = 800;
+            }
         }
 
         public static readonly DependencyProperty MapWidthProperty = DependencyProperty.Register(
@@ -91,6 +107,7 @@ namespace FloorPlanMap.Components.Backgrounds {
     [ValueConversion(typeof(string), typeof(string))]
     public class FullPathConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            if ((value as string).IndexOf("http") >= 0) return value;
             return System.IO.Path.GetFullPath(value as string);
         }
 

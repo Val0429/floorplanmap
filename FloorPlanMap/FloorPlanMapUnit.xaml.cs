@@ -17,8 +17,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using ObjectType = FloorPlanMap.Components.BaseComponent;
-//using ObjectCollection = System.Collections.ObjectModel.ObservableCollection<FloorPlanMap.Components.Objects.CameraObject>;
-using ObjectCollection = System.Windows.FreezableCollection<FloorPlanMap.Components.BaseComponent>;
+using ObjectCollection = System.Collections.ObjectModel.ObservableCollection<System.Windows.Controls.Control>;
+//using ObjectCollection = System.Windows.FreezableCollection<FloorPlanMap.Components.BaseComponent>;
+//using ObjectCollection = System.Windows.FreezableCollection<System.Windows.Controls.Control>;
 using System.Collections.Specialized;
 using System.Windows.Media.Animation;
 
@@ -30,7 +31,7 @@ namespace FloorPlanMap
             InitializeComponent();
 
             ObjectCollection collection = new ObjectCollection();
-            (collection as INotifyCollectionChanged).CollectionChanged += OnObjectsCollectionChanged;
+            //(collection as INotifyCollectionChanged).CollectionChanged += OnObjectsCollectionChanged;
             SetValue(ObjectsProperty, collection);
         }
 
@@ -108,29 +109,41 @@ namespace FloorPlanMap
         #endregion "MainSource"
 
         #region "Objects"
-        public static readonly DependencyProperty ObjectsProperty = DependencyProperty.Register(
-            "Objects", typeof(ObjectCollection), typeof(FloorPlanMapUnit), null);
+
         public ObjectCollection Objects {
             get { return (ObjectCollection)GetValue(ObjectsProperty); }
+            set { SetValue(ObjectsProperty, value); }
         }
-        private void OnObjectsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
-            /// removed
-            var oldItems = e.OldItems;
-            if (oldItems != null)
-                foreach (var item in oldItems) OnObjectsCollectionRemoved(item as ObjectType);
-            /// added
-            var newItems = e.NewItems;
-            if (newItems != null)
-                foreach (var item in newItems) OnObjectsCollectionAdded(item as ObjectType);
-        }
-        private void OnObjectsCollectionAdded(ObjectType value) {
-            Console.WriteLine("Added! {0}", value);
-            Main.Children.Add(value);
-        }
-        private void OnObjectsCollectionRemoved(ObjectType value) {
-            Console.WriteLine("Removed! {0}", value);
-            Main.Children.Remove(value);
-        }
+
+        // Using a DependencyProperty as the backing store for CustomContent.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ObjectsProperty =
+            DependencyProperty.Register("Objects", typeof(ObjectCollection), typeof(FloorPlanMapUnit), new FrameworkPropertyMetadata(
+                null, FrameworkPropertyMetadataOptions.AffectsRender
+                ));
+
+        //public static readonly DependencyProperty ObjectsProperty = DependencyProperty.Register(
+        //    "Objects", typeof(ObjectCollection), typeof(FloorPlanMapUnit), null);
+        //public ObjectCollection Objects {
+        //    get { return (ObjectCollection)GetValue(ObjectsProperty); }
+        //}
+        //private void OnObjectsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
+        //    /// removed
+        //    var oldItems = e.OldItems;
+        //    if (oldItems != null)
+        //        foreach (var item in oldItems) OnObjectsCollectionRemoved(item as ObjectType);
+        //    /// added
+        //    var newItems = e.NewItems;
+        //    if (newItems != null)
+        //        foreach (var item in newItems) OnObjectsCollectionAdded(item as ObjectType);
+        //}
+        //private void OnObjectsCollectionAdded(ObjectType value) {
+        //    Console.WriteLine("Added! {0}", value);
+        //    Main.Children.Add(value);
+        //}
+        //private void OnObjectsCollectionRemoved(ObjectType value) {
+        //    Console.WriteLine("Removed! {0}", value);
+        //    Main.Children.Remove(value);
+        //}
         #endregion "Objects"
 
         #region "MaxZoomLevel"

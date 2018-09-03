@@ -4,8 +4,108 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TestLoad"
+             xmlns:base="clr-namespace:FloorPlanMap.Components.Objects.Devices;assembly=FloorPlanMap"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+
+        <ControlTemplate x:Key="MyRobot" TargetType="{x:Type base:DroneDevice}">
+
+            <Canvas Width="100" Height="100">
+                <Canvas.RenderTransform>
+                    <TransformGroup>
+                        <TranslateTransform X="-50" Y="-50" />
+                        <ScaleTransform ScaleX="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding Size, RelativeSource={RelativeSource TemplatedParent}}" CenterX="0.5" CenterY="0.5" />
+                    </TransformGroup>
+                </Canvas.RenderTransform>
+
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="TakeOffStates">
+                        <VisualStateGroup.Transitions>
+                            <VisualTransition GeneratedDuration="0:0:0.7" />
+                        </VisualStateGroup.Transitions>
+
+                        <VisualState x:Name="Station">
+                            <Storyboard>
+                                <DoubleAnimation
+                                            Storyboard.TargetName="Light"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0" Duration="0" />
+
+                                <DoubleAnimation
+                                            Storyboard.TargetName="Main"
+                                            Storyboard.TargetProperty="Effect.(DropShadowEffect.BlurRadius)"
+                                            To="5" Duration="0" />
+                            </Storyboard>
+                        </VisualState>
+                        <VisualState x:Name="TakeOff">
+                            <Storyboard>
+                                <DoubleAnimation
+                                            Storyboard.TargetName="Light"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="1" Duration="0" />
+
+                                <DoubleAnimation
+                                            Storyboard.TargetName="Main"
+                                            Storyboard.TargetProperty="Effect.(DropShadowEffect.BlurRadius)"
+                                            To="100" Duration="0" />
+                            </Storyboard>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                
+                <Image x:Name="Main" Width="100" Height="100" Source="Resources\robot.png" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <RotateTransform Angle="{Binding Angle, RelativeSource={RelativeSource TemplatedParent}}" />
+                    </Image.RenderTransform>
+                    <Image.Effect>
+                        <DropShadowEffect Color="White" BlurRadius="5" ShadowDepth="0" />
+                    </Image.Effect>
+                </Image>
+
+
+                <!-- Light -->
+                <Rectangle x:Name="Light" Width="100" Height="100" Canvas.Top="66" Canvas.Left="0" RenderTransformOrigin="0.5,0" Opacity="1" IsHitTestVisible="False">
+                    <Rectangle.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="{Binding Degree, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding Distance, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <RotateTransform Angle="{Binding Angle, RelativeSource={RelativeSource TemplatedParent}}" CenterX="0" CenterY="-14" />
+                        </TransformGroup>
+                    </Rectangle.RenderTransform>
+                    <Rectangle.Effect>
+                        <BlurEffect Radius="0" />
+                    </Rectangle.Effect>
+                    <Rectangle.Fill>
+                        <DrawingBrush>
+                            <DrawingBrush.Drawing>
+                                <GeometryDrawing>
+                                    <GeometryDrawing.Geometry>
+                                        <GeometryGroup>
+                                            <PathGeometry Figures="M 50,0 L 100,100 L 0,100 Z" />
+                                        </GeometryGroup>
+                                    </GeometryDrawing.Geometry>
+                                    <GeometryDrawing.Brush>
+                                        <RadialGradientBrush GradientOrigin="0.5,0" RadiusX="0.5" RadiusY="0.5">
+                                            <GradientStop Offset="0" Color="#00EEFFAA" />
+                                            <GradientStop Offset="0.15" Color="#88EEFFEE" />
+                                            <GradientStop Offset="0.3" Color="#88EEFFEE" />
+                                            <GradientStop Offset="1" Color="#00EEFFAA" />
+                                        </RadialGradientBrush>
+                                    </GeometryDrawing.Brush>
+                                </GeometryDrawing>
+                            </DrawingBrush.Drawing>
+                        </DrawingBrush>
+                    </Rectangle.Fill>
+
+                </Rectangle>
+                <!-- Light -->
+            </Canvas>
+
+        </ControlTemplate>
+
+    </UserControl.Resources>
+    
     <Grid x:Name="Container">
             
     </Grid>

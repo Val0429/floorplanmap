@@ -132,7 +132,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FloorPlan.png" />
+    <Resource Include="Resources\FloorPlan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\robot.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

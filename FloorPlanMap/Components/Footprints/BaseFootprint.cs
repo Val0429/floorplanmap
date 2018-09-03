@@ -132,7 +132,7 @@ namespace FloorPlanMap.Components.Footprints {
         public static readonly DependencyProperty StartOpacityPointProperty = DependencyProperty.Register(
                 "StartOpacityPoint", typeof(double), typeof(BaseFootprint),
                 new FrameworkPropertyMetadata(1.0));
-        [Description("Footprint Start Opacity."), Category("Source")]
+        [Description("Footprint Start Opacity Point."), Category("Source")]
         public double StartOpacityPoint {
             get { return (double)this.GetDispatcherValue(StartOpacityPointProperty); }
             set { this.SetDispatcherAnimationValue<DoubleAnimation>(StartOpacityPointProperty, value, 800); }

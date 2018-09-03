@@ -17,7 +17,23 @@
                 <ScaleTransform ScaleX="{Binding ZoomScale}" ScaleY="{Binding ZoomScale}" CenterX="{Binding ScaleCenterX}" CenterY="{Binding ScaleCenterY}" />
             </TransformGroup>
         </Viewbox.RenderTransform>
-        
+
+        <!--<ItemsControl ItemsSource="{Binding Objects}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas x:Name="Main"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Width="{Binding Path=MapWidth, ElementName=ImageBackground}" Height="{Binding Path=MapHeight, ElementName=ImageBackground}"
+                            >
+                        <backgrounds:ImageBackground x:Name="ImageBackground" MapSource="{Binding MapSource}"
+                                        Width="{Binding Path=MapWidth, ElementName=ImageBackground}" Height="{Binding Path=MapHeight, ElementName=ImageBackground}"
+                                        />
+                    </Canvas>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>-->
+
+
         <Canvas x:Name="Main"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                         Width="{Binding Path=MapWidth, ElementName=ImageBackground}" Height="{Binding Path=MapHeight, ElementName=ImageBackground}"
@@ -26,7 +42,14 @@
             <backgrounds:ImageBackground x:Name="ImageBackground" MapSource="{Binding MapSource}"
                                         Width="{Binding Path=MapWidth, ElementName=ImageBackground}" Height="{Binding Path=MapHeight, ElementName=ImageBackground}"
                                         />
-            
+
+            <ItemsControl ItemsSource="{Binding Objects}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </Canvas>
     </Viewbox>
     

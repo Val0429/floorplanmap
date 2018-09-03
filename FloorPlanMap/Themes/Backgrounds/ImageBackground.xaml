@@ -14,7 +14,7 @@
 
                     <Image x:Name="ImageBackground" Source="{Binding Path=MapSource, Converter={StaticResource FullPathConverter}}">
                         <Image.CacheMode>
-                            <BitmapCache RenderAtScale="1" />
+                            <BitmapCache RenderAtScale="3" />
                         </Image.CacheMode>
                     </Image>
 
