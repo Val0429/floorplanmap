@@ -107,6 +107,7 @@ namespace FloorPlanMap.Components.Backgrounds {
     [ValueConversion(typeof(string), typeof(string))]
     public class FullPathConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            if (value == null) return value;
             if ((value as string).IndexOf("http") >= 0) return value;
             return System.IO.Path.GetFullPath(value as string);
         }

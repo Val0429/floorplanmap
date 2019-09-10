@@ -7,32 +7,16 @@
              xmlns:backgrounds="clr-namespace:FloorPlanMap.Components.Backgrounds"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             x:Name="This"
              >
 
-    <Viewbox x:Name="Border"
+    <Viewbox x:Name="Border" DataContext="{Binding ElementName=This}"
              HorizontalAlignment="Center">
         <Viewbox.RenderTransform>
             <TransformGroup>
                 <ScaleTransform ScaleX="{Binding ZoomScale}" ScaleY="{Binding ZoomScale}" CenterX="{Binding ScaleCenterX}" CenterY="{Binding ScaleCenterY}" />
             </TransformGroup>
         </Viewbox.RenderTransform>
-
-        <!--<ItemsControl ItemsSource="{Binding Objects}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Canvas x:Name="Main"
-                            HorizontalAlignment="Center" VerticalAlignment="Center"
-                            Width="{Binding Path=MapWidth, ElementName=ImageBackground}" Height="{Binding Path=MapHeight, ElementName=ImageBackground}"
-                            >
-                        <backgrounds:ImageBackground x:Name="ImageBackground" MapSource="{Binding MapSource}"
-                                        Width="{Binding Path=MapWidth, ElementName=ImageBackground}" Height="{Binding Path=MapHeight, ElementName=ImageBackground}"
-                                        />
-                    </Canvas>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>-->
-
 
         <Canvas x:Name="Main"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -42,7 +26,7 @@
             <backgrounds:ImageBackground x:Name="ImageBackground" MapSource="{Binding MapSource}"
                                         Width="{Binding Path=MapWidth, ElementName=ImageBackground}" Height="{Binding Path=MapHeight, ElementName=ImageBackground}"
                                         />
-
+        
             <ItemsControl ItemsSource="{Binding Objects}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
