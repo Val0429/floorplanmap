@@ -60,12 +60,14 @@ namespace FloorPlanMap
         private bool dragging = false;
         private Point? dragLastPosition = null;
         protected override void OnMouseDown(MouseButtonEventArgs e) {
+            (e.Source as FrameworkElement).CaptureMouse();
             base.OnMouseDown(e);
             dragLastPosition = e.GetPosition(this);
             dragging = true;
         }
 
         protected override void OnMouseUp(MouseButtonEventArgs e) {
+            (e.Source as FrameworkElement).ReleaseMouseCapture();
             base.OnMouseUp(e);
             dragging = false;
         }
