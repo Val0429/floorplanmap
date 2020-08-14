@@ -32,9 +32,8 @@ namespace FloorPlanMap
 
             ObjectCollection collection = new ObjectCollection();
             //(collection as INotifyCollectionChanged).CollectionChanged += OnObjectsCollectionChanged;
-            SetValue(ObjectsProperty, collection);
+            this.Objects = collection;
         }
-
         #region "Mouse PTZ Function"
         private Point lastMousePos = new Point(0, 0);
         protected override void OnMouseWheel(MouseWheelEventArgs e) {
@@ -120,8 +119,8 @@ namespace FloorPlanMap
         // Using a DependencyProperty as the backing store for CustomContent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ObjectsProperty =
             DependencyProperty.Register("Objects", typeof(ObjectCollection), typeof(FloorPlanMapUnit), new FrameworkPropertyMetadata(
-                null, FrameworkPropertyMetadataOptions.AffectsRender
-                ));
+                null,
+                FrameworkPropertyMetadataOptions.AffectsRender));
 
         //public static readonly DependencyProperty ObjectsProperty = DependencyProperty.Register(
         //    "Objects", typeof(ObjectCollection), typeof(FloorPlanMapUnit), null);
