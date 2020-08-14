@@ -60,7 +60,10 @@ namespace FloorPlanMap.Components.Backgrounds {
         }
         private static object OnCoerceMapSource(DependencyObject sender, object baseValue) {
             if (baseValue == null) return baseValue;
-            if ((baseValue as string).IndexOf("http") >= 0) return baseValue;
+            if (
+                (baseValue as string).IndexOf("http") == 0 ||
+                (baseValue as string).IndexOf("pack") == 0
+                ) return baseValue;
             string absolutePath = System.IO.Path.GetFullPath(baseValue as string);
             return absolutePath;
         }
@@ -69,19 +72,25 @@ namespace FloorPlanMap.Components.Backgrounds {
             string value = (string)e.NewValue;
             if (value == null) return;
             try {
-                if (value.IndexOf("http") >= 0) {
-                    using (WebClient client = new WebClient()) {
-                        string tempPath = System.IO.Path.GetTempFileName() + ".png";
-                        client.DownloadFile(new Uri(value), tempPath);
-                        value = tempPath;
+                if (value.IndexOf("pack:") == 0) {
+                    var tmp = new System.Windows.Media.Imaging.BitmapImage(new Uri(value));
+                    vm.MapWidth = tmp.Width;
+                    vm.MapHeight = tmp.Height;
+                
+                } else {
+                    if (value.IndexOf("http") == 0) {
+                        using (WebClient client = new WebClient()) {
+                            string tempPath = System.IO.Path.GetTempFileName() + ".png";
+                            client.DownloadFile(new Uri(value), tempPath);
+                            value = tempPath;
+                        }
                     }
+                    var tmp = System.Drawing.Image.FromFile(value);
+                    vm.MapWidth = tmp.Width;
+                    vm.MapHeight = tmp.Height;
                 }
-
-                System.Drawing.Image tmp = System.Drawing.Image.FromFile(value);
-                vm.MapWidth = tmp.Width;
-                vm.MapHeight = tmp.Height;
             }
-            catch (Exception) {
+            catch (Exception ex) {
                 vm.MapWidth = 1000;
                 vm.MapHeight = 800;
             }
@@ -108,7 +117,10 @@ namespace FloorPlanMap.Components.Backgrounds {
     public class FullPathConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             if (value == null) return value;
-            if ((value as string).IndexOf("http") >= 0) return value;
+            if (
+                (value as string).IndexOf("http") == 0 ||
+                (value as string).IndexOf("pack") == 0
+                ) return value;
             return System.IO.Path.GetFullPath(value as string);
         }
 
