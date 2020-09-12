@@ -24,6 +24,7 @@
                 >
 
             <backgrounds:ImageBackground x:Name="ImageBackground" MapSource="{Binding MapSource}"
+                                        Opacity="{Binding MapOpacity}"
                                         Width="{Binding Path=MapWidth, ElementName=ImageBackground}" Height="{Binding Path=MapHeight, ElementName=ImageBackground}"
                                         />
         

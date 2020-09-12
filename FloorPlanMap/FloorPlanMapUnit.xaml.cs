@@ -22,6 +22,7 @@ using ObjectCollection = System.Collections.ObjectModel.ObservableCollection<Sys
 //using ObjectCollection = System.Windows.FreezableCollection<System.Windows.Controls.Control>;
 using System.Collections.Specialized;
 using System.Windows.Media.Animation;
+using FloorPlanMap.Components.Backgrounds;
 
 namespace FloorPlanMap
 {
@@ -159,6 +160,14 @@ namespace FloorPlanMap
         }
         #endregion "MaxZoomLevel"
 
+        public double MapOpacity {
+            get { return (double)GetValue(MapOpacityProperty); }
+            set { SetValue(MapOpacityProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for MapOpacity.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MapOpacityProperty =
+            DependencyProperty.Register("MapOpacity", typeof(double), typeof(FloorPlanMapUnit), new PropertyMetadata(1.0));
+
         #endregion "Dependency Properties"
 
         #region "Private Dependency Properties"
@@ -219,5 +228,10 @@ namespace FloorPlanMap
         }
         #endregion "Private Helper"
 
+        #region Expose Background
+        public ImageBackground MapBackground {
+            get { return this.ImageBackground; }
+        }
+        #endregion Expose Background
     }
 }

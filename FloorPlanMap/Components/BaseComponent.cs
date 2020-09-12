@@ -12,7 +12,7 @@ using System.Windows.Markup;
 using System.Windows.Media.Animation;
 
 namespace FloorPlanMap.Components {
-    public class BaseComponent : Control {
+    public class BaseComponent : UserControl {
         protected double BaseZIndex = 0;
 
         protected BaseComponent() {
