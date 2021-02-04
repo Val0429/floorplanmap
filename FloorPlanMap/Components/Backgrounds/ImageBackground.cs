@@ -78,14 +78,21 @@ namespace FloorPlanMap.Components.Backgrounds {
                     vm.MapHeight = tmp.Height;
                 
                 } else {
+                    string tempPath = value;
                     if (value.IndexOf("http") == 0) {
                         using (WebClient client = new WebClient()) {
-                            string tempPath = System.IO.Path.GetTempFileName() + ".png";
+                            tempPath = System.IO.Path.GetTempFileName() + ".png";
                             client.DownloadFile(new Uri(value), tempPath);
-                            value = tempPath;
+                            //client.DownloadFileTaskAsync(new Uri(value), tempPath)
+                            //    .ContinueWith(e => {
+                            //        if (e.Exception != null) {
+                            //            value = tempPath;
+                            //        }
+                            //    });
+                            //value = tempPath;
                         }
                     }
-                    var tmp = System.Drawing.Image.FromFile(value);
+                    var tmp = System.Drawing.Image.FromFile(tempPath);
                     vm.MapWidth = tmp.Width;
                     vm.MapHeight = tmp.Height;
                 }
