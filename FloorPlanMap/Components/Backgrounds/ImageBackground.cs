@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -17,6 +18,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace FloorPlanMap.Components.Backgrounds {
+    class StoreWH {
+        public int width { get; set; }
+        public int height { get; set; }
+    }
+
     [TemplatePart(Name = "ImageBackground", Type = typeof(Image))]
     public class ImageBackground : Control {
 
@@ -67,34 +73,60 @@ namespace FloorPlanMap.Components.Backgrounds {
             string absolutePath = System.IO.Path.GetFullPath(baseValue as string);
             return absolutePath;
         }
+
+        private static Dictionary<string, StoreWH> mapSources = new Dictionary<string, StoreWH>();
         private static void OnMapSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) {
             ImageBackground vm = sender as ImageBackground;
             string value = (string)e.NewValue;
             if (value == null) return;
+
+            if (mapSources.ContainsKey(value)) {
+                var result = mapSources[value];
+                vm.MapWidth = result.width;
+                vm.MapHeight = result.height;
+                return;
+            }
+
             try {
                 if (value.IndexOf("pack:") == 0) {
                     var tmp = new System.Windows.Media.Imaging.BitmapImage(new Uri(value));
+                    mapSources[value] = new StoreWH() {
+                        width = (int)tmp.Width,
+                        height = (int)tmp.Height
+                    };
                     vm.MapWidth = tmp.Width;
                     vm.MapHeight = tmp.Height;
-                
-                } else {
+
+                }
+                else {
                     string tempPath = value;
                     if (value.IndexOf("http") == 0) {
                         using (WebClient client = new WebClient()) {
                             tempPath = System.IO.Path.GetTempFileName() + ".png";
-                            client.DownloadFile(new Uri(value), tempPath);
-                            //client.DownloadFileTaskAsync(new Uri(value), tempPath)
-                            //    .ContinueWith(e => {
-                            //        if (e.Exception != null) {
-                            //            value = tempPath;
-                            //        }
-                            //    });
-                            //value = tempPath;
+                            //client.DownloadFile(new Uri(value), tempPath);
+                            client.DownloadFileTaskAsync(new Uri(value), tempPath)
+                                .ContinueWith(ex => {
+                                    sender.Dispatcher.InvokeAsyncSafe(() =>
+                                    {
+                                        vm.MapWidth = 1000;
+                                        vm.MapHeight = 800;
+                                    });
+                                }, TaskContinuationOptions.OnlyOnFaulted)
+                                .ContinueWith(ex => {
+                                    var tmp = System.Drawing.Image.FromFile(tempPath);
+
+                                    sender.Dispatcher.InvokeAsyncSafe(() => {
+                                        mapSources[value] = new StoreWH()
+                                        {
+                                            width = tmp.Width,
+                                            height = tmp.Height
+                                        };
+                                        vm.MapWidth = tmp.Width;
+                                        vm.MapHeight = tmp.Height;
+                                    });
+                                });
                         }
                     }
-                    var tmp = System.Drawing.Image.FromFile(tempPath);
-                    vm.MapWidth = tmp.Width;
-                    vm.MapHeight = tmp.Height;
                 }
             }
             catch (Exception ex) {
