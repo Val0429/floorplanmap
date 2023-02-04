@@ -118,6 +118,7 @@ namespace FloorPlanMap.Components.Objects {
             // Ready. Got all tracks of BaseObject
             if (lastx == null || lasty == null) return;
             if (_footprintType == null) return;
+            if (this.Parent == null) return;
             (this.Parent as Panel).Dispatcher.BeginInvoke(new Action(
                 () => {
                     BaseFootprint instance;

@@ -88,7 +88,13 @@ namespace FloorPlanMap.Components.Backgrounds {
             }
 
             try {
-                if (value.IndexOf("pack:") == 0) {
+                /// Val: todo, regex hard disk
+                if (
+                    value.IndexOf("pack:") == 0 ||
+                    value.IndexOf("C:") == 0 ||
+                    value.IndexOf("D:") == 0 ||
+                    value.IndexOf("E:") == 0
+                    ) {
                     var tmp = new System.Windows.Media.Imaging.BitmapImage(new Uri(value));
                     mapSources[value] = new StoreWH() {
                         width = (int)tmp.Width,
